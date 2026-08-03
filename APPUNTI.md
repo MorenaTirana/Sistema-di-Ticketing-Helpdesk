@@ -83,3 +83,19 @@ Ho aggiunto lo script `start` nel file `package.json`. Il comando:
 esegue:
 
 `node server/app.js`
+
+## 9. Collegamento tra frontend e backend
+
+Ho creato il file `client/index.html`, che contiene la prima pagina HTML dell'applicazione.
+
+Nel backend ho utilizzato:
+
+`express.static(path.join(__dirname, "../client"))`
+
+Questo middleware permette al server Express di rendere accessibili al browser i file presenti nella cartella `client`.
+
+`__dirname` rappresenta la cartella del file `app.js`. Il percorso `../client` risale dalla cartella `server` alla cartella principale e poi entra nella cartella `client`.
+
+Quando il browser richiede l'indirizzo `/`, Express restituisce automaticamente il file `index.html`.
+
+Durante la prova è apparso l'errore `Cannot GET /` perché il percorso della cartella `client` era scritto in modo errato. Il server era attivo, ma non riusciva a trovare il file da restituire.
