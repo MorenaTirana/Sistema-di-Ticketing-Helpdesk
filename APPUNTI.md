@@ -99,3 +99,22 @@ Questo middleware permette al server Express di rendere accessibili al browser i
 Quando il browser richiede l'indirizzo `/`, Express restituisce automaticamente il file `index.html`.
 
 Durante la prova è apparso l'errore `Cannot GET /` perché il percorso della cartella `client` era scritto in modo errato. Il server era attivo, ma non riusciva a trovare il file da restituire.
+
+## 10. Separazione tra HTML e CSS
+
+Ho creato il file `client/css/style.css` per gestire la presentazione grafica dell'applicazione.
+
+Il file HTML contiene la struttura e il contenuto della pagina. Il file CSS contiene colori, spaziature, dimensioni e disposizione degli elementi.
+
+Ho collegato il foglio CSS alla pagina HTML tramite:
+
+`<link rel="stylesheet" href="css/style.css">`
+
+Questa separazione rende il codice più ordinato e permette di utilizzare lo stesso foglio di stile in più pagine.
+
+In una regola CSS:
+
+- il selettore identifica l'elemento;
+- la proprietà indica che cosa modificare;
+- il valore stabilisce la modifica da applicare.
+
