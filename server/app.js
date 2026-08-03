@@ -4,11 +4,15 @@ require("dotenv").config();
 const express = require ("express");
 const path = require ("path");
 const db = require("./db");
+const authRoutes = require("./routes/authRoutes"); 
 
 const app = express(); 
 const PORT = process.env.PORT || 3002;
 
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client")));
+
+app.use("/api/auth", authRoutes);
 
 async function startServer() {
     try {

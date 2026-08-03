@@ -144,3 +144,39 @@ Nel file `server/db.js` ho creato un pool di connessioni. Il pool riutilizza le 
 
 Prima di avviare Express, il backend verifica che la connessione a MySQL funzioni. In caso di errore, il blocco `catch` mostra un messaggio esplicativo.
 
+## 13. API di registrazione
+
+Ho installato `bcryptjs` per trasformare le password in hash prima di salvarle nel database.
+
+Ho separato la funzionalità in:
+
+- `routes/authRoutes.js`, che definisce la rotta;
+- `controllers/authController.js`, che contiene la logica.
+
+La rotta è:
+
+`POST /api/auth/register`
+
+Il prefisso `/api/auth` viene definito in `app.js`, mentre `/register` viene definito nel router.
+
+Il controller:
+
+1. riceve i dati da `req.body`;
+2. verifica che i campi siano presenti;
+3. controlla la lunghezza della password;
+4. normalizza l'email;
+5. verifica che l'email non esista;
+6. genera l'hash della password;
+7. inserisce l'utente nel database;
+8. restituisce una risposta JSON.
+
+Ho utilizzato query parametrizzate con il simbolo `?`. I valori vengono trasmessi separatamente dalla query, riducendo il rischio di SQL injection.
+
+La registrazione restituisce:
+
+- `201 Created` quando l'utente viene creato;
+- `400 Bad Request` quando i dati non sono validi;
+- `409 Conflict` quando l'email esiste già;
+- `500 Internal Server Error` per errori imprevisti.
+
+Ho verificato il controllo dei duplicati inviando due volte la stessa registrazione. La seconda richiesta è stata correttamente rifiutata.
