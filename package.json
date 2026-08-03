@@ -1,0 +1,24 @@
+{
+  "name": "sistema-di-ticketing-helpdesk",
+  "version": "1.0.0",
+  "description": "Applicazione web per la gestione delle richieste di assistenza tramite ticket.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MorenaTirana/Sistema-di-Ticketing-Helpdesk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MorenaTirana/Sistema-di-Ticketing-Helpdesk/issues"
+  },
+  "homepage": "https://github.com/MorenaTirana/Sistema-di-Ticketing-Helpdesk#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
