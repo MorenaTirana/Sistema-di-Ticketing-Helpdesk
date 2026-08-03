@@ -118,3 +118,29 @@ In una regola CSS:
 - la proprietà indica che cosa modificare;
 - il valore stabilisce la modifica da applicare.
 
+## 11. Progettazione del database
+
+Ho progettato il database relazionale `ticketing_helpdesk` con tre tabelle iniziali:
+
+- `utenti`
+- `ticket`
+- `commenti`
+
+Un utente può aprire molti ticket e scrivere molti commenti. Un ticket può contenere molti commenti.
+
+Le chiavi primarie identificano univocamente i record. Le chiavi esterne collegano le tabelle e garantiscono l'integrità delle relazioni.
+
+Ho salvato la struttura nel file `database/schema.sql`, in modo che il database possa essere ricreato su un altro computer.
+
+## 12. Collegamento tra Node.js e MySQL
+
+Ho installato `mysql2` per permettere al backend di comunicare con MySQL.
+
+Ho installato `dotenv` per leggere la configurazione dal file `.env`, evitando di inserire direttamente nel codice i dati di connessione.
+
+Il file `.env` non viene pubblicato su GitHub. Il file `.env.example` documenta invece le variabili necessarie.
+
+Nel file `server/db.js` ho creato un pool di connessioni. Il pool riutilizza le connessioni al database e permette di gestire più richieste in modo efficiente.
+
+Prima di avviare Express, il backend verifica che la connessione a MySQL funzioni. In caso di errore, il blocco `catch` mostra un messaggio esplicativo.
+
