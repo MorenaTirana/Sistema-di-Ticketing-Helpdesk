@@ -180,3 +180,27 @@ La registrazione restituisce:
 - `500 Internal Server Error` per errori imprevisti.
 
 Ho verificato il controllo dei duplicati inviando due volte la stessa registrazione. La seconda richiesta è stata correttamente rifiutata.
+## 14. Registrazione dal frontend
+
+Ho creato la pagina `register.html` con un modulo per nome, cognome, email e password.
+
+Ho creato `client/js/register.js` per intercettare l'invio del modulo tramite l'evento `submit`.
+
+`event.preventDefault()` impedisce il normale ricaricamento della pagina.
+
+JavaScript raccoglie i valori degli input e utilizza `fetch()` per inviare una richiesta POST a:
+
+`/api/auth/register`
+
+I dati vengono trasformati in JSON tramite `JSON.stringify()`.
+
+Il backend restituisce una risposta JSON. Il frontend mostra un messaggio verde in caso di successo e rosso in caso di errore.
+
+Durante lo sviluppo il modulo non funzionava perché l'ID cercato da JavaScript era diverso dall'ID presente nell'HTML. Questo dimostra che i riferimenti tra HTML e JavaScript devono essere esattamente coerenti.
+
+Ho inoltre separato:
+
+- HTML per la struttura;
+- CSS per la presentazione;
+- JavaScript per il comportamento;
+- backend per validazione e persistenza.

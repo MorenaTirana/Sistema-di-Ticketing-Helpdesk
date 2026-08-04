@@ -3,22 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Sistema di Ticketing / Helpdesk</title>
+
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
-    <header>
-        <h1>Sistema di Ticketing / Helpdesk</h1>
+<body class="landing-page">
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="index.html">
+                <span class="brand-logo">TH</span>
+
+                <span class="brand-text">
+                    <strong>Ticketing Helpdesk</strong>
+                    <small>Gestione dell'assistenza</small>
+                </span>
+            </a>
+
+            <nav class="main-navigation" aria-label="Navigazione principale">
+                <a href="#funzionalita">Funzionalità</a>
+                <a class="button button-small" href="register.html">
+                    Registrati
+                </a>
+            </nav>
+        </div>
     </header>
 
     <main>
-        <h2>Gestione delle richieste di assistenza</h2>
+        <section class="hero-section">
+            <video
+                class="hero-video"
+                autoplay
+                muted
+                loop
+                playsinline
+                aria-hidden="true"
+            >
+                <source src="videos/background.mp4" type="video/mp4">
+            </video>
 
-        <p>
-            Accedi alla piattaforma per aprire un ticket
-            o gestire le richieste ricevute.
-        </p>
+            <div class="hero-video-overlay"></div>
+
+            <div class="hero-content">
+                
+                <p class="eyebrow">Assistenza semplice e organizzata</p>
+
+                <h1>
+                    Gestisci ogni richiesta
+                    <span>in modo chiaro.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Una piattaforma web per aprire ticket, seguire gli
+                    aggiornamenti e comunicare con gli operatori del servizio
+                    di assistenza.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="button button-primary" href="register.html">
+                        Crea un account
+                    </a>
+
+                    <a class="button button-secondary" href="#funzionalita">
+                        Scopri come funziona
+                    </a>
+                </div>
+
+                <div class="hero-benefits">
+                    <span>✓ Richieste tracciate</span>
+                    <span>✓ Aggiornamenti chiari</span>
+                    <span>✓ Comunicazione centralizzata</span>
+                </div>
+            </div>
+
+            <div class="hero-panel" aria-label="Esempio del flusso dei ticket">
+                <div class="panel-header">
+                    <div>
+                        <small>Panoramica</small>
+                        <h2>Flusso di assistenza</h2>
+                    </div>
+
+                    <span class="status-indicator">Attivo</span>
+                </div>
+
+                <div class="workflow">
+                    <article class="workflow-item">
+                        <span class="workflow-number">01</span>
+
+                        <div>
+                            <h3>Apri il ticket</h3>
+                            <p>Descrivi la richiesta e scegli la categoria.</p>
+                        </div>
+                    </article>
+
+                    <article class="workflow-item">
+                        <span class="workflow-number">02</span>
+
+                        <div>
+                            <h3>Segui lo stato</h3>
+                            <p>Controlla l'avanzamento della richiesta.</p>
+                        </div>
+                    </article>
+
+                    <article class="workflow-item">
+                        <span class="workflow-number">03</span>
+
+                        <div>
+                            <h3>Ricevi assistenza</h3>
+                            <p>Comunica con l'operatore fino alla soluzione.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section" id="funzionalita">
+            <div class="section-heading">
+                <p class="eyebrow">Funzionalità principali</p>
+                <h2>Un unico spazio per tutta l'assistenza</h2>
+            </div>
+
+            <div class="features-grid">
+                <article class="feature-card">
+                    <span class="feature-icon">＋</span>
+                    <h3>Apertura ticket</h3>
+                    <p>
+                        Inserisci titolo, descrizione e categoria della
+                        richiesta.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-icon">◎</span>
+                    <h3>Controllo dello stato</h3>
+                    <p>
+                        Segui il ticket dall'apertura fino alla sua chiusura.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <span class="feature-icon">◫</span>
+                    <h3>Commenti</h3>
+                    <p>
+                        Comunica con gli operatori mantenendo tutte le
+                        informazioni nello stesso posto.
+                    </p>
+                </article>
+            </div>
+        </section>
     </main>
+
+    <footer class="site-footer">
+        <p>
+            Sistema di Ticketing / Helpdesk · Progetto di Tecnologie
+            Informatiche per il Web
+        </p>
+    </footer>
 </body>
 </html>
