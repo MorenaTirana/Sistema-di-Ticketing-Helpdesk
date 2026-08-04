@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <meta name= "viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Accesso - Sistema di Ticketing / Helpdesk</title>
+
+        <link rel=" stylesheet" href="css/style.css">
+    
+    </head>
+
+    <body class="auth-page">
+        <header class="site-header">
+            <div class = "header-container">
+                <a class="brand" href="index.html">
+                    <span class="brand-logo">TH</span>
+
+                    <span class="brand-text">
+                        <strong>Ticketing Helpdesk</strong>
+                        <small>Gestione dell'assistenza</small>
+                    </span>
+                </a>
+
+                <a class= "header-link" href="index.html">
+                    Torna alla pagina principale
+                </a>
+            </div>
+        </header>
+
+        <main class= "auth-main">
+            <setion class="auth-layout">
+                <div class="auth-information">
+                    <p class ="eyebrow eyebrow-light">Area rieservata</p>
+
+                    <h1> Continua a gestire le tue richieste. </h1>
+
+                    <p>
+                        Accedi per aprire nuovo ticket, controllare lo stato 
+                        delle richieste e comunicare con gli operatori. 
+                    </p>
+
+                    <ul class="auth-benefits">
+                        <li>
+                            <span>✓</span>
+                            Consulta i tuoi ticket
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Segui gli aggiornamenti
+                        </li>
+
+                        <li>
+                            <span>✓</span>
+                            Comunica con l'assistenza
+                        </li>
+                    </ul>
+                </div>
+
+                <div class= "auth-card">
+                    <div class="auth-card-heading">
+                        <p class="eyebrow">Accesso</p>
+                        <h2>Bentornato</h2>
+                        <p>Inserisci le credenziali del tuo account</p>
+                    </div>
+
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="nome@email.com"
+                                required
+                                autocomplete="email"
+                                >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Inserisci la password"
+                                required
+                                autocomplete="current-password"
+                                >
+                        </div>
+
+                        <button class="button button-primary button-full" type= "submit">
+                            Accedi
+                        </button>
+                    </form>
+
+                    <p id="message" class="form-message" role="status"></p>
+
+                    <p class="auth-footer">
+                        Non hai ancora un account?
+                        <a href="register.html">Registrati</a>
+                    </p>
+                </div>
+            </setion>
+        </main>
+
+        <script src="js/login.js"></script>
+    </body>
+</html>

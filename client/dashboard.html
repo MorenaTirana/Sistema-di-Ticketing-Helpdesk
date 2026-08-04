@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Sistema di Ticketing / Helpdesk</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="dashboard.html">
+                <span class="brand-logo">TH</span>
+
+                <span class="brand-text">
+                    <strong>Ticketing Helpdesk</strong>
+                    <small>Area personale</small>
+                </span>
+            </a>
+
+            <button
+                id="logoutButton"
+                class="button button-small"
+                type="button"
+            >
+                Esci
+            </button>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <section class="dashboard-welcome">
+            <p class="eyebrow">Area personale</p>
+
+            <h1>
+                Benvenuto,
+                <span id="userName">utente</span>
+            </h1>
+
+            <p>
+                Ruolo:
+                <strong id="userRole">-</strong>
+            </p>
+        </section>
+
+        <section class="features-grid">
+            <article class="feature-card">
+                <span class="feature-icon">＋</span>
+                <h2>Nuovo ticket</h2>
+                <p>Apri una nuova richiesta di assistenza.</p>
+            </article>
+
+            <article class="feature-card">
+                <span class="feature-icon">◎</span>
+                <h2>I miei ticket</h2>
+                <p>Consulta le richieste già inviate.</p>
+            </article>
+
+            <article class="feature-card">
+                <span class="feature-icon">◫</span>
+                <h2>Profilo</h2>
+                <p>Controlla i dati del tuo account.</p>
+            </article>
+        </section>
+
+        <p id="message" class="form-message" role="status"></p>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

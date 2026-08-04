@@ -678,3 +678,23 @@ body.landing-page .hero-section > .hero-panel {
 .error-message {
     color: #dc2626;
 }
+
+.dashboard-main {
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 64px 0;
+}
+
+.dashboard-welcome {
+    margin-bottom: 40px;
+}
+
+.dashboard-welcome h1 {
+    margin: 0 0 12px;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    letter-spacing: -0.04em;
+}
+
+.dashboard-welcome h1 span {
+    color: var(--blue-600);
+}

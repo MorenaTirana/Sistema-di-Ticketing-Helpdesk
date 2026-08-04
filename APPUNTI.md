@@ -204,3 +204,38 @@ Ho inoltre separato:
 - CSS per la presentazione;
 - JavaScript per il comportamento;
 - backend per validazione e persistenza.
+
+## 15. Login e gestione della sessione
+
+Ho implementato il login tramite la rotta:
+
+`POST /api/auth/login`
+
+Il backend cerca l'utente tramite email e utilizza `bcrypt.compare()` per confrontare la password inserita con l'hash salvato nel database.
+
+In caso di credenziali corrette, il server salva nella sessione:
+
+- id;
+- nome;
+- cognome;
+- email;
+- ruolo.
+
+Ho utilizzato `express-session` per mantenere l'identità dell'utente tra richieste HTTP differenti.
+
+La rotta:
+
+`GET /api/auth/me`
+
+restituisce l'utente presente nella sessione. Se la sessione non esiste, restituisce `401 Unauthorized`.
+
+La rotta:
+
+`POST /api/auth/logout`
+
+distrugge la sessione ed elimina il cookie.
+
+La dashboard utilizza `/api/auth/me` per verificare l'autenticazione. Se l'utente non è autenticato, JavaScript lo reindirizza alla pagina di login.
+
+Durante il test erano attivi due processi Node. Ho chiuso entrambi e avviato un solo server, evitando che venisse utilizzata una versione precedente dell'applicazione.
+
