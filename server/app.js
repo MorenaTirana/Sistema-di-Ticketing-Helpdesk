@@ -7,6 +7,7 @@ const path = require ("path");
 
 const db = require("./db");
 const authRoutes = require("./routes/authRoutes"); 
+const ticketRoutes = require("./routes/ticketRoutes");
 
 const app = express(); 
 const PORT = process.env.PORT || 3002;
@@ -30,14 +31,32 @@ app.use(
 app.use(express.static(path.join(__dirname, "../client")));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/tickets", ticketRoutes);
 
 async function startServer() {
     try {
         const connection = await db.getConnection();
+
+        const [databaseResult] = await connection.query(
+            "SELECT DATABASE() AS database_attivo"
+        );
+
+        const [colonneTicket] = await connection.query(
+            "SHOW COLUMNS FROM ticket"
+        );
+        console.log(
+            "Database utilizzato:",
+            databaseResult[0].database_attivo
+        );
+        console.log(
+            "Colonne della tabella ticket:",
+            colonneTicket.map((colonna) => colonna.Field).join(", ")
+        ); 
+
         console.log("Connessione a MySQL riuscita.");
         connection.release();
         app.listen(PORT, () => {
-            console.log(`Server avviato su http://localhost: ${PORT}`);
+            console.log(`Server avviato su http://localhost:${PORT}`);
         });
     } catch (error) {
         console.error("Errore durante la connessione a MySQL:", error.message);

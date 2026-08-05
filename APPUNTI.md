@@ -239,3 +239,36 @@ La dashboard utilizza `/api/auth/me` per verificare l'autenticazione. Se l'utent
 
 Durante il test erano attivi due processi Node. Ho chiuso entrambi e avviato un solo server, evitando che venisse utilizzata una versione precedente dell'applicazione.
 
+## 16. Creazione dei ticket
+
+Ho creato un middleware `requireAuth` che controlla la presenza dell'utente nella sessione prima di consentire l'accesso alle API protette.
+
+Ho implementato la rotta:
+
+`POST /api/tickets`
+
+Il controller recupera l'ID dell'utente dalla sessione e non dal browser. Questo impedisce a un utente di creare ticket a nome di un'altra persona.
+
+Il controller valida:
+
+- presenza dei campi;
+- lunghezza minima del titolo;
+- lunghezza minima della descrizione;
+- categoria selezionata;
+- autenticazione dell'utente.
+
+La pagina `new-ticket.html` contiene il modulo. Il file `new-ticket.js` utilizza `fetch()` per inviare i dati al backend in formato JSON.
+
+Durante il test MySQL restituiva `ER_BAD_FIELD_ERROR` perché la colonna del database era stata scritta `desrizione`, mentre il controller utilizzava `descrizione`.
+
+Ho diagnosticato il problema leggendo il log del backend e verificando il database realmente utilizzato con:
+
+`SELECT DATABASE()`
+
+e le colonne con:
+
+`SHOW COLUMNS FROM ticket`
+
+Ho risolto rinominando la colonna tramite `ALTER TABLE`.
+
+Questa verifica dimostra l'importanza di mantenere coerenti schema SQL, query e nomi utilizzati nel codice.

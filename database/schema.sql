@@ -18,7 +18,7 @@ CREATE TABLE ticket(
     id INT AUTO_INCREMENT PRIMARY KEY, 
     utente_id INT NOT NULL, 
     titolo VARCHAR(200) NOT NULL, 
-    desrizione TEXT NOT NULL, 
+    descrizione TEXT NOT NULL, 
     categoria VARCHAR(100) NOT NULL, 
     stato ENUM(
         'aperto', 
