@@ -71,7 +71,59 @@ async function createTicket(req, res) {
         });
     }
 }
+async function getTickets(req, res) {
+    try {
+        const utente = req.session.utente;
 
+        let query = `
+            SELECT
+                t.id,
+                t.titolo,
+                t.descrizione,
+                t.categoria,
+                t.stato,
+                t.created_at,
+                t.updated_at,
+                u.id AS utente_id,
+                u.nome AS utente_nome,
+                u.cognome AS utente_cognome,
+                u.email AS utente_email
+            FROM ticket AS t
+            INNER JOIN utenti AS u
+                ON t.utente_id = u.id
+        `;
+
+        const parametri = [];
+
+        if (utente.ruolo === "utente") {
+            query += `
+                WHERE t.utente_id = ?
+            `;
+
+            parametri.push(utente.id);
+        }
+
+        query += `
+            ORDER BY t.created_at DESC
+        `;
+
+        const [ticket] = await db.execute(query, parametri);
+
+        return res.status(200).json({
+            ticket
+        });
+    } catch (error) {
+        console.error(
+            "Errore durante il recupero dei ticket:",
+            error
+        );
+
+        return res.status(500).json({
+            message: "Errore interno del server"
+        });
+    }
+}
 module.exports = {
-    createTicket
+    createTicket, 
+    getTickets
 };

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>I miei ticket - Sistema di Ticketing / Helpdesk</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="dashboard.html">
+                <span class="brand-logo">TH</span>
+
+                <span class="brand-text">
+                    <strong>Ticketing Helpdesk</strong>
+                    <small>Gestione ticket</small>
+                </span>
+            </a>
+
+            <a class="button button-small" href="dashboard.html">
+                Dashboard
+            </a>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <section class="dashboard-welcome">
+            <p class="eyebrow">Assistenza</p>
+            <h1>I miei ticket</h1>
+
+            <p>
+                Consulta tutte le richieste di assistenza inviate.
+            </p>
+        </section>
+
+        <div id="ticketList" class="ticket-list">
+            <p>Caricamento dei ticket...</p>
+        </div>
+
+        <p id="message" class="form-message" role="status"></p>
+    </main>
+
+    <script src="js/tickets.js"></script>
+</body>
+</html>
