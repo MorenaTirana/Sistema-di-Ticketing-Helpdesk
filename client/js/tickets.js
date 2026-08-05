@@ -91,6 +91,13 @@ async function loadTickets() {
                                 <strong>${formatDate(ticket.created_at)}</strong>
                             </span>
                         </div>
+
+                        <a
+    class="ticket-detail-link"
+    href="ticket-detail.html?id=${ticket.id}"
+>
+    Visualizza dettagli →
+</a>
                     </article>
                 `;
             })

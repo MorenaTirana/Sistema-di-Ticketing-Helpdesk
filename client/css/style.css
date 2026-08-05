@@ -809,3 +809,156 @@ body.landing-page .hero-section > .hero-panel {
     margin-bottom: 26px;
     color: var(--gray-500);
 }
+
+.ticket-detail-link {
+    margin-top: 20px;
+    display: inline-flex;
+    color: var(--blue-600);
+    font-weight: 800;
+}
+
+.ticket-detail-link:hover {
+    text-decoration: underline;
+}
+
+.ticket-detail {
+    padding: 32px;
+    border: 1px solid var(--gray-200);
+    border-radius: 18px;
+    background-color: var(--white);
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07);
+}
+
+.ticket-detail > h1 {
+    margin: 20px 0 32px;
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.ticket-detail-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 0.8fr;
+    gap: 50px;
+}
+
+.ticket-detail-grid h2 {
+    margin-top: 0;
+}
+
+#ticketDescription {
+    color: var(--gray-700);
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+.ticket-information {
+    padding: 24px;
+    border-radius: 14px;
+    background-color: var(--gray-50);
+}
+
+.ticket-information dl {
+    margin: 0;
+}
+
+.ticket-information dl div {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.ticket-information dl div:last-child {
+    border-bottom: 0;
+}
+
+.ticket-information dt {
+    margin-bottom: 5px;
+    color: var(--gray-500);
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.ticket-information dd {
+    margin: 0;
+    font-weight: 700;
+}
+
+@media (max-width: 750px) {
+    .ticket-detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.comments-section {
+    margin-top: 30px;
+    padding: 32px;
+    border: 1px solid var(--gray-200);
+    border-radius: 18px;
+    background-color: var(--white);
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07);
+}
+
+.comments-heading h2 {
+    margin: 0 0 24px;
+    font-size: 1.8rem;
+}
+
+.comments-list {
+    display: grid;
+    gap: 14px;
+}
+
+.comment-card {
+    padding: 20px;
+    border-radius: 14px;
+    background-color: var(--gray-50);
+    border: 1px solid var(--gray-200);
+}
+
+.comment-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.comment-header time {
+    margin-left: auto;
+    color: var(--gray-500);
+    font-size: 0.8rem;
+}
+
+.comment-role {
+    padding: 4px 8px;
+    border-radius: 999px;
+    color: var(--blue-600);
+    background-color: #dbeafe;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.comment-card p {
+    margin: 14px 0 0;
+    color: var(--gray-700);
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.comment-form {
+    margin-top: 28px;
+    padding-top: 26px;
+    display: grid;
+    gap: 16px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.comment-form .button {
+    justify-self: start;
+}
+
+.empty-comments {
+    padding: 28px;
+    border-radius: 14px;
+    color: var(--gray-500);
+    background-color: var(--gray-50);
+    text-align: center;
+}

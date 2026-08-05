@@ -123,7 +123,72 @@ async function getTickets(req, res) {
         });
     }
 }
+
+async function getTicketById(req, res) {
+    try {
+        const ticketId = Number(req.params.id);
+        const utente = req.session.utente;
+
+        if (!Number.isInteger(ticketId) || ticketId <= 0) {
+            return res.status(400).json({
+                message: "Identificativo del ticket non valido"
+            });
+        }
+
+        const [risultati] = await db.execute(
+            `SELECT
+                t.id,
+                t.titolo,
+                t.descrizione,
+                t.categoria,
+                t.stato,
+                t.created_at,
+                t.updated_at,
+                u.id AS utente_id,
+                u.nome AS utente_nome,
+                u.cognome AS utente_cognome,
+                u.email AS utente_email
+             FROM ticket AS t
+             INNER JOIN utenti AS u
+                ON t.utente_id = u.id
+             WHERE t.id = ?`,
+            [ticketId]
+        );
+
+        if (risultati.length === 0) {
+            return res.status(404).json({
+                message: "Ticket non trovato"
+            });
+        }
+
+        const ticket = risultati[0];
+
+        if (
+            utente.ruolo === "utente" &&
+            ticket.utente_id !== utente.id
+        ) {
+            return res.status(403).json({
+                message: "Non puoi visualizzare questo ticket"
+            });
+        }
+
+        return res.status(200).json({
+            ticket
+        });
+    } catch (error) {
+        console.error(
+            "Errore durante il recupero del ticket:",
+            error
+        );
+
+        return res.status(500).json({
+            message: "Errore interno del server"
+        });
+    }
+}
+
 module.exports = {
     createTicket, 
-    getTickets
+    getTickets, 
+    getTicketById
 };

@@ -272,3 +272,34 @@ e le colonne con:
 Ho risolto rinominando la colonna tramite `ALTER TABLE`.
 
 Questa verifica dimostra l'importanza di mantenere coerenti schema SQL, query e nomi utilizzati nel codice.
+## 18. Dettaglio del ticket e commenti
+
+Ho implementato la rotta:
+
+`GET /api/tickets/:id`
+
+Il parametro dinamico `:id` viene letto tramite `req.params.id`.
+
+Il controller verifica:
+
+- che l'ID sia valido;
+- che il ticket esista;
+- che un utente possa aprire soltanto un proprio ticket;
+- che un operatore possa aprire qualsiasi ticket.
+
+Ho creato `ticket-detail.html` e `ticket-detail.js`. L'ID viene letto dall'indirizzo tramite `URLSearchParams`.
+
+Esempio:
+
+`ticket-detail.html?id=1`
+
+Per i commenti ho implementato:
+
+- `GET /api/tickets/:id/comments`
+- `POST /api/tickets/:id/comments`
+
+La funzione `checkTicketAccess()` centralizza il controllo di accesso e viene riutilizzata sia per leggere sia per creare commenti.
+
+Dopo l'invio di un commento, il frontend richiama nuovamente l'API GET e aggiorna l'elenco senza ricaricare tutta la pagina.
+
+Titolo, descrizione e commenti vengono inseriti nella pagina in modo sicuro tramite `textContent` o `escapeHtml()`.

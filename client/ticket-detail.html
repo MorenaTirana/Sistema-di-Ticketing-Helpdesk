@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dettaglio ticket - Ticketing Helpdesk</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="dashboard.html">
+                <span class="brand-logo">TH</span>
+
+                <span class="brand-text">
+                    <strong>Ticketing Helpdesk</strong>
+                    <small>Dettaglio richiesta</small>
+                </span>
+            </a>
+
+            <a class="button button-small" href="tickets.html">
+                Torna ai ticket
+            </a>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <section id="ticketDetail" class="ticket-detail">
+            <div class="ticket-card-header">
+                <span id="ticketNumber" class="ticket-number">
+                    Ticket
+                </span>
+
+                <span id="ticketStatus" class="ticket-status">
+                    -
+                </span>
+            </div>
+
+            <h1 id="ticketTitle">Caricamento...</h1>
+
+            <div class="ticket-detail-grid">
+                <div>
+                    <h2>Descrizione</h2>
+                    <p id="ticketDescription">-</p>
+                </div>
+
+                <aside class="ticket-information">
+                    <h2>Informazioni</h2>
+
+                    <dl>
+                        <div>
+                            <dt>Categoria</dt>
+                            <dd id="ticketCategory">-</dd>
+                        </div>
+
+                        <div>
+                            <dt>Stato</dt>
+                            <dd id="ticketStateText">-</dd>
+                        </div>
+
+                        <div>
+                            <dt>Creato il</dt>
+                            <dd id="ticketCreatedAt">-</dd>
+                        </div>
+
+                        <div>
+                            <dt>Richiedente</dt>
+                            <dd id="ticketOwner">-</dd>
+                        </div>
+                    </dl>
+                </aside>
+            </div>
+        </section>
+
+        <section id="commentsSection" class="comments-section">
+    <div class="comments-heading">
+        <div>
+            <p class="eyebrow">Conversazione</p>
+            <h2>Commenti</h2>
+        </div>
+    </div>
+
+    <div id="commentsList" class="comments-list">
+        <p>Caricamento dei commenti...</p>
+    </div>
+
+    <form id="commentForm" class="comment-form">
+        <div class="form-group">
+            <label for="commentText">Aggiungi un commento</label>
+
+            <textarea
+                id="commentText"
+                name="testo"
+                placeholder="Scrivi un messaggio..."
+                rows="4"
+                minlength="2"
+                maxlength="2000"
+                required
+            ></textarea>
+        </div>
+
+        <button class="button button-primary" type="submit">
+            Invia commento
+        </button>
+    </form>
+
+    <p
+        id="commentsMessage"
+        class="form-message"
+        role="status"
+    ></p>
+</section>
+
+        <p id="message" class="form-message" role="status"></p>
+    </main>
+
+    <script src="js/ticket-detail.js"></script>
+
+</body>
+</html>
