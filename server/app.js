@@ -1,14 +1,15 @@
 require("dotenv").config();
 
-
 const express = require ("express");
 const session = require("express-session");
 const path = require ("path");
-
 const db = require("./db");
 const authRoutes = require("./routes/authRoutes"); 
 const ticketRoutes = require("./routes/ticketRoutes");
-
+const ricRoutes = require("./routes/ricRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
+const boatRoutes = require("./routes/boatRoutes");
+const operatorRoutes = require("./routes/operatorRoutes");
 const app = express(); 
 const PORT = process.env.PORT || 3002;
 
@@ -32,6 +33,11 @@ app.use(express.static(path.join(__dirname, "../client")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tickets", ticketRoutes);
+app.use("/api/ric", ricRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/boats", boatRoutes);
+app.use("/api/operators", operatorRoutes);
+
 
 async function startServer() {
     try {

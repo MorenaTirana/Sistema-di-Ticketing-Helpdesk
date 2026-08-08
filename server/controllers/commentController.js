@@ -1,4 +1,7 @@
 const db = require("../db");
+const {
+    createNotification
+} = require("../services/notificationService");
 
 async function checkTicketAccess(ticketId, utente) {
     const [risultati] = await db.execute(
@@ -126,6 +129,17 @@ async function createComment(req, res) {
              VALUES (?, ?, ?)`,
             [ticketId, utente.id, testoPulito]
         );
+
+        // Se il commento è dell'operatore, avvisiamo il proprietario
+if (utente.ruolo === "operatore") {
+    await createNotification({
+        utenteId: accesso.ticket.utente_id,
+        ticketId: ticketId,
+        tipo: "commento_operatore",
+        messaggio:
+            `L'operatore ${utente.nome} ${utente.cognome} ha aggiunto un commento al ticket #${ticketId}.`
+    });
+}
 
         return res.status(201).json({
             message: "Commento aggiunto",

@@ -303,3 +303,31 @@ La funzione `checkTicketAccess()` centralizza il controllo di accesso e viene ri
 Dopo l'invio di un commento, il frontend richiama nuovamente l'API GET e aggiorna l'elenco senza ricaricare tutta la pagina.
 
 Titolo, descrizione e commenti vengono inseriti nella pagina in modo sicuro tramite `textContent` o `escapeHtml()`.
+## Sistema delle notifiche
+
+Ho implementato un sistema di notifiche persistenti per informare
+l'utente delle azioni eseguite dall'operatore sui suoi ticket.
+
+Ho creato la tabella `notifiche`, collegata alle tabelle `utenti`
+e `ticket` tramite chiavi esterne.
+
+Ho creato il servizio `notificationService.js` per centralizzare
+il salvataggio delle notifiche nel database.
+
+Quando un operatore modifica lo stato di un ticket oppure aggiunge
+un commento, il backend crea una notifica destinata al proprietario
+del ticket.
+
+Ho inoltre creato:
+
+- `notificationController.js`, che recupera e aggiorna le notifiche;
+- `notificationRoutes.js`, che espone le relative API;
+- una campanella nella dashboard;
+- un contatore delle notifiche non lette;
+- un pannello con l'elenco delle notifiche.
+
+Quando l'utente seleziona una notifica, questa viene segnata come
+letta e viene aperto il dettaglio del ticket interessato.
+
+La persistenza nel database permette di conservare le notifiche
+anche dopo la chiusura del browser o il riavvio del server.

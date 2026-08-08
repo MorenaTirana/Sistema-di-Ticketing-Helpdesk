@@ -2,12 +2,34 @@ const express = require("express");
 
 const ticketController = require("../controllers/ticketController");
 const commentController = require("../controllers/commentController");
+const historyController = require("../controllers/historyController");
 
-const { requireAuth } = require("../middleware/authMiddleware");
+const { 
+    requireAuth,
+    requireOperator
+ } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 router.get("/", requireAuth, ticketController.getTickets);
+
+router.patch(
+    "/:id/status",
+    requireOperator,
+    ticketController.updateTicketStatus
+);
+
+router.patch(
+    "/:id/management",
+    requireOperator,
+    ticketController.updateTicketManagement
+);
+
+router.patch(
+    "/:id/assignment",
+    requireOperator,
+    ticketController.assignTicket
+);
 
 router.get(
     "/:id/comments",
@@ -19,6 +41,12 @@ router.post(
     "/:id/comments",
     requireAuth,
     commentController.createComment
+);
+
+router.get(
+    "/:id/history",
+    requireAuth,
+    historyController.getTicketHistory
 );
 
 router.get(

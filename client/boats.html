@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Le mie barche - Ticketing Helpdesk
+    </title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="dashboard.html">
+                <span class="brand-logo">TH</span>
+
+                <span class="brand-text">
+                    <strong>Ticketing Helpdesk</strong>
+                    <small>Gestione barche</small>
+                </span>
+            </a>
+
+            <div class="header-actions">
+                <a
+                    class="button button-small"
+                    href="dashboard.html"
+                >
+                    Dashboard
+                </a>
+
+                <button
+                    id="logoutButton"
+                    class="button button-small"
+                    type="button"
+                >
+                    Esci
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="boats-main">
+        <section class="page-introduction">
+            <p class="eyebrow">Area personale</p>
+
+            <h1>Le mie barche</h1>
+
+            <p>
+                Registra le tue barche e consulta i relativi
+                dati di identificazione e garanzia.
+            </p>
+        </section>
+
+        <section class="boat-form-card">
+            <h2>Registra una nuova barca</h2>
+
+            <form id="boatForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="modello">
+                            Modello *
+                        </label>
+
+                        <input
+                            id="modello"
+                            name="modello"
+                            type="text"
+                            placeholder="Esempio: KL27 EFB 017"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="matricola">
+                            Matricola della barca *
+                        </label>
+
+                        <input
+                            id="matricola"
+                            name="matricola"
+                            type="text"
+                            placeholder="Esempio: IT-SES329024D132"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="annoProduzione">
+                            Anno di produzione *
+                        </label>
+
+                        <input
+                            id="annoProduzione"
+                            name="anno_produzione"
+                            type="number"
+                            min="1950"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="localizzazione">
+                            Localizzazione attuale *
+                        </label>
+
+                        <input
+                            id="localizzazione"
+                            name="localizzazione"
+                            type="text"
+                            placeholder="Esempio: Porto di Genova"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group form-group-full">
+                        <label for="indirizzoConsegna">
+                            Indirizzo di consegna *
+                        </label>
+
+                        <input
+                            id="indirizzoConsegna"
+                            name="indirizzo_consegna"
+                            type="text"
+                            placeholder="Indirizzo per ricambi e materiali"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="garanziaAttivataIl">
+                            Data di attivazione garanzia
+                        </label>
+
+                        <input
+                            id="garanziaAttivataIl"
+                            name="garanzia_attivata_il"
+                            type="date"
+                        >
+
+                        <small>
+                            La scadenza verrà calcolata
+                            automaticamente dopo 24 mesi.
+                        </small>
+                    </div>
+                </div>
+
+                <button
+                    class="button button-primary"
+                    type="submit"
+                >
+                    Registra barca
+                </button>
+
+                <p
+                    id="boatMessage"
+                    class="form-message"
+                    role="status"
+                ></p>
+            </form>
+        </section>
+
+        <section class="boats-list-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Imbarcazioni registrate</p>
+                    <h2>Elenco delle barche</h2>
+                </div>
+            </div>
+
+            <div id="boatsList">
+                <p>Caricamento delle barche...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/boats.js"></script>
+</body>
+</html>

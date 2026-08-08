@@ -40,6 +40,50 @@
         <section class="auth-card ticket-form-card">
             <form id="ticketForm" class="auth-form">
                 <div class="form-group">
+                    <label for="barcaId">Barca interessata</label>
+
+                        <select
+                            id="barcaId"
+                            name="barca_id"
+                            required
+                            >
+                            <option value="">Caricamento delle barche...</option>
+                        </select>
+
+                    <small>
+                        La barca non è presente?
+                        <a href="boats.html">Registrala qui</a>.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoRichiesta">
+                        Tipo di richiesta
+                    </label>
+
+                    <select
+                        id="tipoRichiesta"
+                        name="tipo_richiesta"
+                        required
+                        >
+                        <option value="">
+                            Seleziona il tipo di richiesta
+                        </option>
+
+                        <option value="garanzia">
+                            Richiesta di garanzia
+                        </option>
+
+                        <option value="ricambi">
+                            Acquisto di ricambi
+                        </option>
+
+                        <option value="servizio">
+                            Intervento o servizio
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="titolo">Titolo</label>
 
                     <input
@@ -93,8 +137,11 @@
                     ></textarea>
                 </div>
 
-                <button class="button button-primary" type="submit">
-                    Invia ticket
+                <button 
+                    id="submitTicketButton"
+                    class="button button-primary" 
+                    type="submit">
+                        Invia ticket
                 </button>
             </form>
 

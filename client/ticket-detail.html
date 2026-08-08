@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,10 +56,28 @@
                             <dt>Categoria</dt>
                             <dd id="ticketCategory">-</dd>
                         </div>
+                        <div>
+                            <dt>Tipo di richiesta</dt>
+                            <dd id="ticketRequestType">-</dd>
+                        </div>
+
+                        <div>
+                            <dt>Copertura</dt>
+                            <dd id="ticketCoverage">-</dd>
+                        </div>
+
+                        <div>
+                            <dt>Costo</dt>
+                            <dd id="ticketCost">-</dd>
+                        </div>
 
                         <div>
                             <dt>Stato</dt>
                             <dd id="ticketStateText">-</dd>
+                        </div>
+                        <div>
+                            <dt>Priorità</dt>
+                            <dd id="ticketPriority">-</dd>
                         </div>
 
                         <div>
@@ -70,49 +89,248 @@
                             <dt>Richiedente</dt>
                             <dd id="ticketOwner">-</dd>
                         </div>
+
+                        <div>
+                            <dt>Operatore assegnato</dt>
+                            <dd id="ticketAssignedOperator">
+                                Non assegnato
+                            </dd>
+                        </div>
                     </dl>
                 </aside>
             </div>
+
+            <section id="ticketBoatSection" class="ticket-boat-detail" hidden>
+                <div class="ticket-boat-detail-heading">
+                    <div>
+                        <p class="eyebrow">Imbarcazione</p>
+                        <h2>Dati della barca</h2>
+                    </div>
+
+                    <span id="boatWarrantyStatus" class="warranty-badge">
+                        -
+                    </span>
+                </div>
+
+                <dl class="boat-information-grid">
+                    <div>
+                        <dt>Modello</dt>
+                        <dd id="boatModel">-</dd>
+                    </div>
+
+                    <div>
+                        <dt>Matricola</dt>
+                        <dd id="boatRegistration">-</dd>
+                    </div>
+
+                    <div>
+                        <dt>Anno di produzione</dt>
+                        <dd id="boatProductionYear">-</dd>
+                    </div>
+
+                    <div>
+                        <dt>Localizzazione</dt>
+                        <dd id="boatLocation">-</dd>
+                    </div>
+
+                    <div>
+                        <dt>Indirizzo di consegna</dt>
+                        <dd id="boatDeliveryAddress">-</dd>
+                    </div>
+
+                    <div>
+                        <dt>Attivazione garanzia</dt>
+                        <dd id="boatWarrantyStart">-</dd>
+                    </div>
+
+                    <div>
+                        <dt>Scadenza garanzia</dt>
+                        <dd id="boatWarrantyEnd">-</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section id="operatorActions" class="operator-actions" hidden>
+                <div>
+                    <p class="eyebrow">Azioni operatore</p>
+                    <h2>Modifica lo stato</h2>
+                </div>
+
+                <form id="statusForm" class="status-form">
+                    <label for="statusSelect">Nuovo stato</label>
+
+                    <select id="statusSelect" required>
+                        <option value="aperto">Aperto</option>
+
+                        <option value="in_lavorazione">
+                            In lavorazione
+                        </option>
+
+                        <option value="risolto">Risolto</option>
+
+                        <option value="chiuso">Chiuso</option>
+                    </select>
+
+                    <button class="button button-primary" type="submit">
+                        Aggiorna stato
+                    </button>
+                </form>
+
+                <p id="statusMessage" class="form-message" role="status"></p>
+                <div class="assignment-section">
+                    <div>
+                        <p class="eyebrow">Assegnazione</p>
+                        <h2>Assegna il ticket</h2>
+                    </div>
+
+                    <form id="assignmentForm" class="assignment-form">
+                        <div class="form-group">
+                            <label for="operatorSelect">
+                                Operatore
+                            </label>
+
+                            <select id="operatorSelect" required>
+                                <option value="">
+                                    Caricamento degli operatori...
+                                </option>
+                            </select>
+                        </div>
+
+                        <button class="button button-primary" type="submit">
+                            Assegna ticket
+                        </button>
+                    </form>
+
+                    <p id="assignmentMessage" class="form-message" role="status"></p>
+                </div>
+                <hr class="operator-divider">
+
+                <div>
+                    <p class="eyebrow">Gestione commerciale</p>
+                    <h2>Copertura e costo</h2>
+                </div>
+
+                <form id="managementForm" class="management-form">
+                    <div class="form-group">
+                        <label for="prioritySelect">
+                            Priorità
+                        </label>
+
+                        <select id="prioritySelect" required>
+                            <option value="bassa">Bassa</option>
+                            <option value="media">Media</option>
+                            <option value="alta">Alta</option>
+                            <option value="urgente">Urgente</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="coverageSelect">
+                            Copertura del caso
+                        </label>
+
+                        <select id="coverageSelect" required>
+                            <option value="da_valutare">
+                                Da valutare
+                            </option>
+
+                            <option value="in_garanzia">
+                                In garanzia
+                            </option>
+
+                            <option value="fuori_garanzia">
+                                Fuori garanzia
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ticketCostInput">
+                            Costo in euro
+                        </label>
+
+                        <input id="ticketCostInput" type="number" min="0" step="0.01" placeholder="Esempio: 450.00">
+
+                        <small>
+                            Lascia vuoto se il costo non è ancora definito.
+                        </small>
+                    </div>
+
+                    <button class="button button-primary" type="submit">
+                        Salva gestione
+                    </button>
+                </form>
+
+                <p id="managementMessage" class="form-message" role="status"></p>
+
+                <hr class="operator-divider">
+
+                <div class="ric-action">
+                    <div>
+                        <p class="eyebrow">Gestione materiali</p>
+                        <h2>RIC collegati al ticket</h2>
+
+                        <p>
+                            Carica e consulta i RIC creati con Metodo Embryon
+                            e collegati a questo ticket.
+                        </p>
+                    </div>
+
+                    <a id="uploadRicLink" class="button button-primary" href="#">
+                        Carica RIC
+                    </a>
+                </div>
+
+                <div id="ricList" class="document-list">
+                    <p>Caricamento dei RIC...</p>
+                </div>
+
+                <p id="ricMessage" class="form-message" role="status"></p>
+            </section>
+        </section>
+
+        <section id="historySection" class="history-section">
+            <div class="history-heading">
+                <div>
+                    <p class="eyebrow">Cronologia</p>
+                    <h2>Storico degli stati</h2>
+                </div>
+            </div>
+
+            <div id="historyList" class="history-list">
+                <p>Caricamento dello storico...</p>
+            </div>
+
+            <p id="historyMessage" class="form-message" role="status"></p>
         </section>
 
         <section id="commentsSection" class="comments-section">
-    <div class="comments-heading">
-        <div>
-            <p class="eyebrow">Conversazione</p>
-            <h2>Commenti</h2>
-        </div>
-    </div>
+            <div class="comments-heading">
+                <div>
+                    <p class="eyebrow">Conversazione</p>
+                    <h2>Commenti</h2>
+                </div>
+            </div>
 
-    <div id="commentsList" class="comments-list">
-        <p>Caricamento dei commenti...</p>
-    </div>
+            <div id="commentsList" class="comments-list">
+                <p>Caricamento dei commenti...</p>
+            </div>
 
-    <form id="commentForm" class="comment-form">
-        <div class="form-group">
-            <label for="commentText">Aggiungi un commento</label>
+            <form id="commentForm" class="comment-form">
+                <div class="form-group">
+                    <label for="commentText">Aggiungi un commento</label>
 
-            <textarea
-                id="commentText"
-                name="testo"
-                placeholder="Scrivi un messaggio..."
-                rows="4"
-                minlength="2"
-                maxlength="2000"
-                required
-            ></textarea>
-        </div>
+                    <textarea id="commentText" name="testo" placeholder="Scrivi un messaggio..." rows="4" minlength="2"
+                        maxlength="2000" required></textarea>
+                </div>
 
-        <button class="button button-primary" type="submit">
-            Invia commento
-        </button>
-    </form>
+                <button class="button button-primary" type="submit">
+                    Invia commento
+                </button>
+            </form>
 
-    <p
-        id="commentsMessage"
-        class="form-message"
-        role="status"
-    ></p>
-</section>
+            <p id="commentsMessage" class="form-message" role="status"></p>
+        </section>
 
         <p id="message" class="form-message" role="status"></p>
     </main>
@@ -120,4 +338,5 @@
     <script src="js/ticket-detail.js"></script>
 
 </body>
+
 </html>

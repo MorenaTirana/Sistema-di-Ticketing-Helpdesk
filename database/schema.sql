@@ -22,7 +22,7 @@ CREATE TABLE ticket(
     categoria VARCHAR(100) NOT NULL, 
     stato ENUM(
         'aperto', 
-        'in lavorazione', 
+        'in_lavorazione', 
         'risolto', 
         'chiuso'
     ) NOT NULL DEFAULT 'aperto', 
@@ -53,3 +53,35 @@ CREATE TABLE commenti(
     REFERENCES utenti (id) 
     ON DELETE CASCADE 
 ); 
+
+CREATE TABLE notifiche (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    utente_id INT NOT NULL,
+    ticket_id INT NOT NULL,
+
+    tipo ENUM(
+        'commento_operatore',
+        'stato_modificato',
+        'assegnazione'
+    ) NOT NULL,
+
+    messaggio VARCHAR(255) NOT NULL,
+
+    letta BOOLEAN NOT NULL DEFAULT FALSE,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_notifica_utente
+        FOREIGN KEY (utente_id)
+        REFERENCES utenti(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_notifica_ticket
+        FOREIGN KEY (ticket_id)
+        REFERENCES ticket(id)
+        ON DELETE CASCADE,
+
+    INDEX idx_notifiche_utente (utente_id),
+    INDEX idx_notifiche_letta (letta)
+);

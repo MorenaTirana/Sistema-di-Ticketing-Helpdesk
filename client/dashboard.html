@@ -21,13 +21,46 @@
                 </span>
             </a>
 
-            <button
-                id="logoutButton"
-                class="button button-small"
-                type="button"
+            <div class="header-actions">
+    <div class="notifications-area">
+        <button
+            id="notificationsButton"
+            class="notifications-button"
+            type="button"
+            aria-label="Apri le notifiche"
+        >
+            🔔
+
+            <span
+                id="notificationsCount"
+                class="notifications-count"
+                hidden
             >
-                Esci
-            </button>
+                0
+            </span>
+        </button>
+
+        <div
+            id="notificationsPanel"
+            class="notifications-panel"
+            hidden
+        >
+            <h2>Notifiche</h2>
+
+            <div id="notificationsList">
+                <p>Caricamento...</p>
+            </div>
+        </div>
+    </div>
+
+    <button
+        id="logoutButton"
+        class="button button-small"
+        type="button"
+    >
+        Esci
+    </button>
+</div>
         </div>
     </header>
 
@@ -47,25 +80,36 @@
         </section>
 
         <section class="features-grid">
-            <article class="feature-card">
              <a class="feature-card" href="new-ticket.html">
-    <span class="feature-icon">＋</span>
-    <h2>Nuovo ticket</h2>
-    <p>Apri una nuova richiesta di assistenza.</p>
-</a>
-            </article>
+                <span class="feature-icon">＋</span>
+                
+                <h2>Nuovo ticket</h2>
+                <p>
+                    Apri una nuova richiesta di assistenza.
+                </p>
+            </a>
 
             <a class="feature-card" href="tickets.html">
                 <span class="feature-icon">◎</span>
                 <h2>I miei ticket</h2>
-                <p>Consulta le richieste già inviate.</p>
+                <p>
+                    Consulta le richieste già inviate.
+                </p>
             </a>
 
-            <article class="feature-card">
-                <span class="feature-icon">◫</span>
-                <h2>Profilo</h2>
-                <p>Controlla i dati del tuo account.</p>
-            </article>
+            <a
+                id="boatsCard" 
+                class="feature-card"
+                href="boats.html"
+            >
+                <span class="feature-icon">◇</span>
+
+                <h2 id="boatsCardTitle">Le mie barche</h2>
+
+                <p id="boatsCardDescription">
+                    Registra e consulta le tue imbarcazioni.
+                </p>
+            </a>
         </section>
 
         <p id="message" class="form-message" role="status"></p>
