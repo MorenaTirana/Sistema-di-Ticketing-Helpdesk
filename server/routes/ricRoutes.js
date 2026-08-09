@@ -6,6 +6,9 @@ const ricController =
 const uploadRic =
     require("../middleware/uploadRicMiddleware");
 
+const validatePdf =
+    require("../middleware/validatePdfMiddleware");
+
 const {
     requireOperator
 } = require("../middleware/authMiddleware");
@@ -56,6 +59,7 @@ router.post(
     "/",
     requireOperator,
     gestisciUploadRic,
+    validatePdf,
     ricController.createRic
 );
 

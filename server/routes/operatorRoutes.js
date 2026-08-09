@@ -1,7 +1,8 @@
 const express = require("express");
 
 const {
-    getOperators
+    getOperators,
+    getClients
 } = require("../controllers/operatorController");
 
 const {
@@ -9,6 +10,12 @@ const {
 } = require("../middleware/authMiddleware");
 
 const router = express.Router();
+
+router.get(
+    "/clients",
+    requireOperator,
+    getClients
+);
 
 // Solo un operatore può vedere l'elenco
 // degli operatori disponibili.

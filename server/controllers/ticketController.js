@@ -12,10 +12,13 @@ const categorieConsentite = [
 ];
 
 async function createTicket(req, res) {
+    let connection;
+
     try {
-        const utente = req.session.utente;
+        const utenteCollegato = req.session.utente;
 
         const {
+            cliente_id,
             barca_id,
             tipo_richiesta,
             titolo,
@@ -29,17 +32,58 @@ async function createTicket(req, res) {
             "servizio"
         ];
 
-        // Soltanto il cliente può aprire un ticket
-        if (utente.ruolo !== "utente") {
+        if (
+            utenteCollegato.ruolo !== "utente" &&
+            utenteCollegato.ruolo !== "operatore"
+        ) {
             return res.status(403).json({
                 message:
-                    "Solo un cliente può aprire un ticket"
+                    "Non sei autorizzato ad aprire un ticket"
             });
+        }
+
+        /*
+         * Il cliente può creare ticket solamente per sé.
+         * L'operatore deve invece indicare il cliente.
+         */
+        let clienteId;
+
+        if (utenteCollegato.ruolo === "utente") {
+            clienteId = utenteCollegato.id;
+        } else {
+            clienteId = Number(cliente_id);
+
+            if (
+                !Number.isInteger(clienteId) ||
+                clienteId <= 0
+            ) {
+                return res.status(400).json({
+                    message:
+                        "Seleziona il cliente per il quale aprire il ticket"
+                });
+            }
+
+            const [clienti] = await db.execute(
+                `SELECT id
+                 FROM utenti
+                 WHERE id = ?
+                   AND ruolo = 'utente'`,
+                [clienteId]
+            );
+
+            if (clienti.length === 0) {
+                return res.status(400).json({
+                    message: "Cliente non valido"
+                });
+            }
         }
 
         const barcaId = Number(barca_id);
 
-        if (!Number.isInteger(barcaId) || barcaId <= 0) {
+        if (
+            !Number.isInteger(barcaId) ||
+            barcaId <= 0
+        ) {
             return res.status(400).json({
                 message: "Seleziona una barca valida"
             });
@@ -63,14 +107,12 @@ async function createTicket(req, res) {
             )
         ) {
             return res.status(400).json({
-                message:
-                    "Tipo di richiesta non valido"
+                message: "Tipo di richiesta non valido"
             });
         }
 
         const titoloPulito = titolo.trim();
-        const descrizionePulita =
-            descrizione.trim();
+        const descrizionePulita = descrizione.trim();
 
         if (titoloPulito.length < 5) {
             return res.status(400).json({
@@ -93,36 +135,47 @@ async function createTicket(req, res) {
         }
 
         /*
-         * Controlliamo che la barca selezionata appartenga
-         * davvero all'utente collegato.
+         * La barca deve appartenere al cliente:
+         * non basta che il suo ID esista.
          */
         const [barche] = await db.execute(
             `SELECT id
              FROM barche
-             WHERE id = ? AND utente_id = ?`,
-            [barcaId, utente.id]
+             WHERE id = ?
+               AND utente_id = ?`,
+            [barcaId, clienteId]
         );
 
         if (barche.length === 0) {
             return res.status(403).json({
                 message:
-                    "Non puoi aprire un ticket per questa barca"
+                    "La barca selezionata non appartiene al cliente"
             });
         }
 
-        const [risultato] = await db.execute(
+        const operatoreId =
+            utenteCollegato.ruolo === "operatore"
+                ? utenteCollegato.id
+                : null;
+
+        connection = await db.getConnection();
+        await connection.beginTransaction();
+
+        const [risultato] = await connection.execute(
             `INSERT INTO ticket (
                 utente_id,
                 barca_id,
+                operatore_id,
                 titolo,
                 descrizione,
                 categoria,
                 tipo_richiesta
              )
-             VALUES (?, ?, ?, ?, ?, ?)`,
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
             [
-                utente.id,
+                clienteId,
                 barcaId,
+                operatoreId,
                 titoloPulito,
                 descrizionePulita,
                 categoria,
@@ -130,22 +183,48 @@ async function createTicket(req, res) {
             ]
         );
 
+        const ticketId = risultato.insertId;
+
+        /*
+         * Se il ticket è stato inserito dall'operatore,
+         * il cliente riceve una notifica.
+         */
+        if (utenteCollegato.ruolo === "operatore") {
+            await createNotification({
+                utenteId: clienteId,
+                ticketId,
+                tipo: "nuova_pratica",
+                messaggio:
+                    `È stata registrata la pratica #${ticketId} ` +
+                    `per la tua richiesta di assistenza.`,
+                connection
+            });
+        }
+
+        await connection.commit();
+
         return res.status(201).json({
             message: "Ticket creato correttamente",
 
             ticket: {
-                id: risultato.insertId,
-                utente_id: utente.id,
+                id: ticketId,
+                utente_id: clienteId,
                 barca_id: barcaId,
+                operatore_id: operatoreId,
                 titolo: titoloPulito,
                 descrizione: descrizionePulita,
                 categoria,
                 tipo_richiesta,
                 copertura: "da_valutare",
+                priorita: "media",
                 stato: "aperto"
             }
         });
     } catch (error) {
+        if (connection) {
+            await connection.rollback();
+        }
+
         console.error(
             "Errore durante la creazione del ticket:",
             error
@@ -154,6 +233,10 @@ async function createTicket(req, res) {
         return res.status(500).json({
             message: "Errore interno del server"
         });
+    } finally {
+        if (connection) {
+            connection.release();
+        }
     }
 }
 

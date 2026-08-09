@@ -7,9 +7,8 @@
 - [x] Logout
 - [x] Password protette con bcrypt
 - [x] Sessione con express-session
-- [ ] Recupero o reimpostazione password
 - [x] Test delle autorizzazioni
-
+- [x] Recupero e reimpostazione password
 
 ## 2. Utenti e ruoli
 
@@ -44,8 +43,7 @@
 - [x] Commenti
 - [x] Notifiche
 - [x] Comunicazioni tecniche
-- [ ] Visualizzazione delle comunicazioni nel frontend
-- [ ] Test notifiche tecnico e capo produzione
+
 
 ## 6. Documenti
 
@@ -53,8 +51,8 @@
 - [x] Download documenti
 - [x] Documenti visibili al cliente
 - [x] RIC interno
-- [ ] Controllo sicurezza dei file
-- [ ] Test dei permessi di visualizzazione
+- [x] Controllo sicurezza dei file
+- [x] Test dei permessi di visualizzazione
 
 ## 7. Interfaccia
 

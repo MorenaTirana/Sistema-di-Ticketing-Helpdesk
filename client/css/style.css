@@ -2908,3 +2908,19 @@ strong {
         flex-direction: column;
     }
 }
+.forgot-password {
+    margin: -4px 0 18px;
+    text-align: right;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.forgot-password a {
+    color: #2563eb;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}

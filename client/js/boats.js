@@ -1,5 +1,8 @@
-const boatForm = document.getElementById("boatForm");
-const boatsList = document.getElementById("boatsList");
+const boatForm =
+    document.getElementById("boatForm");
+
+const boatsList =
+    document.getElementById("boatsList");
 
 const boatMessage =
     document.getElementById("boatMessage");
@@ -10,9 +13,35 @@ const logoutButton =
 const annoProduzione =
     document.getElementById("annoProduzione");
 
+const pageEyebrow =
+    document.getElementById("pageEyebrow");
 
-// Impedisce di inserire un anno futuro
-annoProduzione.max = new Date().getFullYear();
+const pageTitle =
+    document.getElementById("pageTitle");
+
+const pageDescription =
+    document.getElementById("pageDescription");
+
+const operatorClientContext =
+    document.getElementById("operatorClientContext");
+
+const selectedClientName =
+    document.getElementById("selectedClientName");
+
+const selectedClientEmail =
+    document.getElementById("selectedClientEmail");
+
+const backToTicketLink =
+    document.getElementById("backToTicketLink");
+
+const boatFormTitle =
+    document.getElementById("boatFormTitle");
+
+let currentUser = null;
+let selectedClientId = null;
+
+annoProduzione.max =
+    new Date().getFullYear();
 
 
 function formatDate(data) {
@@ -30,12 +59,17 @@ function formatDate(data) {
 
 
 function createDetail(label, value) {
-    const elemento = document.createElement("p");
+    const elemento =
+        document.createElement("p");
 
-    const etichetta = document.createElement("strong");
+    const etichetta =
+        document.createElement("strong");
+
     etichetta.textContent = `${label}: `;
 
-    const contenuto = document.createElement("span");
+    const contenuto =
+        document.createElement("span");
+
     contenuto.textContent = value;
 
     elemento.appendChild(etichetta);
@@ -54,9 +88,9 @@ function getWarrantyStatus(barca) {
     }
 
     const oggi = new Date();
-    const scadenza = new Date(
-        barca.garanzia_scadenza_il
-    );
+
+    const scadenza =
+        new Date(barca.garanzia_scadenza_il);
 
     if (scadenza >= oggi) {
         return {
@@ -76,33 +110,47 @@ function showBoats(barche) {
     boatsList.innerHTML = "";
 
     if (barche.length === 0) {
-        const testo = document.createElement("p");
+        const testo =
+            document.createElement("p");
+
         testo.className = "empty-message";
 
         testo.textContent =
-            "Non hai ancora registrato nessuna barca.";
+            currentUser.ruolo === "operatore"
+                ? "Il cliente non ha ancora barche registrate."
+                : "Non hai ancora registrato nessuna barca.";
 
         boatsList.appendChild(testo);
         return;
     }
 
-    const griglia = document.createElement("div");
+    const griglia =
+        document.createElement("div");
+
     griglia.className = "boats-grid";
 
     barche.forEach((barca) => {
-        const card = document.createElement("article");
+        const card =
+            document.createElement("article");
+
         card.className = "boat-card";
 
         const intestazione =
             document.createElement("div");
 
-        intestazione.className = "boat-card-header";
+        intestazione.className =
+            "boat-card-header";
 
-        const titolo = document.createElement("h3");
+        const titolo =
+            document.createElement("h3");
+
         titolo.textContent = barca.modello;
 
-        const matricola = document.createElement("p");
-        matricola.textContent = barca.matricola;
+        const matricola =
+            document.createElement("p");
+
+        matricola.textContent =
+            barca.matricola;
 
         intestazione.appendChild(titolo);
         intestazione.appendChild(matricola);
@@ -110,14 +158,18 @@ function showBoats(barche) {
         const statoGaranzia =
             getWarrantyStatus(barca);
 
-        const badge = document.createElement("span");
+        const badge =
+            document.createElement("span");
 
         badge.className =
             `warranty-badge ${statoGaranzia.classe}`;
 
-        badge.textContent = statoGaranzia.testo;
+        badge.textContent =
+            statoGaranzia.testo;
 
-        const dettagli = document.createElement("div");
+        const dettagli =
+            document.createElement("div");
+
         dettagli.className = "boat-details";
 
         dettagli.appendChild(
@@ -170,15 +222,82 @@ function showBoats(barche) {
 }
 
 
+async function getCurrentUser() {
+    const response =
+        await fetch("/api/auth/me");
+
+    const risultato =
+        await response.json();
+
+    if (!response.ok) {
+        window.location.href = "login.html";
+        return null;
+    }
+
+    return risultato.utente;
+}
+
+
+async function loadClientContext() {
+    const response =
+        await fetch("/api/operators/clients");
+
+    const risultato =
+        await response.json();
+
+    if (!response.ok) {
+        throw new Error(risultato.message);
+    }
+
+    const cliente =
+        risultato.clienti.find(
+            (elemento) =>
+                Number(elemento.id) === selectedClientId
+        );
+
+    if (!cliente) {
+        throw new Error("Cliente non trovato");
+    }
+
+    operatorClientContext.hidden = false;
+
+    selectedClientName.textContent =
+        `${cliente.nome} ${cliente.cognome}`;
+
+    selectedClientEmail.textContent =
+        cliente.email;
+
+    pageEyebrow.textContent =
+        "Gestione cliente";
+
+    pageTitle.textContent =
+        "Barche del cliente";
+
+    pageDescription.textContent =
+        "Registra e consulta le barche associate al cliente selezionato.";
+
+    boatFormTitle.textContent =
+        `Registra una barca per ${cliente.nome} ${cliente.cognome}`;
+
+    backToTicketLink.href =
+        `new-ticket.html?cliente_id=${selectedClientId}`;
+}
+
+
 async function loadBoats() {
     try {
-        const response = await fetch("/api/boats");
-        const risultato = await response.json();
+        let indirizzo = "/api/boats";
 
-        if (response.status === 401) {
-            window.location.href = "login.html";
-            return;
+        if (currentUser.ruolo === "operatore") {
+            indirizzo +=
+                `?cliente_id=${encodeURIComponent(selectedClientId)}`;
         }
+
+        const response =
+            await fetch(indirizzo);
+
+        const risultato =
+            await response.json();
 
         if (!response.ok) {
             throw new Error(risultato.message);
@@ -191,103 +310,202 @@ async function loadBoats() {
 }
 
 
-boatForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+boatForm.addEventListener(
+    "submit",
+    async (event) => {
+        event.preventDefault();
 
-    boatMessage.textContent =
-        "Registrazione della barca in corso...";
+        boatMessage.textContent =
+            "Registrazione della barca in corso...";
 
-    boatMessage.className = "form-message";
+        boatMessage.className =
+            "form-message";
 
-    const datiBarca = {
-        modello:
-            document.getElementById("modello").value,
+        const datiBarca = {
+            modello:
+                document.getElementById(
+                    "modello"
+                ).value,
 
-        matricola:
-            document.getElementById("matricola").value,
+            matricola:
+                document.getElementById(
+                    "matricola"
+                ).value,
 
-        anno_produzione:
-            annoProduzione.value,
+            anno_produzione:
+                annoProduzione.value,
 
-        localizzazione:
-            document.getElementById(
-                "localizzazione"
-            ).value,
+            localizzazione:
+                document.getElementById(
+                    "localizzazione"
+                ).value,
 
-        indirizzo_consegna:
-            document.getElementById(
-                "indirizzoConsegna"
-            ).value,
+            indirizzo_consegna:
+                document.getElementById(
+                    "indirizzoConsegna"
+                ).value,
 
-        garanzia_attivata_il:
-            document.getElementById(
-                "garanziaAttivataIl"
-            ).value || null
-    };
+            garanzia_attivata_il:
+                document.getElementById(
+                    "garanziaAttivataIl"
+                ).value || null
+        };
 
+        if (currentUser.ruolo === "operatore") {
+            datiBarca.cliente_id =
+                selectedClientId;
+        }
+
+        try {
+            const response =
+                await fetch("/api/boats", {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(datiBarca)
+                });
+
+            const risultato =
+                await response.json();
+
+            if (response.status === 401) {
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    risultato.message
+                );
+            }
+
+            boatMessage.textContent =
+                risultato.message;
+
+            boatMessage.className =
+                "form-message success-message";
+
+            if (currentUser.ruolo === "operatore") {
+                window.location.href =
+                    `new-ticket.html` +
+                    `?cliente_id=${selectedClientId}` +
+                    `&barca_id=${risultato.barca.id}`;
+
+                return;
+            }
+
+            boatForm.reset();
+            await loadBoats();
+        } catch (error) {
+            boatMessage.textContent =
+                error.message;
+
+            boatMessage.className =
+                "form-message error-message";
+        }
+    }
+);
+
+
+logoutButton.addEventListener(
+    "click",
+    async () => {
+        try {
+            const response =
+                await fetch("/api/auth/logout", {
+                    method: "POST"
+                });
+
+            const risultato =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    risultato.message
+                );
+            }
+
+            window.location.href =
+                "login.html";
+        } catch (error) {
+            boatMessage.textContent =
+                error.message;
+
+            boatMessage.className =
+                "form-message error-message";
+        }
+    }
+);
+
+
+async function initializePage() {
     try {
-        const response = await fetch("/api/boats", {
-            method: "POST",
+        currentUser = await getCurrentUser();
 
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify(datiBarca)
-        });
-
-        const risultato = await response.json();
-
-        if (response.status === 401) {
-            window.location.href = "login.html";
+        if (!currentUser) {
             return;
         }
 
-        if (!response.ok) {
-            throw new Error(risultato.message);
+        if (
+            currentUser.ruolo !== "utente" &&
+            currentUser.ruolo !== "operatore"
+        ) {
+            window.location.href =
+                "dashboard.html";
+
+            return;
         }
 
-        boatMessage.textContent =
-            risultato.message;
+        if (currentUser.ruolo === "operatore") {
+            const parametri =
+                new URLSearchParams(
+                    window.location.search
+                );
 
-        boatMessage.className =
-            "form-message success-message";
+            selectedClientId =
+                Number(
+                    parametri.get("cliente_id")
+                );
 
-        boatForm.reset();
+            if (
+                !Number.isInteger(selectedClientId) ||
+                selectedClientId <= 0
+            ) {
+                boatForm.hidden = true;
+
+                boatMessage.textContent =
+                    "Prima seleziona un cliente dalla pagina Nuovo ticket.";
+
+                boatMessage.className =
+                    "form-message error-message";
+
+                return;
+            }
+
+            await Promise.all([
+                loadClientContext(),
+                loadBoats()
+            ]);
+
+            return;
+        }
 
         await loadBoats();
     } catch (error) {
-        boatMessage.textContent = error.message;
+        boatMessage.textContent =
+            error.message;
 
         boatMessage.className =
             "form-message error-message";
     }
-});
+}
 
 
-logoutButton.addEventListener("click", async () => {
-    try {
-        const response = await fetch(
-            "/api/auth/logout",
-            {
-                method: "POST"
-            }
-        );
-
-        const risultato = await response.json();
-
-        if (!response.ok) {
-            throw new Error(risultato.message);
-        }
-
-        window.location.href = "login.html";
-    } catch (error) {
-        boatMessage.textContent = error.message;
-
-        boatMessage.className =
-            "form-message error-message";
-    }
-});
-
-
-loadBoats();
+initializePage();

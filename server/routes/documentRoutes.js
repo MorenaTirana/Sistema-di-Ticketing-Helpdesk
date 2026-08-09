@@ -9,6 +9,9 @@ const {
     requireOperator
 } = require("../middleware/authMiddleware");
 
+const validatePdf =
+    require("../middleware/validatePdfMiddleware");
+
 const router = express.Router();
 
 function gestisciUploadDocumento(req, res, next) {
@@ -55,6 +58,7 @@ router.post(
     "/",
     requireOperator,
     gestisciUploadDocumento,
+    validatePdf,
     documentController.uploadDocument
 );
 

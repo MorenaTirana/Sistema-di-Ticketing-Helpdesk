@@ -3,9 +3,10 @@ const db = require("../db");
 
 async function createBoat(req, res) {
     try {
-        const utente = req.session.utente;
+        const utenteCollegato = req.session.utente;
 
         const {
+            cliente_id,
             modello,
             matricola,
             anno_produzione,
@@ -14,12 +15,46 @@ async function createBoat(req, res) {
             garanzia_attivata_il
         } = req.body;
 
-        // Per ora soltanto il cliente registra le proprie barche
-        if (utente.ruolo !== "utente") {
+        if (
+            utenteCollegato.ruolo !== "utente" &&
+            utenteCollegato.ruolo !== "operatore"
+        ) {
             return res.status(403).json({
                 message:
-                    "Solo un cliente può registrare una propria barca"
+                    "Non sei autorizzato a registrare una barca"
             });
+        }
+
+        let clienteId;
+
+        if (utenteCollegato.ruolo === "utente") {
+            clienteId = utenteCollegato.id;
+        } else {
+            clienteId = Number(cliente_id);
+
+            if (
+                !Number.isInteger(clienteId) ||
+                clienteId <= 0
+            ) {
+                return res.status(400).json({
+                    message:
+                        "Seleziona il cliente proprietario della barca"
+                });
+            }
+
+            const [clienti] = await db.execute(
+                `SELECT id
+                 FROM utenti
+                 WHERE id = ?
+                   AND ruolo = 'utente'`,
+                [clienteId]
+            );
+
+            if (clienti.length === 0) {
+                return res.status(400).json({
+                    message: "Cliente non valido"
+                });
+            }
         }
 
         if (
@@ -36,6 +71,7 @@ async function createBoat(req, res) {
         }
 
         const modelloPulito = modello.trim();
+
         const matricolaPulita =
             matricola.trim().toUpperCase();
 
@@ -94,7 +130,7 @@ async function createBoat(req, res) {
                 END
              )`,
             [
-                utente.id,
+                clienteId,
                 modelloPulito,
                 matricolaPulita,
                 anno,
@@ -108,8 +144,10 @@ async function createBoat(req, res) {
 
         return res.status(201).json({
             message: "Barca registrata correttamente",
+
             barca: {
                 id: risultato.insertId,
+                utente_id: clienteId,
                 modello: modelloPulito,
                 matricola: matricolaPulita
             }
@@ -138,6 +176,16 @@ async function getBoats(req, res) {
     try {
         const utente = req.session.utente;
 
+        if (
+            utente.ruolo !== "utente" &&
+            utente.ruolo !== "operatore"
+        ) {
+            return res.status(403).json({
+                message:
+                    "Non sei autorizzato a consultare le barche"
+            });
+        }
+
         let query = `
             SELECT
                 b.id,
@@ -160,8 +208,11 @@ async function getBoats(req, res) {
 
         const parametri = [];
 
-        // Il cliente vede soltanto le proprie barche
         if (utente.ruolo === "utente") {
+            /*
+             * Il cliente vede sempre e solamente
+             * le proprie barche.
+             */
             query += `
                 WHERE b.utente_id = ?
             `;
@@ -169,9 +220,35 @@ async function getBoats(req, res) {
             parametri.push(utente.id);
         }
 
-        // L'operatore vede tutte le barche
+        if (
+            utente.ruolo === "operatore" &&
+            req.query.cliente_id !== undefined
+        ) {
+            const clienteId =
+                Number(req.query.cliente_id);
+
+            if (
+                !Number.isInteger(clienteId) ||
+                clienteId <= 0
+            ) {
+                return res.status(400).json({
+                    message: "Cliente non valido"
+                });
+            }
+
+            query += `
+                WHERE b.utente_id = ?
+            `;
+
+            parametri.push(clienteId);
+        }
+
         query += `
-            ORDER BY b.created_at DESC
+            ORDER BY
+                u.cognome ASC,
+                u.nome ASC,
+                b.modello ASC,
+                b.matricola ASC
         `;
 
         const [barche] = await db.execute(
@@ -193,7 +270,6 @@ async function getBoats(req, res) {
         });
     }
 }
-
 
 module.exports = {
     createBoat,

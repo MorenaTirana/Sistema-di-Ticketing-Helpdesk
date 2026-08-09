@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         Le mie barche - Ticketing Helpdesk
@@ -28,18 +26,11 @@
             </a>
 
             <div class="header-actions">
-                <a
-                    class="button button-small"
-                    href="dashboard.html"
-                >
+                <a class="button button-small" href="dashboard.html">
                     Dashboard
                 </a>
 
-                <button
-                    id="logoutButton"
-                    class="button button-small"
-                    type="button"
-                >
+                <button id="logoutButton" class="button button-small" type="button">
                     Esci
                 </button>
             </div>
@@ -48,18 +39,38 @@
 
     <main class="boats-main">
         <section class="page-introduction">
-            <p class="eyebrow">Area personale</p>
+            <p id="pageEyebrow" class="eyebrow">
+                Area personale
+            </p>
 
-            <h1>Le mie barche</h1>
+            <h1 id="pageTitle">Le mie barche</h1>
 
-            <p>
+            <p id="pageDescription">
                 Registra le tue barche e consulta i relativi
                 dati di identificazione e garanzia.
             </p>
         </section>
 
+        <section id="operatorClientContext" class="boat-form-card" hidden>
+            <p class="eyebrow">
+                Inserimento per conto del cliente
+            </p>
+
+            <h2 id="selectedClientName">
+                Cliente
+            </h2>
+
+            <p id="selectedClientEmail"></p>
+
+            <a id="backToTicketLink" class="button button-small" href="new-ticket.html">
+                Torna al nuovo ticket
+            </a>
+        </section>
+
         <section class="boat-form-card">
-            <h2>Registra una nuova barca</h2>
+            <h2 id="boatFormTitle">
+                Registra una nuova barca
+            </h2>
 
             <form id="boatForm">
                 <div class="form-grid">
@@ -68,13 +79,7 @@
                             Modello *
                         </label>
 
-                        <input
-                            id="modello"
-                            name="modello"
-                            type="text"
-                            placeholder="Esempio: KL27 EFB 017"
-                            required
-                        >
+                        <input id="modello" name="modello" type="text" placeholder="Esempio: KL27 EFB 017" required>
                     </div>
 
                     <div class="form-group">
@@ -82,13 +87,8 @@
                             Matricola della barca *
                         </label>
 
-                        <input
-                            id="matricola"
-                            name="matricola"
-                            type="text"
-                            placeholder="Esempio: IT-SES329024D132"
-                            required
-                        >
+                        <input id="matricola" name="matricola" type="text" placeholder="Esempio: IT-SES329024D132"
+                            required>
                     </div>
 
                     <div class="form-group">
@@ -96,13 +96,7 @@
                             Anno di produzione *
                         </label>
 
-                        <input
-                            id="annoProduzione"
-                            name="anno_produzione"
-                            type="number"
-                            min="1950"
-                            required
-                        >
+                        <input id="annoProduzione" name="anno_produzione" type="number" min="1950" required>
                     </div>
 
                     <div class="form-group">
@@ -110,13 +104,8 @@
                             Localizzazione attuale *
                         </label>
 
-                        <input
-                            id="localizzazione"
-                            name="localizzazione"
-                            type="text"
-                            placeholder="Esempio: Porto di Genova"
-                            required
-                        >
+                        <input id="localizzazione" name="localizzazione" type="text"
+                            placeholder="Esempio: Porto di Genova" required>
                     </div>
 
                     <div class="form-group form-group-full">
@@ -124,13 +113,8 @@
                             Indirizzo di consegna *
                         </label>
 
-                        <input
-                            id="indirizzoConsegna"
-                            name="indirizzo_consegna"
-                            type="text"
-                            placeholder="Indirizzo per ricambi e materiali"
-                            required
-                        >
+                        <input id="indirizzoConsegna" name="indirizzo_consegna" type="text"
+                            placeholder="Indirizzo per ricambi e materiali" required>
                     </div>
 
                     <div class="form-group">
@@ -138,11 +122,7 @@
                             Data di attivazione garanzia
                         </label>
 
-                        <input
-                            id="garanziaAttivataIl"
-                            name="garanzia_attivata_il"
-                            type="date"
-                        >
+                        <input id="garanziaAttivataIl" name="garanzia_attivata_il" type="date">
 
                         <small>
                             La scadenza verrà calcolata
@@ -151,18 +131,11 @@
                     </div>
                 </div>
 
-                <button
-                    class="button button-primary"
-                    type="submit"
-                >
+                <button class="button button-primary" type="submit">
                     Registra barca
                 </button>
 
-                <p
-                    id="boatMessage"
-                    class="form-message"
-                    role="status"
-                ></p>
+                <p id="boatMessage" class="form-message" role="status"></p>
             </form>
         </section>
 
@@ -182,4 +155,5 @@
 
     <script src="js/boats.js"></script>
 </body>
+
 </html>
