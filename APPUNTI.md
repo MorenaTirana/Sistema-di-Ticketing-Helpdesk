@@ -331,3 +331,12 @@ letta e viene aperto il dettaglio del ticket interessato.
 
 La persistenza nel database permette di conservare le notifiche
 anche dopo la chiusura del browser o il riavvio del server.
+
+## Verifica finale del progetto
+
+Per controllare lo stato di completamento del progetto ho creato
+il file `CHECKLIST_ESAME.md`.
+
+La checklist distingue le funzionalità già implementate da quelle
+che devono ancora essere testate o completate.
+
