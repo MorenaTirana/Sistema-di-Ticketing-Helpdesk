@@ -162,7 +162,9 @@ async function loadTickets() {
                     "Da valutare";
 
                 return `
-                    <article class="ticket-card">
+                   <article
+    class="ticket-card ticket-card-${ticket.stato}"
+>
                         <div class="ticket-card-header">
                             <span class="ticket-number">
                                 Ticket #${ticket.id}
@@ -210,11 +212,11 @@ async function loadTickets() {
                                 Operatore:
                                 <strong>
                                     ${ticket.operatore_id
-                                        ? escapeHtml(
-                                            `${ticket.operatore_nome} ${ticket.operatore_cognome}`
-                                        )
-                                        : "Non assegnato"
-                                    }
+                        ? escapeHtml(
+                            `${ticket.operatore_nome} ${ticket.operatore_cognome}`
+                        )
+                        : "Non assegnato"
+                    }
                                 </strong>
                             </span>
 
@@ -222,7 +224,7 @@ async function loadTickets() {
                                 Categoria:
                                 <strong>
                                     ${categorie[ticket.categoria] ??
-                                        escapeHtml(ticket.categoria)}
+                    escapeHtml(ticket.categoria)}
                                 </strong>
                             </span>
 

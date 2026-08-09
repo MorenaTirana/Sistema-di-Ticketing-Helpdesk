@@ -30,6 +30,12 @@ const commentsMessage = document.getElementById("commentsMessage");
 const historySection = document.getElementById("historySection");
 const historyList = document.getElementById("historyList");
 const historyMessage = document.getElementById("historyMessage");
+const documentsSection = document.getElementById("documentsSection");
+const ticketDocumentsList = document.getElementById("ticketDocumentsList");
+const documentsMessage = document.getElementById("documentsMessage");
+const operatorRicArchive = document.getElementById("operatorRicArchive");
+const documentUploadSection = document.getElementById("documentUploadSection");
+const ticketOwnerEmail = document.getElementById("ticketOwnerEmail");
 
 const categorie = {
     problema_tecnico: "Problema tecnico",
@@ -64,6 +70,16 @@ const priorita = {
     alta: "Alta",
     urgente: "Urgente"
 };
+const tipiDocumento = {
+    preventivo: "Preventivo",
+    proforma: "Fattura proforma",
+    ordine_fornitore: "Ordine al fornitore",
+    ddt_fornitore: "DDT del fornitore",
+    ddt_cliente: "DDT cliente",
+    documento_corriere: "Documento del corriere",
+    conferma_pagamento: "Conferma di pagamento",
+    altro: "Documento interno"
+};
 
 const operatorActions = document.getElementById("operatorActions");
 const statusForm = document.getElementById("statusForm");
@@ -80,6 +96,8 @@ const assignmentMessage = document.getElementById("assignmentMessage");
 const uploadRicLink = document.getElementById("uploadRicLink");
 const ricList = document.getElementById("ricList");
 const ricMessage = document.getElementById("ricMessage");
+const uploadDocumentLink = document.getElementById("uploadDocumentLink");
+
 const causaliRic = {
     garanzia: "Materiali in garanzia",
     trasferta: "Materiali per trasferta",
@@ -321,6 +339,168 @@ async function loadHistory(ticketId) {
     }
 }
 
+async function loadDocuments(ticketId, ruoloUtente) {
+    try {
+        const response = await fetch(
+            `/api/documents/ticket/${ticketId}`
+        );
+
+        const risultato = await response.json();
+
+        if (!response.ok) {
+            throw new Error(risultato.message);
+        }
+
+        if (risultato.documenti.length === 0) {
+            ticketDocumentsList.innerHTML = `
+                <div class="empty-documents">
+                    <p>
+                        Non sono ancora presenti documenti
+                        disponibili per questo ticket.
+                    </p>
+                </div>
+            `;
+
+            return;
+        }
+
+        ticketDocumentsList.innerHTML =
+            risultato.documenti
+                .map((documento) => {
+                    const visibileCliente =
+                        Boolean(documento.visibile_cliente);
+
+                    const etichettaVisibilita =
+                        visibileCliente
+                            ? "Visibile al cliente"
+                            : "Interno";
+
+                    const classeVisibilita =
+                        visibileCliente
+                            ? "public-badge"
+                            : "internal-badge";
+
+                    const numeroCompleto = [
+                        documento.serie_documento,
+                        documento.numero_documento
+                    ]
+                        .filter(Boolean)
+                        .join(" ");
+
+                    const operatore =
+                        documento.operatore_nome
+                            ? `${documento.operatore_nome} ${documento.operatore_cognome}`
+                            : "Operatore non disponibile";
+
+                    const dataDocumento =
+                        documento.data_documento
+                            ? formatDate(
+                                documento.data_documento
+                            )
+                            : "Non indicata";
+
+                    const noteHtml =
+                        documento.note
+                            ? `
+                                <div>
+                                    <dt>Note</dt>
+                                    <dd>
+                                        ${escapeHtml(documento.note)}
+                                    </dd>
+                                </div>
+                            `
+                            : "";
+
+                    return `
+                        <article class="document-card">
+                            <div class="document-card-header">
+                                <div>
+                                    <span class="document-type">
+                                        ${escapeHtml(
+                                            tipiDocumento[
+                                                documento.tipo
+                                            ] || documento.tipo
+                                        )}
+                                    </span>
+
+                                    <h3>
+                                        ${
+                                            numeroCompleto
+                                                ? escapeHtml(
+                                                    numeroCompleto
+                                                )
+                                                : "Senza numero"
+                                        }
+                                    </h3>
+                                </div>
+
+                                <span class="${classeVisibilita}">
+                                    ${etichettaVisibilita}
+                                </span>
+                            </div>
+
+                            <dl class="document-information">
+                                <div>
+                                    <dt>Data documento</dt>
+                                    <dd>${dataDocumento}</dd>
+                                </div>
+
+                                <div>
+                                    <dt>Nome file</dt>
+                                    <dd>
+                                        ${escapeHtml(
+                                            documento.nome_file_originale
+                                        )}
+                                    </dd>
+                                </div>
+
+                                <div>
+                                    <dt>Dimensione</dt>
+                                    <dd>
+                                        ${formatFileSize(
+                                            documento.dimensione_file
+                                        )}
+                                    </dd>
+                                </div>
+
+                                <div>
+                                    <dt>Caricato da</dt>
+                                    <dd>${escapeHtml(operatore)}</dd>
+                                </div>
+
+                                ${noteHtml}
+                            </dl>
+
+                            <div class="document-actions">
+                                <a
+                                    class="button button-small"
+                                    href="/api/documents/${documento.id}/view"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    Visualizza
+                                </a>
+
+                                <a
+                                    class="button button-primary button-small"
+                                    href="/api/documents/${documento.id}/download"
+                                >
+                                    Scarica
+                                </a>
+                            </div>
+                        </article>
+                    `;
+                })
+                .join("");
+    } catch (error) {
+        ticketDocumentsList.innerHTML = "";
+
+        documentsMessage.textContent = error.message;
+
+        documentsMessage.className =
+            "form-message error-message";
+    }
+}
 
 async function loadTicketDetail() {
     const parametri = new URLSearchParams(window.location.search);
@@ -350,6 +530,8 @@ async function loadTicketDetail() {
         }
 
         const ticket = risultato.ticket;
+        uploadDocumentLink.href =
+            `upload-document.html?ticket_id=${ticket.id}`;
         uploadRicLink.href = `upload-ric.html?ticket_id=${ticket.id}`;
         const userResponse = await fetch("/api/auth/me");
         const userResult = await userResponse.json();
@@ -359,6 +541,8 @@ async function loadTicketDetail() {
             userResult.utente.ruolo === "operatore"
         ) {
             operatorActions.hidden = false;
+            operatorRicArchive.hidden = false;
+            documentUploadSection.hidden = false;
             statusSelect.value = ticket.stato;
             prioritySelect.value = ticket.priorita ?? "media";
             coverageSelect.value = ticket.copertura ?? "da_valutare";
@@ -366,7 +550,9 @@ async function loadTicketDetail() {
             await loadOperators(ticket.operatore_id);
             await loadHistory(ticketId);
             await loadRics(ticket.id);
+            await loadRics(ticket.id);
         }
+        await loadDocuments(ticket.id, userResult.utente.ruolo);
 
         ticketNumber.textContent = `Ticket #${ticket.id}`;
         ticketStatus.textContent = stati[ticket.stato];
@@ -378,6 +564,7 @@ async function loadTicketDetail() {
         ticketPriority.textContent = priorita[ticket.priorita] ?? "Media";
         ticketCreatedAt.textContent = formatDate(ticket.created_at);
         ticketOwner.textContent = `${ticket.utente_nome} ${ticket.utente_cognome}`;
+        ticketOwnerEmail.textContent = ticket.utente_email || "Email non disponibile";
         ticketAssignedOperator.textContent =
             ticket.operatore_id
                 ? `${ticket.operatore_nome} ${ticket.operatore_cognome}`

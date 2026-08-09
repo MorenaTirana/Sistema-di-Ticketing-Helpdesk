@@ -30,6 +30,87 @@
 
     <main class="dashboard-main">
         <section id="ticketDetail" class="ticket-detail">
+            <div class="case-context">
+                <div class="workspace-heading">
+                    <div>
+                        <p class="eyebrow">Contesto della richiesta</p>
+                        <h2>Cliente e imbarcazione</h2>
+                    </div>
+                </div>
+
+                <div class="case-context-grid">
+                    <article class="context-card customer-context-card">
+                        <div class="context-card-icon">CL</div>
+
+                        <div>
+                            <span class="context-label">Cliente</span>
+
+                            <h3 id="ticketOwner">-</h3>
+
+                            <p id="ticketOwnerEmail">
+                                Email non disponibile
+                            </p>
+                        </div>
+                    </article>
+
+                    <article id="ticketBoatSection" class="context-card boat-context-card" hidden>
+                        <div class="context-card-heading">
+                            <div class="context-card-icon">BT</div>
+
+                            <div>
+                                <span class="context-label">
+                                    Imbarcazione
+                                </span>
+
+                                <h3 id="boatModel">-</h3>
+                            </div>
+
+                            <span id="boatWarrantyStatus" class="warranty-badge">
+                                -
+                            </span>
+                        </div>
+
+                        <dl class="boat-information-grid">
+                            <div>
+                                <dt>Matricola</dt>
+                                <dd id="boatRegistration">-</dd>
+                            </div>
+
+                            <div>
+                                <dt>Anno</dt>
+                                <dd id="boatProductionYear">-</dd>
+                            </div>
+
+                            <div>
+                                <dt>Localizzazione</dt>
+                                <dd id="boatLocation">-</dd>
+                            </div>
+
+                            <div>
+                                <dt>Delivery address</dt>
+                                <dd id="boatDeliveryAddress">-</dd>
+                            </div>
+
+                            <div>
+                                <dt>Attivazione garanzia</dt>
+                                <dd id="boatWarrantyStart">-</dd>
+                            </div>
+
+                            <div>
+                                <dt>Scadenza garanzia</dt>
+                                <dd id="boatWarrantyEnd">-</dd>
+                            </div>
+                        </dl>
+                    </article>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="ticket-section-heading">
+                <p class="eyebrow">Richiesta di assistenza</p>
+                <h2>Dettaglio del ticket</h2>
+            </div>
             <div class="ticket-card-header">
                 <span id="ticketNumber" class="ticket-number">
                     Ticket
@@ -86,11 +167,6 @@
                         </div>
 
                         <div>
-                            <dt>Richiedente</dt>
-                            <dd id="ticketOwner">-</dd>
-                        </div>
-
-                        <div>
                             <dt>Operatore assegnato</dt>
                             <dd id="ticketAssignedOperator">
                                 Non assegnato
@@ -99,56 +175,6 @@
                     </dl>
                 </aside>
             </div>
-
-            <section id="ticketBoatSection" class="ticket-boat-detail" hidden>
-                <div class="ticket-boat-detail-heading">
-                    <div>
-                        <p class="eyebrow">Imbarcazione</p>
-                        <h2>Dati della barca</h2>
-                    </div>
-
-                    <span id="boatWarrantyStatus" class="warranty-badge">
-                        -
-                    </span>
-                </div>
-
-                <dl class="boat-information-grid">
-                    <div>
-                        <dt>Modello</dt>
-                        <dd id="boatModel">-</dd>
-                    </div>
-
-                    <div>
-                        <dt>Matricola</dt>
-                        <dd id="boatRegistration">-</dd>
-                    </div>
-
-                    <div>
-                        <dt>Anno di produzione</dt>
-                        <dd id="boatProductionYear">-</dd>
-                    </div>
-
-                    <div>
-                        <dt>Localizzazione</dt>
-                        <dd id="boatLocation">-</dd>
-                    </div>
-
-                    <div>
-                        <dt>Indirizzo di consegna</dt>
-                        <dd id="boatDeliveryAddress">-</dd>
-                    </div>
-
-                    <div>
-                        <dt>Attivazione garanzia</dt>
-                        <dd id="boatWarrantyStart">-</dd>
-                    </div>
-
-                    <div>
-                        <dt>Scadenza garanzia</dt>
-                        <dd id="boatWarrantyEnd">-</dd>
-                    </div>
-                </dl>
-            </section>
 
             <section id="operatorActions" class="operator-actions" hidden>
                 <div>
@@ -265,27 +291,6 @@
 
                 <hr class="operator-divider">
 
-                <div class="ric-action">
-                    <div>
-                        <p class="eyebrow">Gestione materiali</p>
-                        <h2>RIC collegati al ticket</h2>
-
-                        <p>
-                            Carica e consulta i RIC creati con Metodo Embryon
-                            e collegati a questo ticket.
-                        </p>
-                    </div>
-
-                    <a id="uploadRicLink" class="button button-primary" href="#">
-                        Carica RIC
-                    </a>
-                </div>
-
-                <div id="ricList" class="document-list">
-                    <p>Caricamento dei RIC...</p>
-                </div>
-
-                <p id="ricMessage" class="form-message" role="status"></p>
             </section>
         </section>
 
@@ -302,6 +307,94 @@
             </div>
 
             <p id="historyMessage" class="form-message" role="status"></p>
+        </section>
+
+        <section id="documentsSection" class="workspace-section documents-section">
+            <div class="workspace-heading">
+                <div>
+                    <p class="eyebrow">Archivio della pratica</p>
+
+                    <h2>Documenti già caricati</h2>
+
+                    <p>
+                        Preventivi, proforma, DDT e documenti
+                        relativi alla spedizione.
+                    </p>
+                </div>
+            </div>
+
+            <div id="ticketDocumentsList" class="document-list">
+                <p>Caricamento dei documenti...</p>
+            </div>
+
+            <div id="operatorRicArchive" class="ric-archive" hidden>
+                <div class="section-divider"></div>
+
+                <div class="workspace-heading compact-heading">
+                    <div>
+                        <p class="eyebrow">Documenti interni</p>
+                        <h2>RIC collegati al ticket</h2>
+                    </div>
+                </div>
+
+                <div id="ricList" class="document-list">
+                    <p>Caricamento dei RIC...</p>
+                </div>
+
+                <p id="ricMessage" class="form-message" role="status"></p>
+            </div>
+
+            <p id="documentsMessage" class="form-message" role="status"></p>
+        </section>
+
+        <section id="documentUploadSection" class="workspace-section upload-workspace" hidden>
+            <div class="workspace-heading">
+                <div>
+                    <p class="eyebrow">Azioni operatore</p>
+                    <h2>Carica nuovi documenti</h2>
+
+                    <p>
+                        I documenti ufficiali vengono creati con
+                        Metodo Embryon e caricati nella pratica.
+                    </p>
+                </div>
+            </div>
+
+            <div class="upload-action-grid">
+                <article class="upload-action-card">
+                    <span class="upload-action-icon">RIC</span>
+
+                    <div>
+                        <h3>Documento RIC</h3>
+
+                        <p>
+                            Documento interno relativo a materiali,
+                            garanzia, ricambi o trasferta.
+                        </p>
+                    </div>
+
+                    <a id="uploadRicLink" class="button button-primary" href="#">
+                        Carica RIC
+                    </a>
+                </article>
+
+                <article class="upload-action-card">
+                    <span class="upload-action-icon">PDF</span>
+
+                    <div>
+                        <h3>Altri documenti</h3>
+
+                        <p>
+                            Preventivo, PRF, ordine fornitore,
+                            DDT o documento del corriere.
+                        </p>
+                    </div>
+
+                    <a id="uploadDocumentLink" class="button button-primary" href="#">
+                        Carica documento
+                    </a>
+                </article>
+            </div>
         </section>
 
         <section id="commentsSection" class="comments-section">

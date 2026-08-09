@@ -10,8 +10,12 @@ const ricRoutes = require("./routes/ricRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const boatRoutes = require("./routes/boatRoutes");
 const operatorRoutes = require("./routes/operatorRoutes");
+const documentRoutes = require("./routes/documentRoutes");
+const technicalCommunicationRoutes =
+    require("./routes/technicalCommunicationRoutes");
 const app = express(); 
 const PORT = process.env.PORT || 3002;
+
 
 app.use(express.json());
 
@@ -30,13 +34,18 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, "../client")));
-
 app.use("/api/auth", authRoutes);
 app.use("/api/tickets", ticketRoutes);
+app.use(
+    "/api/technical-communications",
+    technicalCommunicationRoutes
+);
 app.use("/api/ric", ricRoutes);
+app.use("/api/documents", documentRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/boats", boatRoutes);
 app.use("/api/operators", operatorRoutes);
+
 
 
 async function startServer() {

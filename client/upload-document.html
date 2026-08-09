@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Carica documento - Ticketing Helpdesk</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="dashboard.html">
+                <span class="brand-logo">TH</span>
+
+                <span class="brand-text">
+                    <strong>Ticketing Helpdesk</strong>
+                    <small>Gestione documenti</small>
+                </span>
+            </a>
+
+            <a
+                id="backToTicketLink"
+                class="button button-small"
+                href="tickets.html"
+            >
+                Torna al ticket
+            </a>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <section class="dashboard-welcome">
+            <p class="eyebrow">Documenti della pratica</p>
+
+            <h1>Carica un documento</h1>
+
+            <p>
+                Carica un PDF creato con Metodo Embryon
+                e collegalo al ticket selezionato.
+            </p>
+        </section>
+
+        <section class="auth-card ticket-form-card">
+            <div
+                id="visibilityNotice"
+                class="document-notice"
+            >
+                <strong>Seleziona il tipo di documento</strong>
+
+                <p>
+                    Ti indicheremo se sarà visibile al cliente.
+                </p>
+            </div>
+
+            <form
+                id="documentForm"
+                class="auth-form"
+                enctype="multipart/form-data"
+            >
+                <input
+                    id="ticketId"
+                    name="ticket_id"
+                    type="hidden"
+                >
+
+                <div class="form-group">
+                    <label for="documentType">
+                        Tipo di documento
+                    </label>
+
+                    <select
+                        id="documentType"
+                        name="tipo"
+                        required
+                    >
+                        <option value="">
+                            Seleziona il tipo
+                        </option>
+
+                        <option value="preventivo">
+                            Preventivo
+                        </option>
+
+                        <option value="proforma">
+                            Fattura proforma PRF
+                        </option>
+
+                        <option value="ordine_fornitore">
+                            Ordine al fornitore
+                        </option>
+
+                        <option value="ddt_fornitore">
+                            DDT del fornitore
+                        </option>
+
+                        <option value="ddt_cliente">
+                            DDT per il cliente
+                        </option>
+
+                        <option value="documento_corriere">
+                            Documento del corriere
+                        </option>
+
+                        <option value="conferma_pagamento">
+                            Conferma di pagamento
+                        </option>
+
+                        <option value="altro">
+                            Altro documento interno
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ricId">
+                        RIC collegato
+                    </label>
+
+                    <select
+                        id="ricId"
+                        name="ric_id"
+                    >
+                        <option value="">
+                            Nessun RIC collegato
+                        </option>
+                    </select>
+
+                    <small>
+                        Selezionalo quando il documento deriva da un RIC.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="documentNumber">
+                        Numero del documento
+                    </label>
+
+                    <input
+                        id="documentNumber"
+                        name="numero_documento"
+                        type="text"
+                        maxlength="100"
+                        placeholder="Esempio: 2867 oppure 3764"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="documentSeries">
+                        Serie o tipo del documento
+                    </label>
+
+                    <input
+                        id="documentSeries"
+                        name="serie_documento"
+                        type="text"
+                        maxlength="20"
+                        placeholder="Esempio: PRF, 006 oppure 033"
+                    >
+
+                    <small>
+                        Per i DDT: 006 vendita, 033 garanzia.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="documentDate">
+                        Data del documento
+                    </label>
+
+                    <input
+                        id="documentDate"
+                        name="data_documento"
+                        type="date"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">
+                        Note
+                    </label>
+
+                    <textarea
+                        id="notes"
+                        name="note"
+                        rows="4"
+                        maxlength="2000"
+                        placeholder="Informazioni facoltative"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="documentFile">
+                        Documento PDF
+                    </label>
+
+                    <input
+                        id="documentFile"
+                        name="documento"
+                        type="file"
+                        accept=".pdf,application/pdf"
+                        required
+                    >
+
+                    <small>
+                        Formato PDF, dimensione massima 10 MB.
+                    </small>
+                </div>
+
+                <button
+                    class="button button-primary"
+                    type="submit"
+                >
+                    Carica documento
+                </button>
+            </form>
+
+            <p
+                id="message"
+                class="form-message"
+                role="status"
+            ></p>
+        </section>
+    </main>
+
+    <script src="js/upload-document.js"></script>
+</body>
+</html>

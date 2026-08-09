@@ -210,7 +210,13 @@ async function getTickets(req, res) {
         }
 
         query += `
-            ORDER BY t.created_at DESC
+            ORDER BY
+                CASE
+                    WHEN t.stato IN ('aperto', 'in_lavorazione')
+                        THEN 0
+                    ELSE 1
+                END,
+                t.created_at ASC
         `;
 
         const [ticket] = await db.execute(query, parametri);
