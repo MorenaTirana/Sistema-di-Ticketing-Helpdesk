@@ -1,19 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>I miei ticket - Sistema di Ticketing / Helpdesk</title>
+    <title>
+        I miei ticket - Sistema di Ticketing / Helpdesk
+    </title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="tickets-page">
     <header class="site-header">
         <div class="header-container">
             <a class="brand" href="dashboard.html">
-                <span class="brand-logo">TH</span>
+                <span class="brand-mark">TH</span>
 
                 <span class="brand-text">
                     <strong>Ticketing Helpdesk</strong>
@@ -29,21 +34,49 @@
 
     <main class="dashboard-main">
         <section class="dashboard-welcome">
-            <p class="eyebrow">Assistenza</p>
             <h1>I miei ticket</h1>
-
             <p>
-                Consulta tutte le richieste di assistenza inviate.
+                Seleziona un ticket per visualizzare
+                tutti i dettagli e gli aggiornamenti.
             </p>
         </section>
 
-        <div id="ticketList" class="ticket-list">
-            <p>Caricamento dei ticket...</p>
-        </div>
+        <section class="workspace-section tickets-workspace">
+            <div class="workspace-heading">
+                <div>
 
-        <p id="message" class="form-message" role="status"></p>
+                </div>
+            </div>
+
+            <div id="ticketList" class="profile-ticket-list">
+                <p>Caricamento dei ticket...</p>
+            </div>
+
+            <p id="message" class="form-message" role="status" aria-live="polite"></p>
+        </section>
     </main>
+
+    <footer class="company-footer">
+        <div class="company-footer-content">
+            <strong>Sessa International Srl</strong>
+
+            <span>
+                Via Cortenuova 21/23,
+                24050 Cividate al Piano,
+                Bergamo, Italy
+            </span>
+
+            <span>
+                Tel. +39 0363.946500
+                <span aria-hidden="true">•</span>
+                Fax +39 0363.976766
+            </span>
+
+            <span>P.I.: 04064960166</span>
+        </div>
+    </footer>
 
     <script src="js/tickets.js"></script>
 </body>
+
 </html>

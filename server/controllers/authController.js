@@ -4,13 +4,28 @@ const crypto = require("crypto");
 
 async function register(req, res) {
     try {
-        const { nome, cognome, email, password } = req.body;
+        const {
+            nome,
+            cognome,
+            email,
+            telefono,
+            indirizzo_residenza,
+            password
+        } = req.body;
 
-        if (!nome || !cognome || !email || !password) {
+        if (
+            !nome ||
+            !cognome ||
+            !email ||
+            !telefono ||
+            !indirizzo_residenza ||
+            !password
+        ) {
             return res.status(400).json({
                 message: "Tutti i campi sono obbligatori"
             });
         }
+
         if (password.length < 8) {
             return res.status(400).json({
                 message: "La password deve contenere almeno 8 caratteri"
@@ -18,6 +33,27 @@ async function register(req, res) {
         }
 
         const emailNormalizzata = email.trim().toLowerCase();
+        const telefonoPulito = telefono.trim();
+        const indirizzoResidenzaPulito =
+            indirizzo_residenza.trim();
+
+        if (
+            telefonoPulito.length < 7 ||
+            telefonoPulito.length > 30
+        ) {
+            return res.status(400).json({
+                message: "Numero di telefono non valido"
+            });
+        }
+
+        if (
+            indirizzoResidenzaPulito.length < 5 ||
+            indirizzoResidenzaPulito.length > 255
+        ) {
+            return res.status(400).json({
+                message: "Indirizzo di residenza non valido"
+            });
+        }
 
         const [utentiEsistenti] = await db.execute(
             "SELECT id FROM utenti WHERE email = ? ",
@@ -31,15 +67,25 @@ async function register(req, res) {
         const passwordHash = await bcrypt.hash(password, 10);
 
         const [risultato] = await db.execute(
-            `INSERT INTO utenti 
-                (nome, cognome, email, password_hash)
-                VALUES (?, ?, ?, ? )`,
-            [nome.trim(),
-            cognome.trim(),
+            `INSERT INTO utenti (
+                nome,
+                cognome,
+                email,
+                telefono,
+                indirizzo_residenza,
+                password_hash
+             )
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [
+                nome.trim(),
+                cognome.trim(),
                 emailNormalizzata,
+                telefonoPulito,
+                indirizzoResidenzaPulito,
                 passwordHash
             ]
         );
+
         return res.status(201).json({
             message: "Registrazione completata",
             utente: {
@@ -47,6 +93,9 @@ async function register(req, res) {
                 nome: nome.trim(),
                 cognome: cognome.trim(),
                 email: emailNormalizzata,
+                telefono: telefonoPulito,
+                indirizzo_residenza:
+                    indirizzoResidenzaPulito,
                 ruolo: "utente"
             }
         });
@@ -72,19 +121,22 @@ async function login(req, res) {
         const emailNormalizzata = email.trim().toLowerCase();
 
         const [utenti] = await db.execute(
-            `SELECT 
-            id, 
-            nome,
-            cognome, 
-            email, 
-            telefono, 
-            password_hash,
-            ruolo
-            FROM utenti
-            WHERE email = ? `,
+            `SELECT
+                id,
+                nome,
+                cognome,
+                email,
+                telefono,
+                indirizzo_residenza,
+                password_hash,
+                ruolo,
+                funzione,
+                puo_gestire_operatori, 
+                attivo
+                FROM utenti
+                WHERE email = ?`,
             [emailNormalizzata]
         );
-
         if (utenti.length === 0) {
             return res.status(401).json({
                 message: "Email o password non corrette"
@@ -93,6 +145,12 @@ async function login(req, res) {
         }
 
         const utente = utenti[0];
+        if (!utente.attivo) {
+            return res.status(403).json({
+                message:
+                    "Questo account è stato disattivato"
+            });
+        }
 
         const passwordCorretta = await bcrypt.compare(
             password,
@@ -104,14 +162,22 @@ async function login(req, res) {
                 message: "Email o password non corrette"
             });
         }
-
         req.session.utente = {
             id: utente.id,
             nome: utente.nome,
             cognome: utente.cognome,
             email: utente.email,
             telefono: utente.telefono,
-            ruolo: utente.ruolo
+            indirizzo_residenza:
+                utente.indirizzo_residenza,
+            ruolo: utente.ruolo,
+
+            puo_gestire_operatori:
+                Boolean(
+                    utente.puo_gestire_operatori
+                ),
+            attivo:
+                Boolean(utente.attivo)
         };
 
         return res.status(200).json({
@@ -136,18 +202,20 @@ async function updateProfile(req, res) {
             nome,
             cognome,
             email,
-            telefono
+            telefono,
+            indirizzo_residenza
         } = req.body;
 
         if (
             !nome ||
             !cognome ||
             !email ||
-            !telefono
+            !telefono ||
+            !indirizzo_residenza
         ) {
             return res.status(400).json({
                 message:
-                    "Nome, cognome, email e telefono sono obbligatori"
+                    "Nome, cognome, email, telefono e indirizzo di residenza sono obbligatori"
             });
         }
 
@@ -159,6 +227,9 @@ async function updateProfile(req, res) {
 
         const telefonoPulito =
             telefono.trim();
+
+        const indirizzoResidenzaPulito =
+            indirizzo_residenza.trim();
 
         if (
             nomePulito.length < 2 ||
@@ -185,6 +256,15 @@ async function updateProfile(req, res) {
         ) {
             return res.status(400).json({
                 message: "Numero di telefono non valido"
+            });
+        }
+
+        if (
+            indirizzoResidenzaPulito.length < 5 ||
+            indirizzoResidenzaPulito.length > 255
+        ) {
+            return res.status(400).json({
+                message: "Indirizzo di residenza non valido"
             });
         }
 
@@ -216,13 +296,15 @@ async function updateProfile(req, res) {
                 nome = ?,
                 cognome = ?,
                 email = ?,
-                telefono = ?
+                telefono = ?,
+                indirizzo_residenza = ?
              WHERE id = ?`,
             [
                 nomePulito,
                 cognomePulito,
                 emailNormalizzata,
                 telefonoPulito,
+                indirizzoResidenzaPulito,
                 utenteId
             ]
         );
@@ -232,7 +314,9 @@ async function updateProfile(req, res) {
             nome: nomePulito,
             cognome: cognomePulito,
             email: emailNormalizzata,
-            telefono: telefonoPulito
+            telefono: telefonoPulito,
+            indirizzo_residenza:
+                indirizzoResidenzaPulito
         };
 
         return res.status(200).json({
@@ -372,14 +456,18 @@ async function getCurrentUser(req, res) {
 
         const [utenti] = await db.execute(
             `SELECT
-                id,
-                nome,
-                cognome,
-                email,
-                telefono,
-                ruolo
-             FROM utenti
-             WHERE id = ?`,
+        id,
+        nome,
+        cognome,
+        email,
+        telefono,
+        indirizzo_residenza,
+        ruolo,
+        funzione, 
+        puo_gestire_operatori,
+        attivo
+     FROM utenti
+     WHERE id = ?`,
             [req.session.utente.id]
         );
 
@@ -393,7 +481,14 @@ async function getCurrentUser(req, res) {
             });
         }
 
-        req.session.utente = utenti[0];
+        req.session.utente = {
+            ...utenti[0],
+
+            puo_gestire_operatori:
+                Boolean(
+                    utenti[0].puo_gestire_operatori
+                )
+        };
 
         return res.status(200).json({
             utente: req.session.utente

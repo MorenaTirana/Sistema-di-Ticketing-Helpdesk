@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Registrazione - Sistema di Ticketing / Helpdesk</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Registrazione - Sistema di Ticketing / Helpdesk
+    </title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="auth-page">
+<body>
     <header class="site-header">
         <div class="header-container">
             <a class="brand" href="index.html">
@@ -30,13 +37,16 @@
     <main class="auth-main">
         <section class="auth-layout">
             <div class="auth-information">
-                <p class="eyebrow eyebrow-light">Crea il tuo account</p>
+                <p class="eyebrow eyebrow-light">
+                    Crea il tuo account
+                </p>
 
                 <h1>Accedi al servizio di assistenza.</h1>
 
                 <p>
-                    Registrandoti potrai aprire nuove richieste, controllarne
-                    lo stato e comunicare con gli operatori.
+                    Registrandoti potrai aprire nuove richieste,
+                    controllarne lo stato e comunicare con gli
+                    operatori.
                 </p>
 
                 <ul class="auth-benefits">
@@ -60,33 +70,46 @@
             <div class="auth-card">
                 <div class="auth-card-heading">
                     <p class="eyebrow">Registrazione</p>
+
                     <h2>Crea un nuovo account</h2>
-                    <p>Inserisci i tuoi dati per iniziare.</p>
+
+                    <p>
+                        Inserisci i tuoi dati per iniziare.
+                    </p>
                 </div>
 
-                <form id="registerForm" class="auth-form">
+                <form
+                    id="registerForm"
+                    class="auth-form"
+                >
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="nome">Nome</label>
+                            <label for="nome">
+                                Nome *
+                            </label>
 
                             <input
                                 type="text"
                                 id="nome"
                                 name="nome"
                                 placeholder="Inserisci il nome"
+                                minlength="2"
                                 required
                                 autocomplete="given-name"
                             >
                         </div>
 
                         <div class="form-group">
-                            <label for="cognome">Cognome</label>
+                            <label for="cognome">
+                                Cognome *
+                            </label>
 
                             <input
                                 type="text"
                                 id="cognome"
                                 name="cognome"
                                 placeholder="Inserisci il cognome"
+                                minlength="2"
                                 required
                                 autocomplete="family-name"
                             >
@@ -94,7 +117,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email">
+                            Email *
+                        </label>
 
                         <input
                             type="email"
@@ -107,15 +132,56 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Password</label>
+                        <label for="telefono">
+                            Telefono *
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="telefono"
+                            name="telefono"
+                            placeholder="Esempio: +39 333 1234567"
+                            minlength="7"
+                            maxlength="30"
+                            required
+                            autocomplete="tel"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="indirizzoResidenza">
+                            Indirizzo di residenza completo *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="indirizzoResidenza"
+                            name="indirizzo_residenza"
+                            placeholder="Via, numero civico, CAP, città, provincia e Paese"
+                            minlength="5"
+                            maxlength="255"
+                            required
+                            autocomplete="street-address"
+                        >
+
+                        <small class="form-help">
+                            Inserisci l’indirizzo completo di
+                            residenza del cliente.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            Password *
+                        </label>
 
                         <input
                             type="password"
                             id="password"
                             name="password"
                             placeholder="Almeno 8 caratteri"
-                            required
                             minlength="8"
+                            required
                             autocomplete="new-password"
                         >
 
@@ -124,12 +190,20 @@
                         </small>
                     </div>
 
-                    <button class="button button-primary button-full" type="submit">
+                    <button
+                        class="button button-primary button-full"
+                        type="submit"
+                    >
                         Crea account
                     </button>
                 </form>
 
-                <p id="message" class="form-message" role="status"></p>
+                <p
+                    id="message"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
 
                 <p class="auth-footer">
                     Hai già un account?
@@ -139,6 +213,26 @@
         </section>
     </main>
 
-    <script src = "js/register.js"></script>
+    <footer class="company-footer">
+        <div class="company-footer-content">
+            <strong>Sessa International Srl</strong>
+
+            <span>
+                Via Cortenuova 21/23, 24050 Cividate al Piano,
+                Bergamo, Italy
+            </span>
+
+            <span>
+                Tel. +39 0363.946500
+                <span aria-hidden="true">•</span>
+                Fax +39 0363.976766
+            </span>
+
+            <span>P.I.: 04064960166</span>
+        </div>
+    </footer>
+
+    <script src="js/register.js"></script>
 </body>
+
 </html>

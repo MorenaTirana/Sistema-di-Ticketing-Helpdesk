@@ -1,10 +1,10 @@
 require("dotenv").config();
 
-const express = require ("express");
+const express = require("express");
 const session = require("express-session");
-const path = require ("path");
+const path = require("path");
 const db = require("./db");
-const authRoutes = require("./routes/authRoutes"); 
+const authRoutes = require("./routes/authRoutes");
 const ticketRoutes = require("./routes/ticketRoutes");
 const ricRoutes = require("./routes/ricRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
@@ -13,7 +13,9 @@ const operatorRoutes = require("./routes/operatorRoutes");
 const documentRoutes = require("./routes/documentRoutes");
 const technicalCommunicationRoutes =
     require("./routes/technicalCommunicationRoutes");
-const app = express(); 
+const internalRequestRoutes =
+    require("./routes/internalRequestRoutes");
+const app = express();
 const PORT = process.env.PORT || 3002;
 
 
@@ -21,13 +23,13 @@ app.use(express.json());
 
 app.use(
     session({
-        secret:process.env.SESSION_SECRET,
-        resave:false, 
-        saveUninitialized: false, 
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
         cookie: {
             httpOnly: true,
             sameSite: "lax",
-            secure:false,
+            secure: false,
             maxAge: 2 * 60 * 60 * 1000
         }
     })
@@ -39,6 +41,10 @@ app.use("/api/tickets", ticketRoutes);
 app.use(
     "/api/technical-communications",
     technicalCommunicationRoutes
+);
+app.use(
+    "/api/internal-requests",
+    internalRequestRoutes
 );
 app.use("/api/ric", ricRoutes);
 app.use("/api/documents", documentRoutes);
@@ -66,7 +72,7 @@ async function startServer() {
         console.log(
             "Colonne della tabella ticket:",
             colonneTicket.map((colonna) => colonna.Field).join(", ")
-        ); 
+        );
 
         console.log("Connessione a MySQL riuscita.");
         connection.release();

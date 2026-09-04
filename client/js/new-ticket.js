@@ -19,6 +19,30 @@ const newBoatLink =
 const submitTicketButton =
     document.getElementById("submitTicketButton");
 
+const ticketIntroduction =
+    document.getElementById("ticketIntroduction");
+
+const ticketFormCard =
+    document.getElementById("ticketFormCard");
+
+const ticketSuccess =
+    document.getElementById("ticketSuccess");
+
+const ticketSuccessMessage =
+    document.getElementById("ticketSuccessMessage");
+
+const createdTicketLink =
+    document.getElementById("createdTicketLink");
+
+const attachmentsInput =
+    document.getElementById("allegati");
+
+const boatLocationInput =
+    document.getElementById("localizzazioneBarca");
+
+const deliveryAddressInput =
+    document.getElementById("indirizzoConsegna");
+
 let currentUser = null;
 
 
@@ -63,6 +87,7 @@ function resetBoatSelect(testo) {
     boatSelect.appendChild(opzione);
     boatSelect.disabled = true;
     submitTicketButton.disabled = true;
+    boatLocationInput.value = "";
 }
 
 function addNewBoatOption() {
@@ -191,6 +216,9 @@ async function loadBoats(clienteId = null) {
 
             opzione.value = barca.id;
 
+            opzione.dataset.localizzazione =
+                barca.localizzazione || "";
+
             opzione.textContent =
                 `${barca.modello} — ${barca.matricola}`;
 
@@ -201,9 +229,6 @@ async function loadBoats(clienteId = null) {
 
         boatSelect.disabled = false;
         submitTicketButton.disabled = false;
-
-        message.textContent = "";
-        message.className = "form-message";
     } catch (error) {
         resetBoatSelect(
             "Impossibile caricare le barche"
@@ -217,31 +242,38 @@ async function loadBoats(clienteId = null) {
 }
 
 boatSelect.addEventListener("change", () => {
-    if (boatSelect.value !== "__new_boat__") {
-        return;
-    }
+    if (boatSelect.value === "__new_boat__") {
+        boatLocationInput.value = "";
 
-    if (currentUser.ruolo === "operatore") {
-        const clienteId = clientSelect.value;
+        if (currentUser.ruolo === "operatore") {
+            const clienteId = clientSelect.value;
 
-        if (!clienteId) {
-            message.textContent =
-                "Prima seleziona il cliente proprietario.";
+            if (!clienteId) {
+                message.textContent =
+                    "Prima seleziona il cliente proprietario.";
 
-            message.className =
-                "form-message error-message";
+                message.className =
+                    "form-message error-message";
 
-            boatSelect.value = "";
+                boatSelect.value = "";
+                return;
+            }
+
+            window.location.href =
+                `boats.html?cliente_id=${encodeURIComponent(clienteId)}`;
+
             return;
         }
 
-        window.location.href =
-            `boats.html?cliente_id=${encodeURIComponent(clienteId)}`;
-
+        window.location.href = "boats.html";
         return;
     }
 
-    window.location.href = "boats.html";
+    const opzioneSelezionata =
+        boatSelect.options[boatSelect.selectedIndex];
+
+    boatLocationInput.value =
+        opzioneSelezionata?.dataset.localizzazione || "";
 });
 
 clientSelect.addEventListener(
@@ -255,6 +287,7 @@ clientSelect.addEventListener(
             );
 
             newBoatLink.href = "boats.html";
+            deliveryAddressInput.value = "";
             return;
         }
 
@@ -271,35 +304,67 @@ ticketForm.addEventListener(
     async (event) => {
         event.preventDefault();
 
+        const localizzazioneBarca =
+            boatLocationInput.value.trim();
 
-        const datiTicket = {
-            barca_id: Number(boatSelect.value),
+        const indirizzoConsegna =
+            deliveryAddressInput.value.trim();
 
-            tipo_richiesta:
-                document.getElementById(
-                    "tipoRichiesta"
-                ).value,
+        if (!localizzazioneBarca) {
+            message.textContent =
+                "Inserisci la localizzazione attuale della barca.";
 
-            titolo:
-                document.getElementById(
-                    "titolo"
-                ).value,
+            message.className =
+                "form-message error-message";
 
-            categoria:
-                document.getElementById(
-                    "categoria"
-                ).value,
-
-            descrizione:
-                document.getElementById(
-                    "descrizione"
-                ).value
-        };
-
-        if (currentUser.ruolo === "operatore") {
-            datiTicket.cliente_id =
-                Number(clientSelect.value);
+            boatLocationInput.focus();
+            return;
         }
+
+        if (!indirizzoConsegna) {
+            message.textContent =
+                "Inserisci l'indirizzo di consegna per questo ticket.";
+
+            message.className =
+                "form-message error-message";
+
+            deliveryAddressInput.focus();
+            return;
+        }
+
+        boatLocationInput.value =
+            localizzazioneBarca;
+
+        deliveryAddressInput.value =
+            indirizzoConsegna;
+
+        const files =
+            Array.from(attachmentsInput.files);
+
+        const containsPhotoOrVideo =
+            files.some((file) =>
+                file.type.startsWith("image/") ||
+                file.type.startsWith("video/")
+            );
+
+        if (!containsPhotoOrVideo) {
+            message.textContent =
+                "Carica almeno una foto o un video del problema.";
+
+            message.className =
+                "form-message error-message";
+
+            return;
+        }
+        message.textContent =
+            "Invio del ticket in corso...";
+
+        message.className = "form-message";
+
+        submitTicketButton.disabled = true;
+
+        const datiTicket =
+            new FormData(ticketForm);
 
         try {
             const response = await fetch(
@@ -307,12 +372,7 @@ ticketForm.addEventListener(
                 {
                     method: "POST",
 
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify(datiTicket)
+                    body: datiTicket
                 }
             );
 
@@ -328,34 +388,37 @@ ticketForm.addEventListener(
                 throw new Error(risultato.message);
             }
 
-            message.textContent =
-                `Ticket creato correttamente. ` +
-                `Codice identificativo: #${risultato.ticket.id}`;
+            const ticketId =
+                risultato.ticket.id;
 
-            message.className =
-                "form-message success-message";
+            ticketIntroduction.hidden = true;
+            ticketFormCard.hidden = true;
+            ticketSuccess.hidden = false;
 
-            const clienteSelezionato =
-                clientSelect.value;
+            ticketSuccessMessage.textContent =
+                `Il ticket n. ${ticketId} è stato creato e verrà ` +
+                `processato dai nostri operatori entro 48 ore. ` +
+                `Per ulteriori informazioni può sollecitare un riscontro ` +
+                `all’interno del ticket, contattarci al numero +39 32654231 ` +
+                `oppure scrivere a sesa@sesamarin.com.`;
 
-            ticketForm.reset();
+            createdTicketLink.href =
+                `ticket-detail.html?id=${ticketId}`;
 
-            if (currentUser.ruolo === "operatore") {
-                clientSelect.value =
-                    clienteSelezionato;
-
-                await loadBoats(
-                    clienteSelezionato
-                );
-            } else {
-                await loadBoats();
-            }
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
         } catch (error) {
-            message.textContent = error.message;
+            message.textContent =
+                error.message;
 
             message.className =
                 "form-message error-message";
+
+            submitTicketButton.disabled = false;
         }
+
     }
 );
 
@@ -431,6 +494,10 @@ async function initializePage() {
                     if (barcaEsiste) {
                         boatSelect.value =
                             String(barcaId);
+
+                        boatSelect.dispatchEvent(
+                            new Event("change")
+                        );
                     }
                 }
             }

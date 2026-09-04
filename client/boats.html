@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="it">
 
 <head>
@@ -13,15 +14,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="boats-page">
     <header class="site-header">
         <div class="header-container">
             <a class="brand" href="dashboard.html">
-                <span class="brand-logo">TH</span>
+                <span class="brand-mark">TH</span>
 
                 <span class="brand-text">
-                    <strong>Ticketing Helpdesk</strong>
-                    <small>Gestione barche</small>
+                    <strong>LOGO</strong>
+                    <small>After Sales Service</small>
                 </span>
             </a>
 
@@ -39,121 +40,49 @@
 
     <main class="boats-main">
         <section class="page-introduction">
-            <p id="pageEyebrow" class="eyebrow">
-                Area personale
-            </p>
-
             <h1 id="pageTitle">Le mie barche</h1>
 
             <p id="pageDescription">
-                Registra le tue barche e consulta i relativi
-                dati di identificazione e garanzia.
+                Consulta le imbarcazioni registrate e lo
+                storico dei ticket associati a ogni barca.
             </p>
         </section>
 
-        <section id="operatorClientContext" class="boat-form-card" hidden>
-            <p class="eyebrow">
-                Inserimento per conto del cliente
-            </p>
-
-            <h2 id="selectedClientName">
-                Cliente
-            </h2>
-
-            <p id="selectedClientEmail"></p>
-
-            <a id="backToTicketLink" class="button button-small" href="new-ticket.html">
-                Torna al nuovo ticket
-            </a>
-        </section>
-
-        <section class="boat-form-card">
-            <h2 id="boatFormTitle">
-                Registra una nuova barca
-            </h2>
-
-            <form id="boatForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="modello">
-                            Modello *
-                        </label>
-
-                        <input id="modello" name="modello" type="text" placeholder="Esempio: KL27 EFB 017" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="matricola">
-                            Matricola della barca *
-                        </label>
-
-                        <input id="matricola" name="matricola" type="text" placeholder="Esempio: IT-SES329024D132"
-                            required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="annoProduzione">
-                            Anno di produzione *
-                        </label>
-
-                        <input id="annoProduzione" name="anno_produzione" type="number" min="1950" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="localizzazione">
-                            Localizzazione attuale *
-                        </label>
-
-                        <input id="localizzazione" name="localizzazione" type="text"
-                            placeholder="Esempio: Porto di Genova" required>
-                    </div>
-
-                    <div class="form-group form-group-full">
-                        <label for="indirizzoConsegna">
-                            Indirizzo di consegna *
-                        </label>
-
-                        <input id="indirizzoConsegna" name="indirizzo_consegna" type="text"
-                            placeholder="Indirizzo per ricambi e materiali" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="garanziaAttivataIl">
-                            Data di attivazione garanzia
-                        </label>
-
-                        <input id="garanziaAttivataIl" name="garanzia_attivata_il" type="date">
-
-                        <small>
-                            La scadenza verrà calcolata
-                            automaticamente dopo 24 mesi.
-                        </small>
-                    </div>
-                </div>
-
-                <button class="button button-primary" type="submit">
-                    Registra barca
-                </button>
-
-                <p id="boatMessage" class="form-message" role="status"></p>
-            </form>
-        </section>
-
-        <section class="boats-list-section">
+        <section class="boats-list-section boats-ticket-section">
             <div class="section-heading">
                 <div>
-                    <p class="eyebrow">Imbarcazioni registrate</p>
-                    <h2>Elenco delle barche</h2>
                 </div>
             </div>
 
-            <div id="boatsList">
+            <div id="boatsList" class="boats-with-tickets-list">
                 <p>Caricamento delle barche...</p>
             </div>
+
+            <p id="boatMessage" class="form-message" role="status" aria-live="polite"></p>
         </section>
     </main>
 
-    <script src="js/boats.js"></script>
+    <footer class="company-footer">
+        <div class="company-footer-content">
+            <strong>Sessa International Srl</strong>
+
+            <span>
+                Via Cortenuova 21/23,
+                24050 Cividate al Piano,
+                Bergamo, Italy
+            </span>
+
+            <span>
+                Tel. +39 0363.946500
+                <span aria-hidden="true">•</span>
+                Fax +39 0363.976766
+            </span>
+
+            <span>P.I.: 04064960166</span>
+        </div>
+    </footer>
+
+    <script src="js/boats.js?v=2"></script>
 </body>
 
 </html>

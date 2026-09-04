@@ -1,5 +1,11 @@
 const userName = document.getElementById("userName");
 const userRole = document.getElementById("userRole");
+const roleInformation =
+    document.getElementById("roleInformation");
+const operatorManagementCard =
+    document.getElementById(
+        "operatorManagementCard"
+    );
 const logoutButton = document.getElementById("logoutButton");
 const message = document.getElementById("message");
 
@@ -23,33 +29,85 @@ const boatsCardDescription =
 
 async function loadCurrentUser() {
     try {
-        const response = await fetch("/api/auth/me");
-        const risultato = await response.json();
+        const response =
+            await fetch("/api/auth/me");
 
-        if (!response.ok) {
-            window.location.href = "login.html";
+        const risultato =
+            await response.json();
+
+        if (response.status === 401) {
+            window.location.href =
+                "login.html";
+
             return false;
         }
 
-        userName.textContent =
-            `${risultato.utente.nome} ${risultato.utente.cognome}`;
+        if (!response.ok) {
+            throw new Error(
+                risultato.message ||
+                "Impossibile caricare l’utente"
+            );
+        }
 
-        userRole.textContent = risultato.utente.ruolo;
-        if (risultato.utente.ruolo === "operatore") {
-            boatsCardTitle.textContent = "Barche clienti";
+        const utente =
+            risultato.utente;
+
+        userName.textContent =
+            `${utente.nome} ${utente.cognome}`;
+
+        if (utente.ruolo === "operatore") {
+            if (userRole) {
+                userRole.textContent =
+                    "Operatore";
+            }
+
+            if (roleInformation) {
+                roleInformation.hidden =
+                    false;
+            }
+
+            boatsCardTitle.textContent =
+                "Barche clienti";
 
             boatsCardDescription.textContent =
-                 "Consulta le imbarcazioni registrate dai clienti.";
-    }
+                "Consulta le imbarcazioni registrate dai clienti.";
+
+
+    operatorManagementCard.hidden =
+        !utente.puo_gestire_operatori;
+
+        } else {
+            if (roleInformation) {
+                roleInformation.hidden =
+                    true;
+            }
+
+            boatsCardTitle.textContent =
+                "Le mie barche";
+
+            boatsCardDescription.textContent =
+                "Consulta le tue imbarcazioni registrate.";
+
+             operatorManagementCard.hidden = true;
+        }
 
         return true;
     } catch (error) {
-        console.error("Errore caricamento utente:", error);
-        window.location.href = "login.html";
+        console.error(
+            "Errore caricamento utente:",
+            error
+        );
+
+        message.textContent =
+            error.message;
+
+        message.className =
+            "form-message error-message";
 
         return false;
     }
 }
+
 
 
 async function loadNotifications() {

@@ -3,9 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nuovo ticket - Sistema di Ticketing / Helpdesk</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Nuovo ticket - Sistema di Ticketing / Helpdesk
+    </title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -22,60 +28,150 @@
                 </span>
             </a>
 
-            <a class="button button-small" href="dashboard.html">
+            <a
+                class="button button-small"
+                href="dashboard.html"
+            >
                 Dashboard
             </a>
         </div>
     </header>
 
     <main class="dashboard-main">
-        <section class="dashboard-welcome">
+        <section
+            id="ticketIntroduction"
+            class="dashboard-welcome"
+        >
             <p class="eyebrow">Assistenza</p>
+
             <h1>Apri un nuovo ticket</h1>
 
             <p>
-                Descrivi il problema nel modo più chiaro possibile.
+                Descrivi il problema nel modo più chiaro
+                possibile.
             </p>
         </section>
 
-        <section class="auth-card ticket-form-card">
-            <form id="ticketForm" class="auth-form">
-                <div id="clientGroup" class="form-group" hidden>
+        <section
+            id="ticketFormCard"
+            class="auth-card ticket-form-card"
+        >
+            <form
+                id="ticketForm"
+                class="auth-form"
+                enctype="multipart/form-data"
+            >
+                <div
+                    id="clientGroup"
+                    class="form-group"
+                    hidden
+                >
                     <label for="clienteId">
-                        Cliente richiedente
+                        Cliente richiedente *
                     </label>
-                    <select id="clienteId" name="cliente_id" disabled>
+
+                    <select
+                        id="clienteId"
+                        name="cliente_id"
+                    >
                         <option value="">
                             Seleziona un cliente
                         </option>
                     </select>
 
                     <small>
-                        Seleziona il cliente che ha inviato la richiesta
-                        tramite telefono, email o altro canale.
+                        Seleziona il cliente che ha inviato
+                        la richiesta tramite telefono, email
+                        o altro canale.
                     </small>
                 </div>
-                <div id="boatGroup" class="form-group">
-                    <label for="barcaId">Barca interessata</label>
 
-                    <select id="barcaId" name="barca_id" required>
-                        <option value="">Caricamento delle barche...</option>
+                <div
+                    id="boatGroup"
+                    class="form-group"
+                >
+                    <label for="barcaId">
+                        Barca interessata *
+                    </label>
+
+                    <select
+                        id="barcaId"
+                        name="barca_id"
+                        required
+                    >
+                        <option value="">
+                            Caricamento delle barche...
+                        </option>
                     </select>
 
                     <small>
                         La barca non è presente?
-                        <a id="newBoatLink" href="boats.html">
+
+                        <a
+                            id="newBoatLink"
+                            href="boats.html"
+                        >
                             Registrala qui
                         </a>
                     </small>
                 </div>
 
                 <div class="form-group">
-                    <label for="tipoRichiesta">
-                        Tipo di richiesta
+                    <label for="localizzazioneBarca">
+                        Localizzazione attuale della barca *
                     </label>
 
-                    <select id="tipoRichiesta" name="tipo_richiesta" required>
+                    <input
+                        id="localizzazioneBarca"
+                        name="localizzazione_barca"
+                        type="text"
+                        placeholder="Porto, cantiere, città e Paese"
+                        minlength="2"
+                        maxlength="255"
+                        required
+                    >
+
+                    <small>
+                        Indica dove si trova attualmente la
+                        barca. Il dato verrà registrato nel
+                        ticket e aggiornato nella scheda della
+                        barca.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="indirizzoConsegna">
+                        Indirizzo di consegna per questo ticket *
+                    </label>
+
+                    <input
+                        id="indirizzoConsegna"
+                        name="indirizzo_consegna"
+                        type="text"
+                        placeholder="Via, numero civico, CAP, città, provincia e Paese"
+                        minlength="5"
+                        maxlength="255"
+                        autocomplete="shipping street-address"
+                        required
+                    >
+
+                    <small>
+                        Inserisci l’indirizzo da utilizzare
+                        per eventuali ricambi o materiali
+                        relativi a questa richiesta.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoRichiesta">
+                        Tipo di richiesta *
+                    </label>
+
+                    <select
+                        id="tipoRichiesta"
+                        name="tipo_richiesta"
+                        required
+                    >
                         <option value="">
                             Seleziona il tipo di richiesta
                         </option>
@@ -93,30 +189,53 @@
                         </option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="titolo">Titolo</label>
 
-                    <input type="text" id="titolo" name="titolo" placeholder="Breve descrizione del problema" required
-                        minlength="5" maxlength="200">
+                <div class="form-group">
+                    <label for="titolo">
+                        Titolo *
+                    </label>
+
+                    <input
+                        id="titolo"
+                        name="titolo"
+                        type="text"
+                        placeholder="Breve descrizione del problema"
+                        minlength="5"
+                        maxlength="200"
+                        required
+                    >
                 </div>
 
                 <div class="form-group">
-                    <label for="categoria">Categoria</label>
+                    <label for="categoria">
+                        Categoria *
+                    </label>
 
-                    <select id="categoria" name="categoria" required>
-                        <option value="">Seleziona una categoria</option>
+                    <select
+                        id="categoria"
+                        name="categoria"
+                        required
+                    >
+                        <option value="">
+                            Seleziona una categoria
+                        </option>
+
                         <option value="problema_tecnico">
                             Problema tecnico
                         </option>
+
                         <option value="accesso_account">
                             Accesso all'account
                         </option>
+
                         <option value="fatturazione">
                             Fatturazione
                         </option>
+
                         <option value="informazioni">
                             Richiesta di informazioni
                         </option>
+
                         <option value="altro">
                             Altro
                         </option>
@@ -124,20 +243,110 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="descrizione">Descrizione</label>
+                    <label for="descrizione">
+                        Descrizione *
+                    </label>
 
-                    <textarea id="descrizione" name="descrizione" placeholder="Descrivi dettagliatamente la richiesta"
-                        required minlength="10" rows="8"></textarea>
+                    <textarea
+                        id="descrizione"
+                        name="descrizione"
+                        placeholder="Descrivi dettagliatamente la richiesta"
+                        minlength="10"
+                        maxlength="5000"
+                        rows="8"
+                        required
+                    ></textarea>
                 </div>
 
-                <button id="submitTicketButton" class="button button-primary" type="submit">
+                <div class="form-group">
+                    <label for="allegati">
+                        Foto, video e documenti *
+                    </label>
+
+                    <input
+                        id="allegati"
+                        name="allegati"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/heic,image/heif,video/mp4,video/quicktime,video/webm,application/pdf"
+                        multiple
+                        required
+                    >
+
+                    <small>
+                        È obbligatorio caricare almeno una
+                        foto o un video. Puoi aggiungere anche
+                        documenti PDF. Massimo 8 file,
+                        100 MB per file.
+                    </small>
+                </div>
+
+                <button
+                    id="submitTicketButton"
+                    class="button button-primary button-full"
+                    type="submit"
+                >
                     Invia ticket
                 </button>
             </form>
 
-            <p id="message" class="form-message" role="status"></p>
+            <p
+                id="message"
+                class="form-message"
+                role="status"
+                aria-live="polite"
+            ></p>
+        </section>
+
+        <section
+            id="ticketSuccess"
+            class="ticket-success-screen"
+            hidden
+        >
+            <p class="eyebrow">
+                Richiesta registrata
+            </p>
+
+            <h1>Grazie della sua richiesta</h1>
+
+            <p id="ticketSuccessMessage"></p>
+
+            <div class="ticket-success-actions">
+                <a
+                    id="createdTicketLink"
+                    class="button button-primary"
+                    href="#"
+                >
+                    Visualizza il ticket
+                </a>
+
+                <a
+                    class="button button-secondary"
+                    href="dashboard.html"
+                >
+                    Torna alla dashboard
+                </a>
+            </div>
         </section>
     </main>
+
+    <footer class="company-footer">
+        <div class="company-footer-content">
+            <strong>Sessa International Srl</strong>
+
+            <span>
+                Via Cortenuova 21/23, 24050 Cividate al Piano,
+                Bergamo, Italy
+            </span>
+
+            <span>
+                Tel. +39 0363.946500
+                <span aria-hidden="true">•</span>
+                Fax +39 0363.976766
+            </span>
+
+            <span>P.I.: 04064960166</span>
+        </div>
+    </footer>
 
     <script src="js/new-ticket.js"></script>
 </body>

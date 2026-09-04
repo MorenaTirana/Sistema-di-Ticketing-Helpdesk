@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,67 +23,49 @@
             </a>
 
             <div class="header-actions">
-    <div class="notifications-area">
-        <button
-            id="notificationsButton"
-            class="notifications-button"
-            type="button"
-            aria-label="Apri le notifiche"
-        >
-            🔔
+                <div class="notifications-area">
+                    <button id="notificationsButton" class="notifications-button" type="button"
+                        aria-label="Apri le notifiche">
+                        🔔
 
-            <span
-                id="notificationsCount"
-                class="notifications-count"
-                hidden
-            >
-                0
-            </span>
-        </button>
+                        <span id="notificationsCount" class="notifications-count" hidden>
+                            0
+                        </span>
+                    </button>
 
-        <div
-            id="notificationsPanel"
-            class="notifications-panel"
-            hidden
-        >
-            <h2>Notifiche</h2>
+                    <div id="notificationsPanel" class="notifications-panel" hidden>
+                        <h2>Notifiche</h2>
 
-            <div id="notificationsList">
-                <p>Caricamento...</p>
+                        <div id="notificationsList">
+                            <p>Caricamento...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="logoutButton" class="button button-small" type="button">
+                    Esci
+                </button>
             </div>
-        </div>
-    </div>
-
-    <button
-        id="logoutButton"
-        class="button button-small"
-        type="button"
-    >
-        Esci
-    </button>
-</div>
         </div>
     </header>
 
     <main class="dashboard-main">
         <section class="dashboard-welcome">
-            <p class="eyebrow">Area personale</p>
-
             <h1>
                 Benvenuto,
                 <span id="userName">utente</span>
             </h1>
 
-            <p>
+            <p id="roleInformation" hidden>
                 Ruolo:
                 <strong id="userRole">-</strong>
             </p>
         </section>
 
         <section class="features-grid">
-             <a class="feature-card" href="new-ticket.html">
+            <a class="feature-card" href="new-ticket.html">
                 <span class="feature-icon">＋</span>
-                
+
                 <h2>Nuovo ticket</h2>
                 <p>
                     Apri una nuova richiesta di assistenza.
@@ -97,11 +80,7 @@
                 </p>
             </a>
 
-            <a
-                id="boatsCard" 
-                class="feature-card"
-                href="boats.html"
-            >
+            <a id="boatsCard" class="feature-card" href="boats.html">
                 <span class="feature-icon">◇</span>
 
                 <h2 id="boatsCardTitle">Le mie barche</h2>
@@ -110,17 +89,23 @@
                     Registra e consulta le tue imbarcazioni.
                 </p>
             </a>
-            <a
-                id="profileCard"
-                class="feature-card"
-                href="profile.html"
-            >
+            <a id="operatorManagementCard" class="feature-card" href="operators.html" hidden>
+                <span class="feature-icon">⚙</span>
+
+                <h2>Gestione operatori</h2>
+
+                <p>
+                    Aggiungi e consulta gli operatori interni.
+                </p>
+            </a>
+
+            <a id="profileCard" class="feature-card" href="profile.html">
                 <span class="feature-icon">♙</span>
 
                 <h2>Profilo</h2>
 
                 <p>
-                     Controlla e modifica i dati del tuo account.
+                    Controlla e modifica i dati del tuo account.
                 </p>
             </a>
         </section>
@@ -128,6 +113,7 @@
         <p id="message" class="form-message" role="status"></p>
     </main>
 
-    <script src="js/dashboard.js"></script>
+    <script src="js/dashboard.js?v=2"></script>
 </body>
+
 </html>

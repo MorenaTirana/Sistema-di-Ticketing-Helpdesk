@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Documento - Ticketing Helpdesk</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="dashboard.html">
+                <span class="brand-logo">TH</span>
+
+                <span class="brand-text">
+                    <strong>Ticketing Helpdesk</strong>
+                    <small>Documento della pratica</small>
+                </span>
+            </a>
+
+            <a
+                id="backToTicket"
+                class="button button-small"
+                href="#"
+            >
+                Torna al ticket
+            </a>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <section class="document-detail-page">
+            <p class="context-label">
+                Documento
+            </p>
+
+            <h1 id="attachmentName">
+                Caricamento...
+            </h1>
+
+            <p
+                id="attachmentMessage"
+                class="form-message"
+                role="status"
+            ></p>
+
+            <div
+                id="attachmentActions"
+                class="document-detail-actions"
+                hidden
+            >
+                <a
+                    id="viewAttachmentButton"
+                    class="button button-primary"
+                    href="#"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Visualizza documento
+                </a>
+
+                <a
+                    id="downloadAttachmentButton"
+                    class="button"
+                    href="#"
+                    download
+                >
+                    Scarica documento
+                </a>
+
+                <button
+                    id="deleteAttachmentButton"
+                    class="button"
+                    type="button"
+                >
+                    Elimina documento
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        Sessa International Srl, Via Cortenuova 21/23,
+        24050 Cividate al Piano, Bergamo, Italy —
+        Tel. +39 0363.946500 — P.I. 04064960166
+    </footer>
+
+    <script src="js/attachment-detail.js"></script>
+</body>
+</html>

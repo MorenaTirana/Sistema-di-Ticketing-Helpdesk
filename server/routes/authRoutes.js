@@ -49,7 +49,6 @@ router.patch(
 
 router.post(
     "/logout",
-    requireAuth,
     authController.logout
 );
 

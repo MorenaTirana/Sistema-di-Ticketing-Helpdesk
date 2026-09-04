@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Dettaglio ticket - Ticketing Helpdesk</title>
@@ -33,30 +34,47 @@
             <div class="case-context">
                 <div class="workspace-heading">
                     <div>
-                        <p class="eyebrow">Contesto della richiesta</p>
-                        <h2>Cliente e imbarcazione</h2>
+                        <h2>Dettagli della richiesta</h2>
                     </div>
                 </div>
 
                 <div class="case-context-grid">
                     <article class="context-card customer-context-card">
-                        <div class="context-card-icon">CL</div>
+                        <span class="context-label">
+                            Cliente
+                        </span>
 
-                        <div>
-                            <span class="context-label">Cliente</span>
+                        <h3 id="ticketOwner">-</h3>
 
-                            <h3 id="ticketOwner">-</h3>
+                        <dl class="customer-information">
+                            <div>
+                                <dt>Email</dt>
 
-                            <p id="ticketOwnerEmail">
-                                Email non disponibile
-                            </p>
-                        </div>
+                                <dd id="ticketOwnerEmail">
+                                    Email non disponibile
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Telefono</dt>
+
+                                <dd id="ticketOwnerPhone">
+                                    Telefono non disponibile
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Indirizzo di residenza</dt>
+
+                                <dd id="ticketOwnerAddress">
+                                    Indirizzo non disponibile
+                                </dd>
+                            </div>
+                        </dl>
                     </article>
 
                     <article id="ticketBoatSection" class="context-card boat-context-card" hidden>
                         <div class="context-card-heading">
-                            <div class="context-card-icon">BT</div>
-
                             <div>
                                 <span class="context-label">
                                     Imbarcazione
@@ -77,40 +95,134 @@
                             </div>
 
                             <div>
-                                <dt>Anno</dt>
+                                <dt>Anno di produzione</dt>
                                 <dd id="boatProductionYear">-</dd>
                             </div>
 
                             <div>
-                                <dt>Localizzazione</dt>
+                                <dt>
+                                    Localizzazione della barca
+                                </dt>
+
                                 <dd id="boatLocation">-</dd>
                             </div>
 
                             <div>
-                                <dt>Delivery address</dt>
+                                <dt>Indirizzo di consegna</dt>
+
                                 <dd id="boatDeliveryAddress">-</dd>
                             </div>
 
-                            <div>
+                            <div id="boatWarrantyStartGroup">
                                 <dt>Attivazione garanzia</dt>
+
                                 <dd id="boatWarrantyStart">-</dd>
                             </div>
 
-                            <div>
+                            <div id="boatWarrantyEndGroup">
                                 <dt>Scadenza garanzia</dt>
+
                                 <dd id="boatWarrantyEnd">-</dd>
                             </div>
                         </dl>
+                    </article>
+
+                    <article id="ticketBoatMissingSection" class="context-card boat-context-card" hidden>
+                        <span class="context-label">Imbarcazione</span>
+
+                        <div class="boat-choice-buttons">
+                            <button id="showExistingBoatButton" class="button button-primary" type="button">
+                                Barca già registrata
+                            </button>
+
+                            <button id="showNewBoatButton" class="button button-secondary" type="button">
+                                Nuova barca
+                            </button>
+                        </div>
+
+                        <form id="existingBoatForm" class="auth-form">
+                            <div class="form-group">
+                                <label for="existingBoatSelect">
+                                    Seleziona la barca *
+                                </label>
+
+                                <select id="existingBoatSelect" required>
+                                    <option value="">
+                                        Caricamento delle barche...
+                                    </option>
+                                </select>
+                            </div>
+
+                            <button class="button button-primary" type="submit">
+                                Associa la barca
+                            </button>
+                        </form>
+
+                        <form id="newBoatForm" class="auth-form" hidden>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="newBoatModel">
+                                        Modello *
+                                    </label>
+
+                                    <input id="newBoatModel" type="text" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="newBoatRegistration">
+                                        Matricola *
+                                    </label>
+
+                                    <input id="newBoatRegistration" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="newBoatYear">
+                                        Anno di produzione *
+                                    </label>
+
+                                    <input id="newBoatYear" type="number" min="1950" max="2100" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="newBoatLocation">
+                                        Localizzazione della barca *
+                                    </label>
+
+                                    <input id="newBoatLocation" type="text" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newBoatDeliveryAddress">
+                                    Indirizzo di consegna *
+                                </label>
+
+                                <input id="newBoatDeliveryAddress" type="text" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newBoatWarrantyStart">
+                                    Data attivazione garanzia
+                                </label>
+
+                                <input id="newBoatWarrantyStart" type="date">
+                            </div>
+
+                            <button class="button button-primary" type="submit">
+                                Salva e associa la barca
+                            </button>
+                        </form>
+
+                        <p id="ticketBoatAssignmentMessage" class="form-message" role="status"></p>
                     </article>
                 </div>
             </div>
 
             <div class="section-divider"></div>
 
-            <div class="ticket-section-heading">
-                <p class="eyebrow">Richiesta di assistenza</p>
-                <h2>Dettaglio del ticket</h2>
-            </div>
             <div class="ticket-card-header">
                 <span id="ticketNumber" class="ticket-number">
                     Ticket
@@ -121,12 +233,50 @@
                 </span>
             </div>
 
-            <h1 id="ticketTitle">Caricamento...</h1>
+            <h1 id="ticketTitle">
+                Caricamento...
+            </h1>
 
             <div class="ticket-detail-grid">
                 <div>
-                    <h2>Descrizione</h2>
+
                     <p id="ticketDescription">-</p>
+
+                    <section id="ticketAttachmentsSection" class="ticket-attachments" hidden>
+
+                        <div id="ticketAttachmentsList" class="ticket-attachments-grid"></div>
+                    </section>
+
+                    <section id="additionalAttachmentsSection" class="additional-attachments">
+                        <form id="additionalAttachmentsForm" class="minimal-upload-form" enctype="multipart/form-data">
+                            <input id="additionalAttachments" class="file-input-hidden" name="allegati" type="file"
+                                accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime,application/pdf"
+                                multiple required>
+
+                            <label class="minimal-file-picker" for="additionalAttachments" title="Seleziona allegati">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M8.5 12.5 14 7a3 3 0 0 1 4.2 4.2l-7.1 7.1a5 5 0 0 1-7.1-7.1l7.3-7.3" />
+                                </svg>
+
+                                <span>Allega</span>
+                            </label>
+
+                            <button
+    id="uploadAttachmentsButton"
+    class="minimal-upload-button"
+    type="submit"
+    aria-label="Carica allegati"
+    title="Carica allegati"
+>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 16V4m-5 5 5-5 5 5M5 20h14" />
+    </svg>
+
+    <span>Carica</span>
+</button>
+                        </form>
+                        <p id="attachmentsMessage" class="form-message" role="status"></p>
+                    </section>
                 </div>
 
                 <aside class="ticket-information">
@@ -137,6 +287,7 @@
                             <dt>Categoria</dt>
                             <dd id="ticketCategory">-</dd>
                         </div>
+
                         <div>
                             <dt>Tipo di richiesta</dt>
                             <dd id="ticketRequestType">-</dd>
@@ -156,6 +307,7 @@
                             <dt>Stato</dt>
                             <dd id="ticketStateText">-</dd>
                         </div>
+
                         <div>
                             <dt>Priorità</dt>
                             <dd id="ticketPriority">-</dd>
@@ -168,6 +320,7 @@
 
                         <div>
                             <dt>Operatore assegnato</dt>
+
                             <dd id="ticketAssignedOperator">
                                 Non assegnato
                             </dd>
@@ -176,129 +329,223 @@
                 </aside>
             </div>
 
-            <section id="operatorActions" class="operator-actions" hidden>
-                <div>
-                    <p class="eyebrow">Azioni operatore</p>
-                    <h2>Modifica lo stato</h2>
-                </div>
+            <section id="operatorActions" class="operator-actions">
+                <div class="ticket-management-panel">
+                    <div class="ticket-management-heading">
+                        <div>
+                            <h2>Gestione del ticket</h2>
 
-                <form id="statusForm" class="status-form">
-                    <label for="statusSelect">Nuovo stato</label>
-
-                    <select id="statusSelect" required>
-                        <option value="aperto">Aperto</option>
-
-                        <option value="in_lavorazione">
-                            In lavorazione
-                        </option>
-
-                        <option value="risolto">Risolto</option>
-
-                        <option value="chiuso">Chiuso</option>
-                    </select>
-
-                    <button class="button button-primary" type="submit">
-                        Aggiorna stato
-                    </button>
-                </form>
-
-                <p id="statusMessage" class="form-message" role="status"></p>
-                <div class="assignment-section">
-                    <div>
-                        <p class="eyebrow">Assegnazione</p>
-                        <h2>Assegna il ticket</h2>
-                    </div>
-
-                    <form id="assignmentForm" class="assignment-form">
-                        <div class="form-group">
-                            <label for="operatorSelect">
-                                Operatore
-                            </label>
-
-                            <select id="operatorSelect" required>
-                                <option value="">
-                                    Caricamento degli operatori...
-                                </option>
-                            </select>
                         </div>
+                    </div>
 
-                        <button class="button button-primary" type="submit">
-                            Assegna ticket
-                        </button>
-                    </form>
+                    <div class="ticket-management-grid">
+                        <!-- STATO -->
+                        <section class="ticket-management-card">
+                            <h3>Stato del ticket</h3>
 
-                    <p id="assignmentMessage" class="form-message" role="status"></p>
+                            <form id="statusForm" class="compact-action-form">
+                                <select id="statusSelect" aria-label="Stato del ticket" required>
+                                    <option value="aperto">Aperto</option>
+                                    <option value="in_lavorazione">
+                                        In lavorazione
+                                    </option>
+                                    <option value="risolto">Risolto</option>
+                                    <option value="chiuso">Chiuso</option>
+                                </select>
+
+                                <button class="button button-primary compact-action-button" type="submit">
+                                    Aggiorna
+                                </button>
+                            </form>
+
+                            <p id="statusMessage" class="form-message" role="status"></p>
+                        </section>
+
+                        <!-- ASSEGNAZIONE -->
+                        <section class="ticket-management-card">
+                            <h3>Assegnazione After Sales</h3>
+
+                            <form id="assignmentForm" class="compact-action-form">
+                                <select id="operatorSelect" aria-label="Operatore After Sales" required>
+                                    <option value="">
+                                        Caricamento operatori...
+                                    </option>
+                                </select>
+
+                                <button class="button button-primary compact-action-button" type="submit">
+                                    Assegna
+                                </button>
+                            </form>
+
+                            <p id="assignmentMessage" class="form-message" role="status"></p>
+                        </section>
+
+                        <!-- PRIORITÀ E COPERTURA -->
+                        <section class="ticket-management-card management-coverage-card">
+                            <h3>Priorità e copertura</h3>
+
+                            <div class="compact-coverage-form">
+                                <select id="prioritySelect" form="managementForm" aria-label="Priorità" required>
+                                    <option value="bassa">Bassa</option>
+                                    <option value="media">Media</option>
+                                    <option value="alta">Alta</option>
+                                    <option value="urgente">Urgente</option>
+                                </select>
+
+                                <select id="coverageSelect" form="managementForm" aria-label="Copertura del caso"
+                                    required>
+                                    <option value="da_valutare">
+                                        Da valutare
+                                    </option>
+                                    <option value="in_garanzia">
+                                        In garanzia
+                                    </option>
+                                    <option value="fuori_garanzia">
+                                        Fuori garanzia
+                                    </option>
+                                </select>
+
+                                <button class="button button-primary compact-action-button" type="submit"
+                                    form="managementForm">
+                                    Salva
+                                </button>
+                            </div>
+                        </section>
+                    </div>
                 </div>
-                <hr class="operator-divider">
 
+                <hr class="operator-divider">
+<details
+    id="consultationSection"
+    class="consultation-section"
+>
+    <summary class="consultation-section-title">
+        <span>CONSULTAZIONI INTERNE</span>
+
+        <span
+            class="consultation-toggle-icon"
+            aria-hidden="true"
+        ></span>
+    </summary>
+
+    <form
+        id="consultationForm"
+        class="consultation-form"
+        hidden
+    >
+        <div class="form-group">
+            <label for="consultantSelect">
+                Reparto o collaboratore
+            </label>
+
+            <select id="consultantSelect" required>
+                <option value="">
+                    Caricamento consulenti...
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="consultationRequest">
+                Richiesta
+            </label>
+
+            <textarea
+                id="consultationRequest"
+                rows="4"
+                minlength="3"
+                maxlength="2000"
+                placeholder="Esempio: indicare il codice articolo e il fornitore del parabrezza."
+                required
+            ></textarea>
+        </div>
+
+        <button
+            class="button button-primary"
+            type="submit"
+        >
+            Invia consultazione
+        </button>
+    </form>
+
+    <p
+        id="consultationMessage"
+        class="form-message"
+        role="status"
+    ></p>
+
+    <div
+        id="consultationList"
+        class="consultation-list"
+    ></div>
+</details>
                 <div>
-                    <p class="eyebrow">Gestione commerciale</p>
-                    <h2>Copertura e costo</h2>
-                </div>
-
-                <form id="managementForm" class="management-form">
-                    <div class="form-group">
-                        <label for="prioritySelect">
-                            Priorità
-                        </label>
-
-                        <select id="prioritySelect" required>
-                            <option value="bassa">Bassa</option>
-                            <option value="media">Media</option>
-                            <option value="alta">Alta</option>
-                            <option value="urgente">Urgente</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="coverageSelect">
-                            Copertura del caso
-                        </label>
-
-                        <select id="coverageSelect" required>
-                            <option value="da_valutare">
-                                Da valutare
-                            </option>
-
-                            <option value="in_garanzia">
-                                In garanzia
-                            </option>
-
-                            <option value="fuori_garanzia">
-                                Fuori garanzia
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ticketCostInput">
-                            Costo in euro
-                        </label>
-
-                        <input id="ticketCostInput" type="number" min="0" step="0.01" placeholder="Esempio: 450.00">
-
-                        <small>
-                            Lascia vuoto se il costo non è ancora definito.
-                        </small>
-                    </div>
-
-                    <button class="button button-primary" type="submit">
-                        Salva gestione
-                    </button>
-                </form>
-
-                <p id="managementMessage" class="form-message" role="status"></p>
-
-                <hr class="operator-divider">
-
             </section>
         </section>
+        <section id="commercialCostsSection" class="workspace-section commercial-costs-workspace" hidden>
+            <form id="managementForm" class="commercial-management-form">
+                <div class="commercial-products-heading">
+                    <div>
+                        <p class="eyebrow">
+                            Gestione commerciale
+                        </p>
 
+                        <h2>Articoli e costi</h2>
+
+                        <p>
+                            Inserisci gli articoli necessari
+                            per la gestione del ticket.
+                        </p>
+                    </div>
+
+                    <button id="addCommercialItemButton" class="button button-secondary" type="button">
+                        + Aggiungi articolo
+                    </button>
+                </div>
+
+                <div id="commercialItemsList" class="commercial-items-list"></div>
+
+                <div class="commercial-summary">
+                    <div class="form-group">
+                        <label for="shippingFeeInput">
+                            Shipping fee (€)
+                        </label>
+
+                        <input id="shippingFeeInput" type="number" min="0" step="0.01" value="0.00">
+                    </div>
+
+                    <dl class="commercial-totals">
+                        <div>
+                            <dt>Totale articoli</dt>
+
+                            <dd id="articlesSubtotal">
+                                € 0,00
+                            </dd>
+                        </div>
+
+                        <div class="commercial-grand-total">
+                            <dt>Totale complessivo</dt>
+
+                            <dd id="commercialTotal">
+                                € 0,00
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <input id="ticketCostInput" type="hidden" value="0">
+
+                <button class="button button-primary" type="submit">
+                    Salva gestione commerciale
+                </button>
+
+                <p id="managementMessage" class="form-message" role="status"></p>
+            </form>
+        </section>
         <section id="historySection" class="history-section">
             <div class="history-heading">
                 <div>
-                    <p class="eyebrow">Cronologia</p>
-                    <h2>Storico degli stati</h2>
+                    <h2>Avanzamento della pratica</h2>
                 </div>
             </div>
 
@@ -312,19 +559,64 @@
         <section id="documentsSection" class="workspace-section documents-section">
             <div class="workspace-heading">
                 <div>
-                    <p class="eyebrow">Archivio della pratica</p>
 
-                    <h2>Documenti già caricati</h2>
-
-                    <p>
-                        Preventivi, proforma, DDT e documenti
-                        relativi alla spedizione.
-                    </p>
+                    <h2>Archivio documenti della pratica</h2>
                 </div>
             </div>
 
-            <div id="ticketDocumentsList" class="document-list">
-                <p>Caricamento dei documenti...</p>
+            <div class="ticket-documents-columns">
+                <section class="ticket-document-column client-document-column">
+                    <div class="document-column-heading">
+                        <span class="document-column-icon">CL</span>
+
+                        <div>
+                            <h3>Documenti del cliente</h3>
+                        </div>
+                    </div>
+
+                    <div id="clientDocumentsList" class="document-list">
+                        <p>Caricamento dei documenti...</p>
+                    </div>
+
+                    <form id="clientDocumentsForm" class="client-documents-form compact-document-upload"
+                        enctype="multipart/form-data">
+                        <input id="clientDocuments" class="document-file-input" name="allegati" type="file"
+                            accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.rtf,.ppt,.pptx,.zip" multiple required>
+
+                        <label for="clientDocuments" class="document-file-picker">
+                            <span>＋</span>
+                            Scegli file
+                        </label>
+
+                        <button id="uploadClientDocumentsButton" class="button button-primary document-upload-button"
+                            type="submit">
+                            Carica documenti
+                        </button>
+                    </form>
+
+                    <p id="clientDocumentsMessage" class="form-message" role="status" aria-live="polite"></p>
+                </section>
+
+                <section class="ticket-document-column operator-document-column">
+                    <div class="document-column-heading">
+                        <span class="document-column-icon operator-icon">
+                            OP
+                        </span>
+
+                        <div>
+                            <h3>Documenti dell’operatore</h3>
+
+                            <p>
+                                Preventivi, proforma, DDT e documenti
+                                relativi alla spedizione.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="ticketDocumentsList" class="document-list">
+                        <p>Caricamento dei documenti...</p>
+                    </div>
+                </section>
             </div>
 
             <div id="operatorRicArchive" class="ric-archive" hidden>
@@ -350,7 +642,10 @@
         <section id="documentUploadSection" class="workspace-section upload-workspace" hidden>
             <div class="workspace-heading">
                 <div>
-                    <p class="eyebrow">Azioni operatore</p>
+                    <p class="eyebrow">
+                        Azioni operatore
+                    </p>
+
                     <h2>Carica nuovi documenti</h2>
 
                     <p>
@@ -362,7 +657,9 @@
 
             <div class="upload-action-grid">
                 <article class="upload-action-card">
-                    <span class="upload-action-icon">RIC</span>
+                    <span class="upload-action-icon">
+                        RIC
+                    </span>
 
                     <div>
                         <h3>Documento RIC</h3>
@@ -379,7 +676,9 @@
                 </article>
 
                 <article class="upload-action-card">
-                    <span class="upload-action-icon">PDF</span>
+                    <span class="upload-action-icon">
+                        PDF
+                    </span>
 
                     <div>
                         <h3>Altri documenti</h3>
@@ -397,28 +696,31 @@
             </div>
         </section>
 
-        <section id="commentsSection" class="comments-section">
-            <div class="comments-heading">
-                <div>
-                    <p class="eyebrow">Conversazione</p>
-                    <h2>Commenti</h2>
-                </div>
+        <section id="commentsSection" class="feedback-section">
+            <div class="feedback-grid">
+                <article class="feedback-column customer-feedback-column">
+                    <h2>Feedback del cliente</h2>
+
+                    <div id="customerFeedbackList" class="feedback-list"></div>
+                </article>
+
+                <article class="feedback-column operator-feedback-column">
+                    <h2>Feedback dell’operatore</h2>
+
+                    <div id="operatorFeedbackList" class="feedback-list"></div>
+                </article>
             </div>
 
-            <div id="commentsList" class="comments-list">
-                <p>Caricamento dei commenti...</p>
-            </div>
+            <form id="commentForm" class="feedback-form">
+                <label id="feedbackFormTitle" for="commentText">
+                    Scrivi un feedback o una risposta
+                </label>
 
-            <form id="commentForm" class="comment-form">
-                <div class="form-group">
-                    <label for="commentText">Aggiungi un commento</label>
-
-                    <textarea id="commentText" name="testo" placeholder="Scrivi un messaggio..." rows="4" minlength="2"
-                        maxlength="2000" required></textarea>
-                </div>
+                <textarea id="commentText" name="testo" placeholder="Scrivi il messaggio..." rows="4" minlength="2"
+                    maxlength="2000" required></textarea>
 
                 <button class="button button-primary" type="submit">
-                    Invia commento
+                    Invia feedback
                 </button>
             </form>
 
@@ -428,8 +730,26 @@
         <p id="message" class="form-message" role="status"></p>
     </main>
 
-    <script src="js/ticket-detail.js"></script>
+    <footer class="company-footer">
+        <div class="company-footer-content">
+            <strong>Sessa International Srl</strong>
 
+            <span>
+                Via Cortenuova 21/23, 24050 Cividate al Piano,
+                Bergamo, Italy
+            </span>
+
+            <span>
+                Tel. +39 0363.946500
+                <span aria-hidden="true">•</span>
+                Fax +39 0363.976766
+            </span>
+
+            <span>P.I.: 04064960166</span>
+        </div>
+    </footer>
+
+    <script src="js/ticket-detail.js"></script>
 </body>
 
 </html>

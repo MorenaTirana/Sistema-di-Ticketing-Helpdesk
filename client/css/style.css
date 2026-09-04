@@ -101,13 +101,13 @@ input {
     gap: 28px;
 }
 
-.main-navigation > a:not(.button),
+.main-navigation>a:not(.button),
 .header-link {
     color: #d9e5f2;
     font-weight: 600;
 }
 
-.main-navigation > a:not(.button):hover,
+.main-navigation>a:not(.button):hover,
 .header-link:hover {
     color: var(--white);
 }
@@ -169,16 +169,12 @@ input {
     gap: 72px;
     color: var(--white);
     background:
-        radial-gradient(
-            circle at 82% 18%,
+        radial-gradient(circle at 82% 18%,
             rgba(34, 211, 238, 0.2),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 15% 85%,
+            transparent 30%),
+        radial-gradient(circle at 15% 85%,
             rgba(59, 130, 246, 0.23),
-            transparent 34%
-        ),
+            transparent 34%),
         linear-gradient(135deg, var(--navy-950), var(--navy-800));
 }
 
@@ -369,11 +365,9 @@ input {
 
 .auth-page {
     background:
-        radial-gradient(
-            circle at 80% 10%,
+        radial-gradient(circle at 80% 10%,
             rgba(34, 211, 238, 0.18),
-            transparent 28%
-        ),
+            transparent 28%),
         linear-gradient(135deg, var(--navy-950), var(--navy-800));
 }
 
@@ -403,7 +397,7 @@ input {
     letter-spacing: -0.05em;
 }
 
-.auth-information > p:not(.eyebrow) {
+.auth-information>p:not(.eyebrow) {
     margin: 24px 0 0;
     color: #c4d4e5;
     font-size: 1.05rem;
@@ -453,7 +447,7 @@ input {
     letter-spacing: -0.03em;
 }
 
-.auth-card-heading > p:last-child {
+.auth-card-heading>p:last-child {
     margin: 10px 0 0;
     color: var(--gray-500);
 }
@@ -528,6 +522,7 @@ input {
 }
 
 @media (max-width: 850px) {
+
     .hero-section,
     .auth-layout {
         grid-template-columns: 1fr;
@@ -557,46 +552,45 @@ input {
     }
 
     .brand-text small,
-    .main-navigation > a:not(.button),
+    .main-navigation>a:not(.button),
     .header-link {
         display: none;
     }
 
     .hero-section {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-     background-color: var(--navy-950);
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        background-color: var(--navy-950);
     }
+
     .hero-video {
-    position: absolute;
-    z-index: 0;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    object-fit: cover;
-    object-position: center;
-}
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+        object-position: center;
+    }
 
-.hero-video-overlay {
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(7, 27, 51, 0.96) 0%,
-            rgba(7, 27, 51, 0.82) 48%,
-            rgba(7, 27, 51, 0.62) 100%
-        );
-}
+    .hero-video-overlay {
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        background:
+            linear-gradient(90deg,
+                rgba(7, 27, 51, 0.96) 0%,
+                rgba(7, 27, 51, 0.82) 48%,
+                rgba(7, 27, 51, 0.62) 100%);
+    }
 
-.hero-content,
-.hero-panel {
-    position: relative;
-    z-index: 2;
-}
+    .hero-content,
+    .hero-panel {
+        position: relative;
+        z-index: 2;
+    }
 
     .hero-content h1 {
         font-size: 2.65rem;
@@ -625,6 +619,7 @@ input {
         padding: 72px 0;
     }
 }
+
 /* Video di sfondo della pagina principale */
 
 body.landing-page .hero-section {
@@ -635,7 +630,7 @@ body.landing-page .hero-section {
     background-color: #071b33;
 }
 
-body.landing-page .hero-section > .hero-video {
+body.landing-page .hero-section>.hero-video {
     position: absolute !important;
     z-index: 0 !important;
     inset: 0 !important;
@@ -646,34 +641,30 @@ body.landing-page .hero-section > .hero-video {
     margin: 0 !important;
     object-fit: cover !important;
     object-position: center !important;
-     filter:
-        brightness(1.35)
-        saturate(1.25)
-        contrast(1.04);
+    filter:
+        brightness(1.35) saturate(1.25) contrast(1.04);
 }
 
-body.landing-page .hero-section > .hero-video-overlay {
+body.landing-page .hero-section>.hero-video-overlay {
     position: absolute !important;
     z-index: 1 !important;
     inset: 0 !important;
     background:
-        linear-gradient(
-            90deg,
+        linear-gradient(90deg,
             rgba(7, 27, 51, 0.88) 0%,
             rgba(7, 27, 51, 0.68) 50%,
-            rgba(7, 27, 51, 0.58) 100%
-        );
+            rgba(7, 27, 51, 0.58) 100%);
 }
 
-body.landing-page .hero-section > .hero-content,
-body.landing-page .hero-section > .hero-panel {
+body.landing-page .hero-section>.hero-content,
+body.landing-page .hero-section>.hero-panel {
     position: relative !important;
     z-index: 2 !important;
 }
 
 .success-message {
-    color:#059669;
-    }
+    color: #059669;
+}
 
 .error-message {
     color: #dc2626;
@@ -698,6 +689,7 @@ body.landing-page .hero-section > .hero-panel {
 .dashboard-welcome h1 span {
     color: var(--blue-600);
 }
+
 .ticket-form-card {
     max-width: 780px;
 }
@@ -721,6 +713,7 @@ body.landing-page .hero-section > .hero-panel {
     background-color: var(--white);
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
 }
+
 .ticket-list {
     display: grid;
     gap: 20px;
@@ -829,7 +822,7 @@ body.landing-page .hero-section > .hero-panel {
     box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07);
 }
 
-.ticket-detail > h1 {
+.ticket-detail>h1 {
     margin: 20px 0 32px;
     font-size: clamp(2rem, 4vw, 3rem);
 }
@@ -887,6 +880,7 @@ body.landing-page .hero-section > .hero-panel {
         grid-template-columns: 1fr;
     }
 }
+
 .comments-section {
     margin-top: 30px;
     padding: 32px;
@@ -1026,6 +1020,7 @@ a.feature-card:hover {
     background-color: var(--gray-50);
     font: inherit;
 }
+
 /* ========================================
    NOTIFICHE
 ======================================== */
@@ -1112,7 +1107,7 @@ a.feature-card:hover {
     gap: 9px;
 }
 
-#notificationsList > p {
+#notificationsList>p {
     margin: 8px 0;
     color: #64748b;
 }
@@ -1170,6 +1165,7 @@ a.feature-card:hover {
         gap: 8px;
     }
 }
+
 /* ========================================
    PAGINA BARCHE
 ======================================== */
@@ -1190,7 +1186,7 @@ a.feature-card:hover {
     font-size: clamp(36px, 5vw, 54px);
 }
 
-.page-introduction > p:last-child {
+.page-introduction>p:last-child {
     max-width: 700px;
     color: #53657d;
     font-size: 17px;
@@ -1283,11 +1279,9 @@ a.feature-card:hover {
     border: 1px solid #dbe4ef;
     border-radius: 18px;
     background:
-        linear-gradient(
-            145deg,
+        linear-gradient(145deg,
             #ffffff 0%,
-            #f5f9ff 100%
-        );
+            #f5f9ff 100%);
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease,
@@ -1327,13 +1321,23 @@ a.feature-card:hover {
 }
 
 .warranty-active {
-    background-color: #dcfce7;
-    color: #16733a;
+    color: #eafff7;
+    background: linear-gradient(135deg,
+            #078b63,
+            #13b981);
+    border: 1px solid #52dbad;
+    box-shadow:
+        0 7px 18px rgba(12, 177, 123, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
 .warranty-expired {
-    background-color: #fee2e2;
-    color: #b42318;
+    color: #9f211b;
+    background: linear-gradient(135deg,
+            #fff1ef,
+            #ffd9d5);
+    border: 1px solid #ff9f97;
+    box-shadow: 0 7px 18px rgba(191, 51, 42, 0.13);
 }
 
 .warranty-unknown {
@@ -1384,6 +1388,7 @@ a.feature-card:hover {
         grid-column: auto;
     }
 }
+
 /* Dati della barca nelle schede dei ticket */
 
 .ticket-boat {
@@ -1398,7 +1403,7 @@ a.feature-card:hover {
     background-color: #f2f7ff;
 }
 
-.ticket-boat > div {
+.ticket-boat>div {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -1435,6 +1440,7 @@ a.feature-card:hover {
         grid-template-columns: 1fr;
     }
 }
+
 /* ========================================
    DETTAGLIO DELLA BARCA NEL TICKET
 ======================================== */
@@ -1445,11 +1451,9 @@ a.feature-card:hover {
     border: 1px solid #cfe0f5;
     border-radius: 18px;
     background:
-        linear-gradient(
-            145deg,
+        linear-gradient(145deg,
             #f7faff 0%,
-            #eef5ff 100%
-        );
+            #eef5ff 100%);
 }
 
 .ticket-boat-detail[hidden] {
@@ -1478,7 +1482,7 @@ a.feature-card:hover {
     margin: 0;
 }
 
-.boat-information-grid > div {
+.boat-information-grid>div {
     padding: 16px;
     border: 1px solid #d9e5f3;
     border-radius: 12px;
@@ -1514,6 +1518,7 @@ a.feature-card:hover {
         grid-template-columns: 1fr;
     }
 }
+
 /* ========================================
    GESTIONE OPERATORE
 ======================================== */
@@ -1526,8 +1531,7 @@ a.feature-card:hover {
 
 .management-form {
     grid-template-columns:
-        repeat(3, minmax(190px, 1fr))
-        auto;
+        repeat(3, minmax(190px, 1fr)) auto;
 }
 
 .management-form .form-group {
@@ -1629,6 +1633,7 @@ a.feature-card:hover {
         justify-content: flex-start;
     }
 }
+
 /* Assegnazione del ticket */
 
 .assignment-section {
@@ -1644,8 +1649,7 @@ a.feature-card:hover {
 .assignment-form {
     display: grid;
     grid-template-columns:
-        minmax(280px, 1fr)
-        auto;
+        minmax(280px, 1fr) auto;
     align-items: end;
     gap: 18px;
 }
@@ -1672,6 +1676,7 @@ a.feature-card:hover {
         width: 100%;
     }
 }
+
 /* ========================================
    STORICO DEGLI STATI
 ======================================== */
@@ -1742,7 +1747,7 @@ a.feature-card:hover {
     color: #10213d;
 }
 
-.history-content p > span {
+.history-content p>span {
     color: #2f6fed;
     font-weight: 800;
 }
@@ -1764,6 +1769,7 @@ a.feature-card:hover {
 .empty-history p {
     margin: 0;
 }
+
 /* Gestione documenti RIC */
 
 .ric-action {
@@ -1901,6 +1907,7 @@ a.feature-card:hover {
         text-align: center;
     }
 }
+
 /* =====================================================
    WORKSPACE HIGH-TECH - DETTAGLIO TICKET
    ===================================================== */
@@ -1925,17 +1932,13 @@ a.feature-card:hover {
 body {
     color: var(--tech-text);
     background:
-        radial-gradient(
-            circle at 15% 5%,
+        radial-gradient(circle at 15% 5%,
             rgba(25, 188, 233, 0.11),
-            transparent 28rem
-        ),
-        linear-gradient(
-            180deg,
+            transparent 28rem),
+        linear-gradient(180deg,
             #eef7ff 0,
             #f7faff 420px,
-            #f3f6fa 100%
-        );
+            #f3f6fa 100%);
 }
 
 /* Header */
@@ -1956,11 +1959,9 @@ body {
 }
 
 .brand-logo {
-    background: linear-gradient(
-        135deg,
-        var(--tech-blue),
-        var(--tech-cyan)
-    );
+    background: linear-gradient(135deg,
+            var(--tech-blue),
+            var(--tech-cyan));
     box-shadow: 0 8px 24px rgba(25, 188, 233, 0.27);
 }
 
@@ -1999,12 +2000,10 @@ body {
     right: 32px;
     height: 3px;
     content: "";
-    background: linear-gradient(
-        90deg,
-        var(--tech-blue),
-        var(--tech-cyan),
-        transparent
-    );
+    background: linear-gradient(90deg,
+            var(--tech-blue),
+            var(--tech-cyan),
+            transparent);
     border-radius: 0 0 4px 4px;
 }
 
@@ -2042,13 +2041,11 @@ body {
     width: 100%;
     height: 1px;
     margin: 32px 0;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        #c7d7e9 12%,
-        #c7d7e9 88%,
-        transparent
-    );
+    background: linear-gradient(90deg,
+            transparent,
+            #c7d7e9 12%,
+            #c7d7e9 88%,
+            transparent);
 }
 
 /* Cliente e barca */
@@ -2063,11 +2060,9 @@ body {
     position: relative;
     padding: 24px;
     background:
-        linear-gradient(
-            145deg,
+        linear-gradient(145deg,
             rgba(238, 248, 255, 0.96),
-            rgba(255, 255, 255, 0.98)
-        );
+            rgba(255, 255, 255, 0.98));
     border: 1px solid #cfe1f3;
     border-radius: 20px;
 }
@@ -2079,11 +2074,9 @@ body {
     width: 70px;
     height: 70px;
     content: "";
-    background: radial-gradient(
-        circle,
-        rgba(25, 188, 233, 0.12),
-        transparent 68%
-    );
+    background: radial-gradient(circle,
+            rgba(25, 188, 233, 0.12),
+            transparent 68%);
     pointer-events: none;
 }
 
@@ -2100,11 +2093,9 @@ body {
     height: 48px;
     place-items: center;
     color: #ffffff;
-    background: linear-gradient(
-        135deg,
-        var(--tech-blue),
-        var(--tech-cyan)
-    );
+    background: linear-gradient(135deg,
+            var(--tech-blue),
+            var(--tech-cyan));
     border-radius: 14px;
     box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
     font-size: 0.78rem;
@@ -2181,7 +2172,7 @@ body {
     margin-bottom: 18px;
 }
 
-.ticket-detail > h1 {
+.ticket-detail>h1 {
     margin: 0 0 28px;
     color: var(--tech-navy);
     font-size: clamp(2rem, 4vw, 3rem);
@@ -2192,11 +2183,9 @@ body {
 }
 
 .ticket-information {
-    background: linear-gradient(
-        145deg,
-        #f4f9ff,
-        #ffffff
-    );
+    background: linear-gradient(145deg,
+            #f4f9ff,
+            #ffffff);
     border: 1px solid var(--tech-border);
     border-radius: 18px;
 }
@@ -2211,11 +2200,9 @@ body {
     margin-top: 32px;
     padding: 28px;
     background:
-        linear-gradient(
-            145deg,
+        linear-gradient(145deg,
             rgba(234, 246, 255, 0.95),
-            rgba(245, 250, 255, 0.96)
-        );
+            rgba(245, 250, 255, 0.96));
     border: 1px solid #bfdaf2;
     border-radius: 20px;
 }
@@ -2235,11 +2222,9 @@ body {
 
 .document-card {
     padding: 24px;
-    background: linear-gradient(
-        145deg,
-        #ffffff,
-        #f8fbff
-    );
+    background: linear-gradient(145deg,
+            #ffffff,
+            #f8fbff);
     border: 1px solid var(--tech-border);
     border-radius: 18px;
     box-shadow: 0 10px 30px rgba(16, 44, 80, 0.06);
@@ -2294,11 +2279,9 @@ body {
 
 .upload-workspace {
     background:
-        linear-gradient(
-            145deg,
+        linear-gradient(145deg,
             rgba(8, 28, 54, 0.98),
-            rgba(16, 44, 80, 0.98)
-        );
+            rgba(16, 44, 80, 0.98));
     border-color: rgba(87, 201, 255, 0.25);
 }
 
@@ -2350,11 +2333,9 @@ body {
     height: 52px;
     place-items: center;
     color: #ffffff;
-    background: linear-gradient(
-        135deg,
-        var(--tech-blue),
-        var(--tech-cyan)
-    );
+    background: linear-gradient(135deg,
+            var(--tech-blue),
+            var(--tech-cyan));
     border-radius: 15px;
     font-size: 0.75rem;
     font-weight: 900;
@@ -2376,17 +2357,16 @@ body {
 }
 
 .button-primary {
-    background: linear-gradient(
-        135deg,
-        var(--tech-blue),
-        #347ff1
-    );
+    background: linear-gradient(135deg,
+            var(--tech-blue),
+            #347ff1);
     box-shadow: 0 9px 22px rgba(37, 99, 235, 0.22);
 }
 
 /* Responsive */
 
 @media (max-width: 980px) {
+
     .case-context-grid,
     .upload-action-grid {
         grid-template-columns: 1fr;
@@ -2430,6 +2410,7 @@ body {
         flex-direction: column;
     }
 }
+
 /* Evidenza immediata dello stato dei ticket */
 
 .ticket-card {
@@ -2482,11 +2463,9 @@ body {
 
 .ticket-card-risolto {
     color: #ffffff;
-    background: linear-gradient(
-        135deg,
-        #174ea6,
-        #2374dc
-    );
+    background: linear-gradient(135deg,
+            #174ea6,
+            #2374dc);
     border: 1px solid #4d91eb;
 }
 
@@ -2506,11 +2485,9 @@ body {
 
 .ticket-card-chiuso {
     color: #dcecff;
-    background: linear-gradient(
-        135deg,
-        #0c294a,
-        #16446f
-    );
+    background: linear-gradient(135deg,
+            #0c294a,
+            #16446f);
     border: 1px solid #315c85;
 }
 
@@ -2525,6 +2502,7 @@ body {
 .ticket-card-chiuso .ticket-meta {
     border-color: rgba(255, 255, 255, 0.2);
 }
+
 /* =====================================================
    SCHEDE DATI NELL'ELENCO TICKET
    ===================================================== */
@@ -2543,7 +2521,7 @@ body {
     border-radius: 16px;
 }
 
-.ticket-boat-summary > * {
+.ticket-boat-summary>* {
     display: flex;
     min-width: 0;
     flex-direction: column;
@@ -2591,16 +2569,14 @@ body {
 
 .ticket-meta {
     display: grid;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(160px, 1fr)
-    );
+    grid-template-columns: repeat(auto-fit,
+            minmax(160px, 1fr));
     gap: 12px;
     margin-top: 20px;
     padding-top: 20px;
 }
 
-.ticket-meta > span {
+.ticket-meta>span {
     display: block;
     min-width: 0;
     padding: 13px 14px;
@@ -2611,7 +2587,7 @@ body {
     line-height: 1.5;
 }
 
-.ticket-meta > span strong {
+.ticket-meta>span strong {
     display: block;
     margin-top: 3px;
     color: #102a4c;
@@ -2621,15 +2597,15 @@ body {
 
 /* Schede sul ticket risolto o chiuso */
 
-.ticket-card-risolto .ticket-meta > span,
-.ticket-card-chiuso .ticket-meta > span {
+.ticket-card-risolto .ticket-meta>span,
+.ticket-card-chiuso .ticket-meta>span {
     color: #bcd1e8;
     background: rgba(255, 255, 255, 0.09);
     border-color: rgba(255, 255, 255, 0.18);
 }
 
-.ticket-card-risolto .ticket-meta > span strong,
-.ticket-card-chiuso .ticket-meta > span strong {
+.ticket-card-risolto .ticket-meta>span strong,
+.ticket-card-chiuso .ticket-meta>span strong {
     color: #ffffff;
 }
 
@@ -2668,6 +2644,7 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
 /* =====================================================
    CORREZIONE CONTRASTO E SCHEDE TICKET
    ===================================================== */
@@ -2685,7 +2662,7 @@ body {
     border-radius: 16px;
 }
 
-.ticket-boat > div {
+.ticket-boat>div {
     display: flex;
     min-width: 0;
     flex-direction: column;
@@ -2713,23 +2690,15 @@ body {
 
 /* Forza il contrasto anche nei ticket blu */
 
-.ticket-card-risolto
-.ticket-boat
-.ticket-boat-label,
+.ticket-card-risolto .ticket-boat .ticket-boat-label,
 
-.ticket-card-chiuso
-.ticket-boat
-.ticket-boat-label {
+.ticket-card-chiuso .ticket-boat .ticket-boat-label {
     color: #526b84;
 }
 
-.ticket-card-risolto
-.ticket-boat
-strong,
+.ticket-card-risolto .ticket-boat strong,
 
-.ticket-card-chiuso
-.ticket-boat
-strong {
+.ticket-card-chiuso .ticket-boat strong {
     color: #0a2949;
 }
 
@@ -2760,16 +2729,14 @@ strong {
 
 .ticket-meta {
     display: grid;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(145px, 1fr)
-    );
+    grid-template-columns: repeat(auto-fit,
+            minmax(145px, 1fr));
     gap: 12px;
     margin-top: 20px;
     padding: 20px 0 0;
 }
 
-.ticket-meta > span {
+.ticket-meta>span {
     display: flex;
     min-width: 0;
     flex-direction: column;
@@ -2783,7 +2750,7 @@ strong {
     font-weight: 700;
 }
 
-.ticket-meta > span strong {
+.ticket-meta>span strong {
     color: #0a2949;
     font-size: 0.9rem;
     font-weight: 900;
@@ -2792,15 +2759,15 @@ strong {
 
 /* Schede sopra sfondo blu */
 
-.ticket-card-risolto .ticket-meta > span,
-.ticket-card-chiuso .ticket-meta > span {
+.ticket-card-risolto .ticket-meta>span,
+.ticket-card-chiuso .ticket-meta>span {
     color: #d3e5f8;
     background: #10395f;
     border-color: #3c658b;
 }
 
-.ticket-card-risolto .ticket-meta > span strong,
-.ticket-card-chiuso .ticket-meta > span strong {
+.ticket-card-risolto .ticket-meta>span strong,
+.ticket-card-chiuso .ticket-meta>span strong {
     color: #ffffff;
 }
 
@@ -2880,19 +2847,15 @@ strong {
 
 /* Impedisce alle vecchie regole di schiarire i badge */
 
-.ticket-card-risolto
-.ticket-priority.priority-urgente,
+.ticket-card-risolto .ticket-priority.priority-urgente,
 
-.ticket-card-chiuso
-.ticket-priority.priority-urgente {
+.ticket-card-chiuso .ticket-priority.priority-urgente {
     color: #991b1b;
 }
 
-.ticket-card-risolto
-.ticket-status.status-chiuso,
+.ticket-card-risolto .ticket-status.status-chiuso,
 
-.ticket-card-chiuso
-.ticket-status.status-chiuso {
+.ticket-card-chiuso .ticket-status.status-chiuso {
     color: #ffffff;
 }
 
@@ -2908,6 +2871,7 @@ strong {
         flex-direction: column;
     }
 }
+
 .forgot-password {
     margin: -4px 0 18px;
     text-align: right;
@@ -2923,4 +2887,5670 @@ strong {
 
 .forgot-password a:hover {
     text-decoration: underline;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.ticket-attachments {
+    margin-top: 28px;
+}
+
+.ticket-attachments h3 {
+    margin-bottom: 16px;
+    color: #0b2545;
+}
+
+.ticket-attachments-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.ticket-attachment-card {
+    margin: 0;
+    padding: 12px;
+    overflow: hidden;
+    border: 1px solid #d8e2ef;
+    border-radius: 16px;
+    background: #f8fbff;
+}
+
+.ticket-attachment-card img,
+.ticket-attachment-card video {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.ticket-attachment-card figcaption {
+    margin-top: 10px;
+    overflow-wrap: anywhere;
+    color: #52657d;
+    font-size: 0.9rem;
+}
+
+.ticket-attachments {
+    margin-top: 28px;
+}
+
+.ticket-attachments h3 {
+    margin-bottom: 16px;
+    color: #0b2545;
+}
+
+.ticket-attachments-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.ticket-attachment-card {
+    margin: 0;
+    padding: 12px;
+    overflow: hidden;
+    border: 1px solid #d8e2ef;
+    border-radius: 16px;
+    background: #f8fbff;
+}
+
+.ticket-attachment-card img,
+.ticket-attachment-card video {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #071d35;
+}
+
+.ticket-attachment-card figcaption {
+    margin-top: 10px;
+    overflow-wrap: anywhere;
+    color: #52657d;
+    font-size: 0.9rem;
+}
+
+.ticket-media-preview {
+    display: flex;
+    width: 100%;
+    margin: 20px 0;
+    overflow: hidden;
+    border: 1px solid #cbd9ea;
+    border-radius: 16px;
+    background: #eef4fa;
+    align-items: center;
+    justify-content: center;
+}
+
+.ticket-media-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    background: #eef4fa;
+}
+
+.ticket-media-preview video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    background: #071f3b;
+}
+
+.ticket-preview-missing {
+    margin: 20px 0;
+    padding: 18px;
+    border: 1px dashed #b9cce3;
+    border-radius: 14px;
+    color: #61738d;
+    background: #f5f8fc;
+    text-align: center;
+}
+
+.attachment-information {
+    display: grid;
+    gap: 6px;
+    padding: 12px 0;
+}
+
+.attachment-origin {
+    color: #61738d;
+    font-size: 0.85rem;
+}
+
+.attachment-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.attachment-delete-button {
+    padding: 10px 16px;
+    color: #0b2545;
+    background: #ffffff;
+    border: 1px solid #d3e1ee;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.attachment-delete-button:hover {
+    color: #0b2545;
+    background: #edf5fb;
+    border-color: #a9c8e1;
+}
+
+/* =====================================================
+   STORICO TICKET NEL PROFILO CLIENTE
+   ===================================================== */
+
+.profile-ticket-history {
+    overflow: hidden;
+    background:
+        linear-gradient(180deg,
+            #ffffff 0%,
+            #f5f9fd 100%);
+}
+
+.profile-ticket-results {
+    display: grid;
+    gap: 22px;
+}
+
+.profile-ticket-row {
+    position: relative;
+    display: grid;
+    grid-template-columns:
+        minmax(250px, 310px) minmax(0, 1fr) minmax(145px, 180px);
+    min-height: 230px;
+    overflow: hidden;
+    border: 1px solid #cad9e8;
+    border-left: 6px solid #1786c9;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow:
+        0 14px 34px rgba(7, 31, 59, 0.1);
+    transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+}
+
+.profile-ticket-row:hover {
+    transform: translateY(-3px);
+    border-color: #72bde8;
+    box-shadow:
+        0 20px 44px rgba(7, 31, 59, 0.15);
+}
+
+.profile-ticket-row-aperto {
+    border-left-color: #ef4444;
+}
+
+.profile-ticket-row-in_lavorazione {
+    border-left-color: #06b6d4;
+}
+
+.profile-ticket-row-risolto {
+    border-left-color: #059669;
+}
+
+.profile-ticket-row-chiuso {
+    border-left-color: #475569;
+}
+
+.profile-ticket-preview {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    min-height: 230px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    background:
+        linear-gradient(145deg,
+            #071f3b,
+            #0b4770);
+}
+
+.profile-ticket-preview img,
+.profile-ticket-preview video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 290px;
+    object-fit: contain;
+    background:
+        linear-gradient(145deg,
+            #071f3b,
+            #0b4770);
+}
+
+.profile-ticket-preview video {
+    min-height: 230px;
+}
+
+.profile-ticket-preview-placeholder {
+    display: flex;
+    min-height: 230px;
+    padding: 28px;
+    color: #d9f1ff;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.profile-ticket-preview-symbol {
+    display: block;
+    color: #54cef5;
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.profile-ticket-content {
+    min-width: 0;
+    padding: 26px 28px;
+}
+
+.profile-ticket-heading {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.profile-ticket-number {
+    color: #1769d2;
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.profile-ticket-content h3 {
+    margin: 0 0 18px;
+    color: #071f3b;
+    font-size: clamp(1.25rem,
+            2vw,
+            1.65rem);
+    line-height: 1.25;
+}
+
+.profile-ticket-boat {
+    display: flex;
+    margin-bottom: 18px;
+    padding: 13px 15px;
+    border: 1px solid #cde0ef;
+    border-radius: 12px;
+    background:
+        linear-gradient(135deg,
+            #f2f9fd,
+            #e8f4fb);
+    flex-direction: column;
+    gap: 4px;
+}
+
+.profile-ticket-boat span {
+    color: #58728b;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.profile-ticket-boat strong {
+    color: #0a3658;
+    font-size: 0.98rem;
+    overflow-wrap: anywhere;
+}
+
+.profile-ticket-information {
+    display: grid;
+    margin: 0;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.profile-ticket-information>div {
+    min-width: 0;
+    padding: 11px 12px;
+    border: 1px solid #dae5ef;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.profile-ticket-information dt {
+    margin-bottom: 5px;
+    color: #6b7f94;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.profile-ticket-information dd {
+    margin: 0;
+    color: #102b48;
+    font-size: 0.88rem;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.profile-ticket-actions {
+    display: flex;
+    padding: 24px;
+    border-left: 1px solid #dce6ef;
+    background:
+        linear-gradient(180deg,
+            #f8fbfe,
+            #edf5fa);
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-ticket-detail-link {
+    width: 100%;
+    padding-right: 14px;
+    padding-left: 14px;
+    text-align: center;
+    white-space: normal;
+}
+
+@media (max-width: 1050px) {
+    .profile-ticket-row {
+        grid-template-columns:
+            minmax(210px, 260px) minmax(0, 1fr);
+    }
+
+    .profile-ticket-actions {
+        padding: 0 24px 24px;
+        border-left: 0;
+        background: #ffffff;
+        grid-column: 2;
+        justify-content: flex-start;
+    }
+
+    .profile-ticket-detail-link {
+        width: auto;
+    }
+
+    .profile-ticket-information {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .profile-ticket-row {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-ticket-preview {
+        min-height: 210px;
+    }
+
+    .profile-ticket-preview img,
+    .profile-ticket-preview video {
+        width: 100%;
+        height: 240px;
+        min-height: 0;
+    }
+
+    .profile-ticket-preview-placeholder {
+        min-height: 210px;
+    }
+
+    .profile-ticket-content {
+        padding: 22px;
+    }
+
+    .profile-ticket-information {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-ticket-actions {
+        padding: 0 22px 22px;
+        border: 0;
+        grid-column: auto;
+    }
+
+    .profile-ticket-detail-link {
+        width: 100%;
+    }
+}
+
+/* =====================================================
+   PROFILO CLIENTE E FOOTER AZIENDALE
+   ===================================================== */
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+body>main {
+    width: 100%;
+    flex: 1 0 auto;
+}
+
+.profile-main {
+    width: min(100% - 40px, 1280px);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.profile-welcome {
+    padding-bottom: 34px;
+}
+
+.profile-welcome h1 {
+    margin-top: 0;
+}
+
+.profile-customer-card,
+.profile-ticket-history {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.profile-customer-card {
+    margin-bottom: 42px;
+}
+
+.profile-ticket-history {
+    margin-top: 0;
+}
+
+.profile-customer-card .auth-form {
+    width: 100%;
+    max-width: none;
+}
+
+/* Anteprime chiare e proporzionate */
+
+.profile-ticket-preview {
+    color: #52677d;
+    background: #f1f4f7;
+    border-right: 1px solid #d8e1ea;
+}
+
+.profile-ticket-preview img,
+.profile-ticket-preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #ffffff;
+}
+
+.profile-ticket-preview-placeholder {
+    color: #60758a;
+    background:
+        linear-gradient(145deg,
+            #f8fafc,
+            #e8eef4);
+}
+
+.profile-ticket-preview-symbol {
+    color: #1686b8;
+}
+
+/* Footer Sessa International */
+
+.company-footer {
+    width: 100%;
+    margin-top: 56px;
+    color: #dce9f4;
+    background:
+        linear-gradient(135deg,
+            #071b33,
+            #0d3458);
+    border-top: 4px solid #1ab6df;
+}
+
+.company-footer-content {
+    width: min(1180px, calc(100% - 40px));
+    min-height: 112px;
+    margin: 0 auto;
+    padding: 25px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    text-align: center;
+    font-size: 0.88rem;
+    line-height: 1.55;
+}
+
+.company-footer-content strong {
+    width: 100%;
+    color: #ffffff;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+}
+
+.company-footer-content>span:not(:last-child)::after {
+    margin-left: 18px;
+    color: #56c9ed;
+    content: "|";
+}
+
+@media (max-width: 700px) {
+    .profile-main {
+        width: min(100% - 22px, 1280px);
+    }
+
+    .profile-customer-card {
+        margin-bottom: 28px;
+    }
+
+    .profile-ticket-preview {
+        border-right: 0;
+        border-bottom: 1px solid #d8e1ea;
+    }
+
+    .company-footer {
+        margin-top: 38px;
+    }
+
+    .company-footer-content {
+        width: min(100% - 28px, 1180px);
+        padding: 24px 0;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .company-footer-content>span:not(:last-child)::after {
+        content: none;
+    }
+}
+
+/* Correzione definitiva della scheda cliente */
+
+.customer-context-card {
+    display: block !important;
+}
+
+.customer-context-card .context-label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.customer-context-card h3 {
+    display: block;
+    margin: 0 0 20px;
+    color: #1479e8;
+    font-size: 1.4rem;
+    line-height: 1.25;
+}
+
+.customer-information {
+    display: grid !important;
+    margin: 0;
+    grid grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.customer-information>div {
+    display: block !important;
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d2e1f1;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.customer-information dt {
+    display: block;
+    margin: 0 0 6px;
+    color: #5b708c;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.customer-information dd {
+    display: block;
+    margin: 0;
+    color: #071f3b;
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* Roadmap degli stati */
+
+.ticket-roadmap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-bottom: 34px;
+    overflow: hidden;
+    border: 1px solid #c9dbea;
+    border-radius: 16px;
+    background: #f8fbfd;
+}
+
+.roadmap-step {
+    position: relative;
+    min-height: 110px;
+    padding: 22px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-right: 1px solid #d6e3ee;
+}
+
+.roadmap-step:last-child {
+    border-right: 0;
+}
+
+.roadmap-marker {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #60758a;
+    background: #e3ebf2;
+    font-weight: 800;
+}
+
+.roadmap-step strong,
+.roadmap-step small {
+    display: block;
+}
+
+.roadmap-step small {
+    margin-top: 5px;
+    color: #60758a;
+}
+
+.roadmap-completed {
+    background: #e9f7f3;
+}
+
+.roadmap-completed .roadmap-marker {
+    color: #fff;
+    background: #149a77;
+}
+
+.roadmap-current {
+    color: #fff;
+    background: linear-gradient(135deg, #08749d, #18a9c8);
+}
+
+.roadmap-current .roadmap-marker {
+    color: #08749d;
+    background: #fff;
+}
+
+.roadmap-current small {
+    color: #e8fbff;
+}
+
+/* Documenti cliente e operatore */
+
+.ticket-documents-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.ticket-document-column {
+    min-width: 0;
+    padding: 24px;
+    border: 1px solid #cbddea;
+    border-radius: 18px;
+    background: #f9fbfd;
+}
+
+.client-document-column {
+    border-top: 4px solid #14a6c8;
+}
+
+.operator-document-column {
+    border-top: 4px solid #075387;
+}
+
+.document-column-heading {
+    margin-bottom: 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.document-column-heading h3 {
+    margin: 0 0 6px;
+    color: #092542;
+    font-size: 1.25rem;
+}
+
+.document-column-heading p {
+    margin: 0;
+    color: #60758a;
+    line-height: 1.5;
+}
+
+.document-column-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    color: #fff;
+    background: #14a6c8;
+    font-size: 0.75rem;
+    font-weight: 900;
+}
+
+.document-column-icon.operator-icon {
+    background: #075387;
+}
+
+.client-documents-form {
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid #d5e1eb;
+}
+
+.client-documents-ready,
+.operator-documents-empty {
+    padding: 24px;
+    border: 1px dashed #b8cede;
+    border-radius: 14px;
+    color: #536b80;
+    background: #fff;
+    text-align: center;
+}
+
+.client-documents-ready strong,
+.operator-documents-empty strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #163650;
+}
+
+.client-documents-ready p,
+.operator-documents-empty p {
+    margin: 0;
+    line-height: 1.55;
+}
+
+.client-document-column .ticket-attachment-card {
+    margin-bottom: 14px;
+    background: #fff;
+}
+
+@media (max-width: 850px) {
+
+    .ticket-roadmap,
+    .ticket-documents-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .roadmap-step {
+        min-height: auto;
+        border-right: 0;
+        border-bottom: 1px solid #d6e3ee;
+    }
+
+    .roadmap-step:last-child {
+        border-bottom: 0;
+    }
+}
+
+/* =====================================================
+   ELENCO BARCHE CON TICKET ASSOCIATI
+   ===================================================== */
+
+.boats-ticket-section {
+    width: 100%;
+}
+
+.registered-boats-list {
+    display: grid;
+    gap: 28px;
+}
+
+.registered-boat-card {
+    overflow: hidden;
+    border: 1px solid #c9dbea;
+    border-top: 4px solid #13a8ca;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 14px 38px rgba(7, 42, 73, 0.08);
+}
+
+.registered-boat-header {
+    padding: 26px 28px 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    background:
+        linear-gradient(135deg,
+            #f5fbff,
+            #e9f5fb);
+}
+
+.registered-boat-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #1479e8;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.registered-boat-header h3 {
+    margin: 0;
+    color: #082441;
+    font-size: 1.7rem;
+}
+
+.registered-boat-header p {
+    margin: 7px 0 0;
+    color: #536b80;
+    font-weight: 700;
+}
+
+.registered-boat-information {
+    margin: 0;
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.registered-boat-information>div {
+    padding: 15px;
+    border: 1px solid #d3e2ee;
+    border-radius: 13px;
+    background: #f9fbfd;
+}
+
+.registered-boat-information dt,
+.boat-ticket-information dt {
+    margin-bottom: 6px;
+    color: #60758a;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.registered-boat-information dd,
+.boat-ticket-information dd {
+    margin: 0;
+    color: #082441;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.boat-related-tickets {
+    padding: 24px 28px 28px;
+    border-top: 1px solid #d7e4ee;
+    background: #f6f9fc;
+}
+
+.boat-related-ticket-heading {
+    margin-bottom: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.boat-related-ticket-heading h4 {
+    margin: 0;
+    color: #082441;
+    font-size: 1.2rem;
+}
+
+.boat-ticket-count {
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: #075387;
+    background: #dceef8;
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.boat-related-ticket-list {
+    display: grid;
+    gap: 13px;
+}
+
+.boat-ticket-card {
+    padding: 17px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #cfdeea;
+    border-left: 5px solid #ef4444;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.boat-ticket-in_lavorazione {
+    border-left-color: #f59e0b;
+}
+
+.boat-ticket-risolto {
+    border-left-color: #13a079;
+}
+
+.boat-ticket-chiuso {
+    border-left-color: #60758a;
+}
+
+.boat-ticket-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.boat-ticket-number {
+    color: #1479e8;
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.boat-ticket-content h4 {
+    margin: 12px 0;
+    color: #082441;
+    font-size: 1.1rem;
+}
+
+.boat-ticket-information {
+    margin: 0;
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.boat-ticket-information>div {
+    padding: 10px;
+    border: 1px solid #d8e4ed;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.boat-no-tickets,
+.boats-empty-state {
+    margin: 0;
+    padding: 25px;
+    border: 1px dashed #b9cedd;
+    border-radius: 14px;
+    color: #60758a;
+    background: #ffffff;
+    text-align: center;
+}
+
+.boats-empty-state strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #153650;
+    font-size: 1.05rem;
+}
+
+.boats-empty-state p {
+    margin: 0;
+}
+
+@media (max-width: 850px) {
+
+    .registered-boat-information,
+    .boat-ticket-information {
+        grid-template-columns: 1fr;
+    }
+
+    .boat-ticket-card {
+        grid-template-columns: 1fr;
+    }
+
+    .boat-ticket-actions .button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .registered-boat-header {
+        flex-direction: column;
+    }
+
+    .registered-boat-information,
+    .boat-related-tickets,
+    .registered-boat-header {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+}
+
+/* Gestione operatori */
+
+.operators-main {
+    display: grid;
+    gap: 32px;
+}
+
+.operators-list {
+    display: grid;
+    gap: 14px;
+}
+
+.operator-management-card {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border: 1px solid #cfdeea;
+    border-left: 5px solid #14a6c8;
+    border-radius: 15px;
+    background: #f9fbfd;
+}
+
+.operator-management-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.operator-management-heading h3 {
+    margin: 0;
+    color: #082441;
+}
+
+.operator-manager-badge {
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: #075387;
+    background: #dceef8;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.operator-management-contacts {
+    margin-top: 9px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    color: #60758a;
+}
+
+.operator-ticket-workload {
+    min-width: 105px;
+    padding: 13px;
+    border-radius: 12px;
+    background: #e9f4fa;
+    text-align: center;
+}
+
+.operator-ticket-workload strong,
+.operator-ticket-workload span {
+    display: block;
+}
+
+.operator-ticket-workload strong {
+    color: #075387;
+    font-size: 1.5rem;
+}
+
+.operator-ticket-workload span {
+    color: #60758a;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.operator-create-section .auth-form {
+    max-width: none;
+}
+
+@media (max-width: 650px) {
+    .operator-management-card {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .operator-ticket-workload {
+        width: 100%;
+    }
+}
+
+.operator-company-role {
+    width: 100%;
+    color: #1479e8;
+    font-size: 0.85rem;
+}
+
+.operator-management-side {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.operator-management-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.operator-active-badge,
+.operator-inactive-badge {
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.operator-active-badge {
+    color: #08775c;
+    background: #dff6ef;
+}
+
+.operator-inactive-badge {
+    color: #a52121;
+    background: #fee2e2;
+}
+
+.operator-management-inactive {
+    opacity: 0.7;
+    border-left-color: #94a3b8;
+    background: #f1f5f9;
+}
+
+.operator-disable-button {
+    color: #b91c1c;
+    border-color: #f1aaaa;
+    background: #fff;
+}
+
+.operator-enable-button {
+    color: #08775c;
+    border-color: #86d5bf;
+    background: #fff;
+}
+
+.operator-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+@media (max-width: 750px) {
+    .operator-management-side {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .operator-management-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+/* ===== Dettagli cliente e imbarcazione High-Tech ===== */
+
+.case-context-grid {
+    display: grid;
+    grid-template-columns: minmax(270px, 0.72fr) minmax(560px, 1.55fr);
+    gap: 22px;
+    margin-top: 26px;
+    font-family:
+        "Segoe UI Variable",
+        Inter,
+        "Segoe UI",
+        sans-serif;
+}
+
+/* Struttura comune */
+
+.context-card {
+    position: relative;
+    min-width: 0;
+    padding: 27px 28px;
+    overflow: hidden;
+    border-radius: 18px;
+    box-shadow: 0 18px 38px rgba(5, 37, 67, 0.1);
+}
+
+.context-card::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 3px;
+    content: "";
+    background: linear-gradient(90deg,
+            #276cff,
+            #20d4ed,
+            transparent 90%);
+}
+
+.context-card::after {
+    position: absolute;
+    top: -90px;
+    right: -80px;
+    width: 230px;
+    height: 230px;
+    content: "";
+    background: radial-gradient(circle,
+            rgba(31, 210, 237, 0.16),
+            transparent 68%);
+    pointer-events: none;
+}
+
+.context-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #57728d;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.context-card h3 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 650;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+/* Scheda cliente scura */
+
+.customer-context-card {
+    display: block;
+    color: #ffffff;
+    background:
+        linear-gradient(150deg,
+            #071f3c 0%,
+            #0a3158 58%,
+            #075f7c 100%);
+    border: 1px solid #215b81;
+}
+
+.customer-context-card .context-label {
+    color: #80dff1;
+}
+
+.customer-context-card h3 {
+    color: #ffffff;
+}
+
+.customer-information {
+    display: grid;
+    gap: 10px;
+    margin: 21px 0 0;
+}
+
+.customer-information>div {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.075);
+    border: 1px solid rgba(180, 226, 246, 0.19);
+    border-radius: 10px;
+    box-shadow: inset 3px 0 0 rgba(32, 211, 237, 0.32);
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.customer-information>div:hover {
+    transform: translateX(2px);
+    background: rgba(255, 255, 255, 0.11);
+    border-color: rgba(105, 218, 241, 0.5);
+}
+
+.customer-information dt {
+    margin-bottom: 6px;
+    color: #8ecde4;
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.customer-information dd {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.91rem;
+    font-weight: 520;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+/* Scheda imbarcazione chiara */
+
+.boat-context-card {
+    background:
+        linear-gradient(145deg,
+            #f8fcff 0%,
+            #e8f7ff 100%);
+    border: 1px solid #acd4ed;
+}
+
+.boat-context-card h3 {
+    color: #086ee2;
+}
+
+.context-card-heading {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #c6dfef;
+}
+
+.boat-information-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 20px 0 0;
+}
+
+.boat-information-grid>div {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid #cbdfea;
+    border-radius: 10px;
+    box-shadow:
+        0 5px 14px rgba(17, 71, 112, 0.04),
+        inset 3px 0 0 rgba(28, 115, 232, 0.13);
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.boat-information-grid>div:hover {
+    transform: translateY(-2px);
+    border-color: #62afe4;
+    box-shadow:
+        0 10px 22px rgba(17, 71, 112, 0.1),
+        inset 3px 0 0 #1a83e8;
+}
+
+/* Indirizzo di consegna largo */
+
+.boat-information-grid>div:nth-child(4) {
+    grid-column: 1 / -1;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.boat-information-grid dt {
+    margin-bottom: 6px;
+    color: #58738e;
+    font-size: 0.63rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.085em;
+    text-transform: uppercase;
+}
+
+.boat-information-grid dd {
+    margin: 0;
+    color: #08213e;
+    font-size: 0.91rem;
+    font-weight: 520;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* Garanzia */
+
+.warranty-badge {
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.warranty-active {
+    color: #087354;
+    background: #dcf8eb;
+    border: 1px solid #82dab6;
+}
+
+.warranty-expired {
+    color: #b42820;
+    background: #ffebe8;
+    border: 1px solid #ffa9a2;
+}
+
+/* Titolo sezione */
+
+.case-context-grid+.section-divider {
+    margin-top: 32px;
+}
+
+@media (max-width: 960px) {
+    .case-context-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .boat-information-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .boat-information-grid>div:nth-child(4) {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 520px) {
+    .context-card {
+        padding: 22px 18px;
+        border-radius: 15px;
+    }
+
+    .context-card-heading {
+        flex-direction: column;
+    }
+
+    .boat-information-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .boat-information-grid>div:nth-child(4) {
+        grid-column: auto;
+    }
+}
+
+/* ===== Intestazione e informazioni ticket TECH ===== */
+
+.ticket-section-heading {
+    margin-bottom: 18px;
+}
+
+.ticket-card-header {
+    display: flex;
+    width: fit-content;
+    margin: 0 0 22px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.ticket-number {
+    color: #126ce5;
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.ticket-status {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+}
+
+.status-aperto {
+    color: #a2251d;
+    background: #ffe8e5;
+    border: 1px solid #ffaaa3;
+}
+
+.status-in_lavorazione {
+    color: #006b87;
+    background: #dcf8ff;
+    border: 1px solid #35c7e8;
+}
+
+.status-risolto {
+    color: #087456;
+    background: #dff8ed;
+    border: 1px solid #82d9b7;
+}
+
+.status-chiuso {
+    color: #53657a;
+    background: #e9eff5;
+    border: 1px solid #bdcad7;
+}
+
+/* Sidebar Informazioni */
+
+.ticket-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(270px, 330px);
+    gap: 30px;
+    align-items: stretch;
+}
+
+.ticket-information {
+    display: flex;
+    height: 100%;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    flex-direction: column;
+    align-self: stretch;
+    color: #ffffff;
+    background:
+        linear-gradient(155deg,
+            #071f3c 0%,
+            #0b3158 55%,
+            #075a80 100%);
+    border: 1px solid #205b82;
+    border-radius: 18px;
+    box-shadow:
+        0 18px 38px rgba(5, 34, 61, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.ticket-information h2 {
+    position: relative;
+    margin: 0;
+    padding: 23px 24px 20px;
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.ticket-information h2::after {
+    position: absolute;
+    right: 24px;
+    bottom: -1px;
+    left: 24px;
+    height: 2px;
+    content: "";
+    background: linear-gradient(90deg,
+            #2d7bff,
+            #21d4ed,
+            transparent);
+}
+
+.ticket-information dl {
+    display: flex;
+    flex: 1;
+    margin: 0;
+    padding: 8px 20px 16px;
+    flex-direction: column;
+}
+
+.ticket-information dl>div {
+    display: flex;
+    min-height: 68px;
+    padding: 13px 5px;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid rgba(200, 229, 247, 0.18);
+}
+
+.ticket-information dl>div:last-child {
+    border-bottom: 0;
+}
+
+.ticket-information dt {
+    margin-bottom: 5px;
+    color: #8ccce9;
+    font-size: 0.65rem;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.ticket-information dd {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.92rem;
+    font-weight: 750;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.ticket-information dl>div:nth-child(even) dd {
+    color: #dff8ff;
+}
+
+@media (max-width: 850px) {
+    .ticket-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-information {
+        height: auto;
+    }
+
+    .ticket-information dl {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 18px;
+    }
+}
+
+@media (max-width: 520px) {
+    .ticket-information dl {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Imbarcazione con stile scuro High-Tech */
+
+.boat-context-card {
+    color: #ffffff;
+    background:
+        linear-gradient(145deg,
+            #082847 0%,
+            #07486b 58%,
+            #08728a 100%);
+    border-color: #247ca0;
+}
+
+.boat-context-card .context-label {
+    color: #81e4f3;
+}
+
+.boat-context-card h3 {
+    color: #ffffff;
+}
+
+.boat-context-card .context-card-heading {
+    border-bottom-color: rgba(180, 231, 245, 0.2);
+}
+
+.boat-information-grid>div {
+    background: rgba(255, 255, 255, 0.075);
+    border-color: rgba(180, 226, 246, 0.2);
+    box-shadow:
+        inset 3px 0 0 rgba(39, 211, 237, 0.34),
+        0 5px 14px rgba(1, 23, 41, 0.08);
+}
+
+.boat-information-grid>div:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(104, 224, 242, 0.58);
+    box-shadow:
+        inset 3px 0 0 #2ad7ee,
+        0 10px 22px rgba(1, 23, 41, 0.16);
+}
+
+.boat-information-grid dt {
+    color: #8cd6e8;
+    font-weight: 700;
+}
+
+.boat-information-grid dd {
+    color: #ffffff;
+    font-weight: 520;
+}
+
+.boat-context-card::after {
+    background: radial-gradient(circle,
+            rgba(56, 221, 241, 0.2),
+            transparent 68%);
+}
+
+/* Correzione definitiva selezione allegati */
+
+#additionalAttachments {
+    display: none !important;
+}
+
+.additional-attachments {
+    margin-top: 22px;
+    padding: 18px 0 0;
+    border-top: 1px solid #d6e4ef;
+}
+
+.attachment-upload-instruction {
+    margin: 0 0 13px;
+    color: #526b84;
+    font-size: 0.86rem;
+    font-weight: 450;
+}
+
+.compact-upload-form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 9px;
+}
+
+.tech-file-picker {
+    display: inline-flex;
+    min-height: 38px;
+    padding: 8px 15px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #0867d6;
+    background: linear-gradient(135deg, #ffffff, #eaf6ff);
+    border: 1px solid #91c5e9;
+    border-radius: 9px;
+    box-shadow: 0 5px 14px rgba(16, 93, 168, 0.09);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.tech-file-picker:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, #166be2, #16aace);
+    border-color: transparent;
+    transform: translateY(-1px);
+}
+
+.compact-upload-button {
+    min-height: 38px;
+    padding: 8px 16px;
+    border-radius: 9px;
+    font-size: 0.82rem;
+}
+
+@media (max-width: 480px) {
+    .compact-upload-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .tech-file-picker,
+    .compact-upload-button {
+        width: 100%;
+    }
+}
+
+/* Sistemazione comandi degli allegati */
+
+.ticket-attachment-card {
+    padding: 12px;
+    background: #ffffff;
+}
+
+.ticket-attachment-card img,
+.ticket-attachment-card video {
+    display: block;
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    background: #ffffff !important;
+    border-radius: 9px;
+}
+
+.attachment-actions {
+    display: flex;
+    margin-top: 14px;
+    padding-top: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-top: 1px solid #e1eaf2;
+}
+
+.attachment-actions .button,
+.attachment-actions .attachment-delete-button {
+    display: inline-flex;
+    width: auto;
+    min-width: 0;
+    min-height: 34px;
+    margin: 0;
+    padding: 7px 13px;
+    align-items: center;
+    justify-content: center;
+    color: #0b2948;
+    background: #f7fbfe;
+    border: 1px solid #cbdce9;
+    border-radius: 8px;
+    box-shadow: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.attachment-actions .button:hover,
+.attachment-actions .attachment-delete-button:hover {
+    color: #0866d9;
+    background: #eaf5fc;
+    border-color: #85bce3;
+    transform: translateY(-1px);
+}
+
+.warranty-neutral {
+    color: #e8fbff;
+    background: linear-gradient(135deg,
+            #176b91,
+            #159ab2);
+    border: 1px solid #5fd1e3;
+    box-shadow: 0 7px 18px rgba(18, 151, 179, 0.22);
+}
+
+/* Titolo, numero ticket e richiesta */
+
+#ticketNumber {
+    color: #0b3158;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+#ticketTitle {
+    margin: 0 0 12px;
+    color: #0b3158;
+    font-weight: 720;
+    letter-spacing: -0.025em;
+}
+
+#ticketDescription {
+    position: relative;
+    margin: 0 0 22px;
+    padding: 15px 18px;
+    color: #ffffff;
+    background: linear-gradient(100deg,
+            #071f3c 0%,
+            #0b3158 52%,
+            #126b89 100%);
+    border: 1px solid rgba(73, 188, 221, 0.42);
+    border-left: 3px solid #23d1e9;
+    border-radius: 10px;
+    box-shadow: 0 10px 24px rgba(7, 38, 70, 0.12);
+    font-size: 0.96rem;
+    font-weight: 430;
+    line-height: 1.55;
+    white-space: pre-wrap;
+}
+
+/* Rifinitura visuale del dettaglio ticket */
+
+.ticket-information {
+    background: linear-gradient(160deg,
+            #071f3c 0%,
+            #0a365d 52%,
+            #096b82 115%);
+    box-shadow:
+        0 20px 44px rgba(7, 37, 68, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.ticket-information h2 {
+    font-size: 1.22rem;
+    font-weight: 620;
+    letter-spacing: -0.015em;
+}
+
+.ticket-information dt {
+    color: #76d9ed;
+    font-weight: 650;
+}
+
+.ticket-information dd {
+    font-weight: 520;
+}
+
+/* Descrizione più raffinata */
+
+#ticketDescription {
+    margin: 0 0 28px;
+    padding: 14px 18px;
+    color: #eafaff;
+    background: linear-gradient(95deg,
+            rgba(7, 40, 75, 0.98),
+            rgba(8, 87, 121, 0.88),
+            rgba(16, 139, 161, 0.78));
+    border: 0;
+    border-left: 3px solid #28d5ec;
+    border-radius: 8px;
+    box-shadow:
+        0 10px 24px rgba(7, 38, 70, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    font-size: 0.93rem;
+    font-weight: 420;
+}
+
+/* Foto e barra comandi integrate */
+
+.ticket-attachment-card {
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #cbdde9;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(7, 43, 77, 0.07);
+}
+
+.ticket-attachment-card img,
+.ticket-attachment-card video {
+    border-radius: 0;
+}
+
+.attachment-actions {
+    margin: 0;
+    padding: 11px 12px;
+    background: linear-gradient(90deg,
+            #f8fbfe,
+            #edf6fb);
+    border-top: 1px solid #d6e4ee;
+}
+
+.attachment-actions .button,
+.attachment-actions .attachment-delete-button {
+    min-height: 32px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.88);
+    border-color: #c2d8e8;
+    font-size: 0.75rem;
+    font-weight: 650;
+}
+
+/* Schede con sfumatura turchese scuro-chiaro */
+
+.customer-context-card,
+.boat-context-card {
+    color: #ffffff;
+    background: linear-gradient(125deg,
+            #063552 0%,
+            #075b78 30%,
+            #0b819d 62%,
+            #18abc2 100%);
+    border: 1px solid #31bfd3;
+    box-shadow:
+        0 18px 38px rgba(5, 75, 101, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.customer-context-card::before,
+.boat-context-card::before {
+    background: linear-gradient(90deg,
+            #176cf2,
+            #37d7eb,
+            #9af5fa,
+            transparent 92%);
+}
+
+.customer-context-card::after,
+.boat-context-card::after {
+    background: radial-gradient(circle,
+            rgba(111, 239, 247, 0.24),
+            transparent 68%);
+}
+
+.customer-context-card .context-label,
+.boat-context-card .context-label {
+    color: #bff5fa;
+}
+
+.customer-context-card h3,
+.boat-context-card h3 {
+    color: #ffffff;
+}
+
+.boat-context-card .context-card-heading {
+    border-bottom-color: rgba(199, 243, 249, 0.25);
+}
+
+.customer-information>div,
+.boat-information-grid>div {
+    background: linear-gradient(135deg,
+            rgba(3, 43, 70, 0.44),
+            rgba(24, 139, 161, 0.24));
+    border: 1px solid rgba(180, 239, 246, 0.3);
+    box-shadow:
+        inset 3px 0 0 rgba(75, 222, 237, 0.72),
+        0 6px 16px rgba(3, 39, 61, 0.1);
+}
+
+.customer-information>div:hover,
+.boat-information-grid>div:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg,
+            rgba(3, 46, 73, 0.56),
+            rgba(31, 166, 185, 0.34));
+    border-color: rgba(209, 250, 253, 0.64);
+    box-shadow:
+        inset 3px 0 0 #72eef6,
+        0 11px 24px rgba(3, 39, 61, 0.18);
+}
+
+.customer-information dt,
+.boat-information-grid dt {
+    color: #b8eff5;
+}
+
+.customer-information dd,
+.boat-information-grid dd {
+    color: #ffffff;
+}
+
+/* Upload e visualizzazione documenti minimal-tech */
+
+.document-file-input {
+    display: none !important;
+}
+
+.compact-document-upload {
+    display: flex;
+    margin-top: 18px;
+    padding-top: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    border-top: 1px solid #d4e3ed;
+}
+
+.document-file-picker {
+    display: inline-flex;
+    min-height: 38px;
+    padding: 8px 15px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #08709b;
+    background: linear-gradient(135deg, #ffffff, #e9faff);
+    border: 1px solid #75c6dc;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.document-file-picker:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, #087fa5, #20aec7);
+    transform: translateY(-1px);
+}
+
+.document-upload-button {
+    min-height: 38px;
+    padding: 8px 16px;
+    border-radius: 9px;
+    font-size: 0.82rem;
+}
+
+.client-document-title {
+    display: flex;
+    padding: 14px;
+    align-items: center;
+    gap: 11px;
+    color: #075f89;
+    background: linear-gradient(90deg, #edfaff, #ffffff);
+    border: 1px solid #b9deeb;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.client-document-title:hover {
+    color: #087bea;
+    border-color: #61bdd9;
+}
+
+.client-document-pdf {
+    display: inline-grid;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    color: #ffffff;
+    background: linear-gradient(135deg, #087fa5, #20aec7);
+    border-radius: 8px;
+    font-size: 0.66rem;
+    font-weight: 800;
+}
+
+@media (max-width: 500px) {
+    .compact-document-upload {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .document-file-picker,
+    .document-upload-button {
+        width: 100%;
+    }
+}
+
+/* Lista documenti del cliente */
+
+.client-document-column .document-list {
+    display: grid;
+    gap: 9px;
+    margin-bottom: 16px;
+}
+
+.client-document-row {
+    display: grid;
+    padding: 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(90deg,
+            #f7fcff,
+            #edf9fd);
+    border: 1px solid #bcddea;
+    border-radius: 11px;
+}
+
+.client-document-title {
+    display: flex;
+    min-width: 0;
+    padding: 3px;
+    align-items: center;
+    gap: 10px;
+    color: #075f87;
+    font-size: 0.84rem;
+}
+
+.client-document-title strong {
+    overflow: hidden;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.client-document-title:hover {
+    color: #087bea;
+}
+
+.client-document-extension {
+    display: inline-grid;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    color: #ffffff;
+    background: linear-gradient(135deg,
+            #086d94,
+            #20abc3);
+    border-radius: 8px;
+    font-size: 0.61rem;
+    font-weight: 800;
+}
+
+.client-document-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.client-document-actions .button {
+    min-height: 32px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    font-size: 0.72rem;
+}
+
+@media (max-width: 700px) {
+    .client-document-row {
+        grid-template-columns: 1fr;
+    }
+
+    .client-document-actions {
+        padding-top: 9px;
+        border-top: 1px solid #d4e5ed;
+    }
+}
+
+/* Lista e pagina dettaglio documento */
+
+.client-document-row {
+    border-bottom: 1px solid #d7e5ee;
+}
+
+.client-document-row:last-child {
+    border-bottom: 0;
+}
+
+.client-document-title {
+    display: block;
+    padding: 13px 4px;
+    color: #086b94;
+    font-size: 0.88rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;
+}
+
+.client-document-title::before {
+    margin-right: 8px;
+    color: #17a8c3;
+    content: "▸";
+}
+
+.client-document-title:hover {
+    color: #087bea;
+}
+
+.document-detail-page {
+    max-width: 850px;
+    margin: 35px auto;
+    padding: 34px;
+    background: linear-gradient(145deg,
+            #ffffff,
+            #eef9fd);
+    border: 1px solid #bbdce8;
+    border-top: 3px solid #19abc5;
+    border-radius: 18px;
+    box-shadow: 0 20px 45px rgba(7, 48, 77, 0.1);
+}
+
+.document-detail-page h1 {
+    margin: 8px 0 28px;
+    color: #07365c;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    overflow-wrap: anywhere;
+}
+
+.document-detail-actions {
+    display: flex;
+    padding-top: 22px;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-top: 1px solid #d4e4ed;
+}
+
+/* Feedback cliente e operatore */
+
+.feedback-section {
+    margin-top: 30px;
+    padding: 30px;
+    background: #ffffff;
+    border: 1px solid #cfdfeb;
+    border-radius: 18px;
+}
+
+.feedback-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.feedback-column {
+    min-width: 0;
+    padding: 22px;
+    border-radius: 14px;
+}
+
+.customer-feedback-column {
+    background: linear-gradient(145deg,
+            #eefaff,
+            #ffffff);
+    border: 1px solid #a8dbea;
+    border-top: 3px solid #1aaac4;
+}
+
+.operator-feedback-column {
+    color: #ffffff;
+    background: linear-gradient(145deg,
+            #073653,
+            #087c98);
+    border: 1px solid #218ba5;
+    border-top: 3px solid #53dcea;
+}
+
+.feedback-column h2 {
+    margin: 0 0 18px;
+    font-size: 1.15rem;
+    font-weight: 650;
+}
+
+.operator-feedback-column h2 {
+    color: #ffffff;
+}
+
+.feedback-list {
+    display: grid;
+    gap: 10px;
+}
+
+.feedback-card {
+    padding: 14px;
+    color: #092846;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #cddfeb;
+    border-radius: 10px;
+}
+
+.feedback-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.feedback-card-heading strong {
+    font-size: 0.82rem;
+}
+
+.feedback-card-heading time {
+    color: #60758a;
+    font-size: 0.68rem;
+}
+
+.feedback-card p {
+    margin: 10px 0 0;
+    line-height: 1.5;
+}
+
+.feedback-edited {
+    display: block;
+    margin-top: 8px;
+    color: #718398;
+    font-size: 0.66rem;
+}
+
+.feedback-actions {
+    display: flex;
+    margin-top: 12px;
+    gap: 7px;
+}
+
+.feedback-edit-button,
+.feedback-delete-button {
+    padding: 6px 10px;
+    color: #0a668d;
+    background: #ffffff;
+    border: 1px solid #bad6e5;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 0.72rem;
+    font-weight: 650;
+}
+
+.feedback-form {
+    display: grid;
+    gap: 11px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #d5e4ed;
+}
+
+.feedback-form label {
+    color: #0b3158;
+    font-weight: 650;
+}
+
+.feedback-form textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #bed4e3;
+    border-radius: 10px;
+    resize: vertical;
+}
+
+.feedback-form .button {
+    width: fit-content;
+}
+
+@media (max-width: 750px) {
+    .feedback-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Categoria, priorità e data sempre allineate */
+
+.profile-ticket-information {
+    display: grid !important;
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.profile-ticket-information>div {
+    display: flex;
+    min-width: 0;
+    min-height: 64px;
+    padding: 11px 12px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-ticket-information dt {
+    margin-bottom: 5px;
+    font-size: 0.66rem;
+    line-height: 1.2;
+}
+
+.profile-ticket-information dd {
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+/* Schermi piccoli */
+
+@media (max-width: 600px) {
+    .profile-ticket-information {
+        gap: 6px;
+    }
+
+    .profile-ticket-information>div {
+        min-height: 58px;
+        padding: 8px;
+    }
+
+    .profile-ticket-information dt {
+        font-size: 0.56rem;
+        letter-spacing: 0.04em;
+    }
+
+    .profile-ticket-information dd {
+        font-size: 0.72rem;
+    }
+}
+
+/* Contrasto pagina I miei ticket */
+
+.tickets-page {
+    background: #ffffff;
+}
+
+.tickets-page .dashboard-main {
+    background: #ffffff;
+}
+
+.tickets-page .dashboard-welcome {
+    margin-bottom: 0;
+    padding: 42px 24px 36px;
+    background: #ffffff;
+}
+
+.tickets-page .dashboard-welcome h1 {
+    color: #082643;
+}
+
+/* Contenitore azzurro della lista */
+
+.tickets-page .workspace-section {
+    padding: 34px;
+    background: linear-gradient(145deg,
+            #eaf7ff 0%,
+            #dff3fb 55%,
+            #edfaff 100%);
+    border: 1px solid #b9dbea;
+    border-top: 3px solid #20b4d0;
+    box-shadow:
+        0 18px 38px rgba(8, 76, 108, 0.09),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Le singole schede ticket restano bianche */
+
+.tickets-page .profile-ticket-row {
+    background: #ffffff;
+}
+
+@media (max-width: 650px) {
+    .tickets-page .dashboard-welcome {
+        padding: 30px 18px 26px;
+    }
+
+    .tickets-page .workspace-section {
+        padding: 18px;
+    }
+}
+
+/* Contrasto pagina Le mie barche */
+
+.boats-page {
+    background: #ffffff;
+}
+
+.boats-page .boats-main {
+    background: #ffffff;
+}
+
+.boats-page .page-introduction {
+    margin-bottom: 0;
+    padding: 42px 24px 36px;
+    background: #ffffff;
+}
+
+.boats-page .page-introduction h1 {
+    color: #082643;
+}
+
+/* Contenitore azzurro dell’elenco */
+
+.boats-page .boats-list-section {
+    padding: 34px;
+    background: linear-gradient(145deg,
+            #eaf7ff 0%,
+            #dff3fb 55%,
+            #edfaff 100%);
+    border: 1px solid #b9dbea;
+    border-top: 3px solid #20b4d0;
+    box-shadow:
+        0 18px 38px rgba(8, 76, 108, 0.09),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Le schede delle barche restano invariate */
+
+.boats-page .boat-card {
+    background: #ffffff;
+}
+
+@media (max-width: 650px) {
+    .boats-page .page-introduction {
+        padding: 30px 18px 26px;
+    }
+
+    .boats-page .boats-list-section {
+        padding: 18px;
+    }
+}
+
+/* Scheda barca High-Tech nell’elenco imbarcazioni */
+
+.registered-boat-card {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #38b7ce;
+    border-top: 3px solid #39d7e8;
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(5, 74, 99, 0.15);
+}
+
+/* Intestazione della barca */
+
+.registered-boat-header {
+    position: relative;
+    padding: 25px 28px 20px;
+    color: #ffffff;
+    background: linear-gradient(125deg,
+            #063552 0%,
+            #075d79 48%,
+            #159db4 100%);
+    border-bottom: 1px solid rgba(192, 243, 249, 0.22);
+}
+
+.registered-boat-header::after {
+    position: absolute;
+    top: -70px;
+    right: -55px;
+    width: 200px;
+    height: 200px;
+    content: "";
+    background: radial-gradient(circle,
+            rgba(117, 239, 247, 0.2),
+            transparent 68%);
+    pointer-events: none;
+}
+
+.registered-boat-label {
+    position: relative;
+    z-index: 1;
+    color: #a9f1f7;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+}
+
+.registered-boat-header h3 {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    font-size: 1.55rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+}
+
+.registered-boat-header p {
+    position: relative;
+    z-index: 1;
+    color: #d9f8fb;
+    font-size: 0.9rem;
+    font-weight: 520;
+    letter-spacing: 0.025em;
+}
+
+/* Dati tecnici della barca */
+
+.registered-boat-information {
+    padding: 20px 28px 25px;
+    background: linear-gradient(125deg,
+            #063552 0%,
+            #075d79 48%,
+            #159db4 100%);
+}
+
+.registered-boat-information>div {
+    min-width: 0;
+    padding: 14px 15px;
+    background: linear-gradient(135deg,
+            rgba(2, 41, 66, 0.48),
+            rgba(37, 167, 184, 0.22));
+    border: 1px solid rgba(185, 239, 246, 0.28);
+    border-radius: 10px;
+    box-shadow:
+        inset 3px 0 0 rgba(76, 224, 238, 0.7),
+        0 6px 15px rgba(2, 35, 55, 0.1);
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.registered-boat-information>div:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg,
+            rgba(2, 42, 67, 0.6),
+            rgba(48, 187, 201, 0.3));
+    border-color: rgba(213, 250, 253, 0.58);
+}
+
+.registered-boat-information dt {
+    color: #aeeaf1;
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+}
+
+.registered-boat-information dd {
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 520;
+    line-height: 1.4;
+}
+
+/* Mantiene diversa la zona dei ticket */
+
+.boat-related-tickets {
+    background: #f7fafc;
+    border-top: 1px solid #cfe0ea;
+}
+
+.boat-ticket-card {
+    background: #ffffff;
+}
+
+@media (max-width: 700px) {
+    .registered-boat-information {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .registered-boat-header {
+        padding: 22px 18px;
+    }
+}
+
+/* Area ticket: colore intermedio */
+
+.boat-related-tickets {
+    padding: 25px 28px 28px;
+    background: linear-gradient(145deg,
+            #dbe7ff 0%,
+            #e7efff 55%,
+            #f1f5ff 100%);
+    border-top: 1px solid #9db9f3;
+}
+
+.boat-related-ticket-heading h4 {
+    color: #174b9b;
+}
+
+.boat-ticket-count {
+    color: #174b9b;
+    background: #f7f9ff;
+    border: 1px solid #a9c1f2;
+}
+
+/* Singolo ticket bianco */
+
+.boat-ticket-card {
+    background: #ffffff;
+    border-color: #b9d5e1;
+    box-shadow: 0 10px 24px rgba(5, 62, 86, 0.1);
+}
+
+.boat-ticket-information>div {
+    background: #f8fbfd;
+    border-color: #d3e2e9;
+}
+
+/* Dati barca bianchi con testi blu e turchese */
+
+.registered-boat-information>div {
+    background: linear-gradient(145deg,
+            #ffffff,
+            #f5fbff);
+    border: 1px solid #83d0df;
+    border-left: 4px solid #20b4ce;
+    box-shadow: 0 8px 18px rgba(2, 45, 69, 0.12);
+}
+
+.registered-boat-information>div:hover {
+    transform: translateY(-2px);
+    background: #ffffff;
+    border-color: #39bed4;
+    border-left-color: #0878e8;
+    box-shadow: 0 12px 24px rgba(2, 45, 69, 0.18);
+}
+
+.registered-boat-information dt {
+    color: #0794ae;
+    font-size: 0.64rem;
+    font-weight: 750;
+    letter-spacing: 0.09em;
+}
+
+.registered-boat-information dd {
+    color: #0a4f9c;
+    font-size: 0.9rem;
+    font-weight: 650;
+}
+
+/* Rimuove il contenitore azzurro esterno */
+
+.boats-page .boats-list-section {
+    margin-top: 12px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* Avvicina l’elenco al titolo */
+
+.boats-page .page-introduction {
+    padding-bottom: 18px;
+}
+
+.boats-page .boats-list-section .section-heading {
+    margin-bottom: 18px;
+}
+
+.boats-page .registered-boats-list {
+    margin-top: 0;
+}
+
+/* Evita spazio vuoto sopra la prima barca */
+
+.boats-page #boatsList {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+@media (max-width: 650px) {
+    .boats-page .boats-list-section {
+        padding: 0;
+    }
+
+    .boats-page .page-introduction {
+        padding-bottom: 14px;
+    }
+}
+
+/* Nuova palette blu per le schede barca */
+
+.registered-boat-card {
+    border-color: #7ea8e8;
+    border-top-color: #3478e5;
+    box-shadow: 0 18px 40px rgba(22, 72, 145, 0.14);
+}
+
+.registered-boat-header,
+.registered-boat-information {
+    background: linear-gradient(125deg,
+            #092b57 0%,
+            #124b91 52%,
+            #2677d1 100%);
+}
+
+.registered-boat-header {
+    border-bottom-color: rgba(205, 224, 255, 0.24);
+}
+
+.registered-boat-header::after {
+    background: radial-gradient(circle,
+            rgba(119, 173, 255, 0.26),
+            transparent 68%);
+}
+
+.registered-boat-label {
+    color: #bcd5ff;
+}
+
+.registered-boat-header p {
+    color: #d9e7ff;
+}
+
+/* Schede tecniche bianche */
+
+.registered-boat-information>div {
+    background: linear-gradient(145deg,
+            #ffffff,
+            #f3f7ff);
+    border-color: #9dbcec;
+    border-left-color: #3478e5;
+    box-shadow: 0 8px 18px rgba(16, 62, 126, 0.13);
+}
+
+.registered-boat-information>div:hover {
+    border-color: #5e94e7;
+    border-left-color: #155fcf;
+    box-shadow: 0 12px 25px rgba(16, 62, 126, 0.19);
+}
+
+.registered-boat-information dt {
+    color: #3474cf;
+}
+
+.registered-boat-information dd {
+    color: #0d376d;
+}
+
+/* ==================================================
+   CONSULTAZIONI INTERNE
+================================================== */
+
+.consultation-section {
+    margin-top: 32px;
+    padding-top: 30px;
+    border-top: 1px solid #cbdced;
+}
+
+.consultation-section h2 {
+    margin: 7px 0 22px;
+    color: #082442;
+    font-size: 1.45rem;
+}
+
+.consultation-form {
+    display: grid;
+    gap: 18px;
+    padding: 22px;
+    border: 1px solid #9dd9ec;
+    border-radius: 16px;
+    background:
+        linear-gradient(135deg,
+            #f8fcff 0%,
+            #e8f6fc 100%);
+}
+
+.consultation-form[hidden] {
+    display: none;
+}
+
+.consultation-form textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.consultation-list {
+    display: grid;
+    gap: 18px;
+    margin-top: 24px;
+}
+
+.consultation-list:empty {
+    display: none;
+}
+
+.consultation-card {
+    padding: 22px;
+    border: 1px solid #7fc9e0;
+    border-left: 5px solid #1aa8ca;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:
+        0 14px 34px rgba(8, 53, 91, 0.08);
+}
+
+.consultation-card-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.consultation-card-heading h3 {
+    margin: 5px 0 0;
+    color: #082442;
+    font-size: 1.1rem;
+}
+
+.consultation-role,
+.consultation-request>span,
+.consultation-response>span {
+    color: #168bad;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.consultation-status {
+    padding: 7px 12px;
+    border: 1px solid #71cce3;
+    border-radius: 999px;
+    background: #e8f9fc;
+    color: #087b9c;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: capitalize;
+}
+
+.consultation-request,
+.consultation-response {
+    padding: 16px 18px;
+    border-radius: 12px;
+}
+
+.consultation-request {
+    border: 1px solid #d3e4f1;
+    background: #f5f9fc;
+}
+
+.consultation-response {
+    margin-top: 14px;
+    border: 1px solid #8ed9c7;
+    background:
+        linear-gradient(135deg,
+            #edfbf7 0%,
+            #ffffff 100%);
+}
+
+.consultation-request p,
+.consultation-response p {
+    margin: 8px 0 0;
+    padding: 0;
+    color: #082442;
+    line-height: 1.6;
+    text-align: left;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.consultation-response-form {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #d3e4f1;
+}
+
+.consultation-response-form textarea {
+    width: 100%;
+    min-height: 90px;
+    resize: vertical;
+}
+
+.consultation-response-form .button {
+    justify-self: start;
+}
+
+@media (max-width: 700px) {
+    .consultation-card-heading {
+        flex-direction: column;
+    }
+
+    .consultation-status {
+        align-self: flex-start;
+    }
+
+    .consultation-form,
+    .consultation-card {
+        padding: 17px;
+    }
+}
+
+.consultation-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.consultation-edit-button,
+.consultation-delete-button {
+    min-height: 40px;
+    padding: 0 18px;
+}
+
+.consultation-edit-button {
+    color: #ffffff;
+    background: #2563eb;
+}
+
+.consultation-delete-button {
+    color: #b42318;
+    background: #ffffff;
+    border-color: #f0a5a0;
+}
+
+.consultation-delete-button:hover {
+    color: #ffffff;
+    background: #c7352d;
+}
+
+/* ==========================================
+   PRIORITÀ E COPERTURA
+========================================== */
+
+.management-form {
+    display: grid;
+    gap: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.commercial-settings-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid #c9dced;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow:
+        0 12px 30px rgba(8, 53, 91, 0.07);
+}
+
+/* ==========================================
+   ARTICOLI E COSTI
+========================================== */
+
+.commercial-products-section {
+    margin-top: 34px;
+    padding: 26px;
+    border: 1px solid #9ed4e7;
+    border-radius: 20px;
+    background:
+        linear-gradient(145deg,
+            #ffffff 0%,
+            #f1f9fd 100%);
+    box-shadow:
+        0 16px 38px rgba(8, 53, 91, 0.09);
+}
+
+.commercial-products-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 22px;
+}
+
+.commercial-products-heading h2 {
+    margin: 4px 0 6px;
+    color: #082442;
+    font-size: 1.45rem;
+}
+
+.commercial-products-heading p {
+    margin: 0;
+    color: #60758a;
+}
+
+.commercial-items-list {
+    display: grid;
+    gap: 14px;
+}
+
+/* Una riga compatta per ogni articolo */
+
+.commercial-item-row {
+    display: grid;
+    grid-template-columns:
+        minmax(120px, 0.8fr) minmax(260px, 2fr) minmax(125px, 0.8fr) 85px minmax(155px, 1fr) auto;
+    align-items: end;
+    gap: 12px;
+    padding: 18px;
+    border: 1px solid #d2e3ef;
+    border-radius: 15px;
+    background: #ffffff;
+}
+
+.commercial-item-row .form-group {
+    min-width: 0;
+    margin: 0;
+}
+
+.commercial-item-row label {
+    display: block;
+    margin-bottom: 7px;
+    color: #163650;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.commercial-item-row input {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 12px;
+    border: 1px solid #bfd2e3;
+    border-radius: 10px;
+    background: #fbfdff;
+}
+
+.commercial-item-row input:focus {
+    border-color: #2f80ed;
+    outline: 3px solid rgba(47, 128, 237, 0.12);
+}
+
+.commercial-item-remove {
+    min-height: 46px;
+    padding: 0 15px;
+    border: 1px solid #efa9a4;
+    border-radius: 10px;
+    color: #b42318;
+    background: #fff7f6;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.commercial-item-remove:hover {
+    color: #ffffff;
+    background: #c7352d;
+    border-color: #c7352d;
+}
+
+/* Shipping e totali */
+
+.commercial-summary {
+    display: grid;
+    grid-template-columns:
+        minmax(170px, 240px) minmax(280px, 1fr);
+    align-items: end;
+    gap: 24px;
+    padding: 22px 24px;
+    border: 1px solid #c9dced;
+    border-radius: 16px;
+    background: #ffffff;
+}
+
+.commercial-summary .form-group {
+    margin: 0;
+}
+
+.commercial-totals {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(150px, 1fr));
+    gap: 14px;
+    margin: 0;
+}
+
+.commercial-totals>div {
+    padding: 15px 18px;
+    border-radius: 12px;
+    background: #eef6fc;
+}
+
+.commercial-totals dt {
+    color: #60758a;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.commercial-totals dd {
+    margin: 7px 0 0;
+    color: #082442;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.commercial-totals .commercial-grand-total {
+    color: #ffffff;
+    background:
+        linear-gradient(135deg,
+            #175fae,
+            #2f80ed);
+}
+
+.commercial-grand-total dt,
+.commercial-grand-total dd {
+    color: #ffffff;
+}
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    .commercial-item-row {
+        grid-template-columns:
+            minmax(120px, 0.8fr) minmax(230px, 2fr) minmax(120px, 0.8fr);
+    }
+
+    .commercial-item-remove {
+        width: max-content;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .commercial-settings-grid,
+    .commercial-item-row,
+    .commercial-summary,
+    .commercial-totals {
+        grid-template-columns: 1fr;
+    }
+
+    .commercial-products-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .commercial-item-remove {
+        width: 100%;
+    }
+}
+
+/* ==========================================
+   PANNELLO GESTIONE DEL TICKET
+========================================== */
+
+.ticket-management-panel {
+    padding: 30px;
+    border: 1px solid #79bfe2;
+    border-top: 6px solid #2563eb;
+    border-radius: 22px;
+    background:
+        linear-gradient(145deg,
+            #f9fcff 0%,
+            #eaf5fc 100%);
+    box-shadow:
+        0 20px 45px rgba(8, 53, 91, 0.12);
+}
+
+.ticket-management-heading {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #bfd9e9;
+}
+
+.ticket-management-heading h2 {
+    margin: 5px 0 8px;
+    color: #082442;
+    font-size: 1.65rem;
+}
+
+.ticket-management-heading p:last-child {
+    margin: 0;
+    color: #60758a;
+}
+
+.ticket-management-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.ticket-management-card {
+    padding: 22px;
+    border: 1px solid #ccdeeb;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow:
+        0 10px 25px rgba(8, 53, 91, 0.06);
+}
+
+.management-coverage-card {
+    grid-column: 1 / -1;
+}
+
+.management-card-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.management-card-number {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: #ffffff;
+    background: #2563eb;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.management-card-heading h3 {
+    margin: 0 0 5px;
+    color: #082442;
+    font-size: 1.08rem;
+}
+
+.management-card-heading p {
+    margin: 0;
+    color: #60758a;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.ticket-management-card .status-form,
+.ticket-management-card .assignment-form {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 14px;
+}
+
+.ticket-management-card .form-group {
+    margin: 0;
+}
+
+.management-coverage-fields {
+    display: grid;
+    grid-template-columns:
+        minmax(180px, 0.7fr) minmax(240px, 1fr) auto;
+    align-items: end;
+    gap: 16px;
+}
+
+.ticket-management-card .button {
+    white-space: nowrap;
+}
+
+@media (max-width: 850px) {
+
+    .ticket-management-grid,
+    .management-coverage-fields,
+    .ticket-management-card .status-form,
+    .ticket-management-card .assignment-form {
+        grid-template-columns: 1fr;
+    }
+
+    .management-coverage-card {
+        grid-column: auto;
+    }
+
+    .ticket-management-card .button {
+        width: 100%;
+    }
+}
+
+/* Gestione ticket minimale e responsive */
+
+.ticket-management-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 2vw, 18px);
+}
+
+.ticket-management-card {
+    position: relative;
+    min-width: 0;
+    padding: clamp(18px, 2.5vw, 23px);
+    overflow: hidden;
+    border: 1px solid #bed7e8;
+    border-radius: 16px;
+    background:
+        linear-gradient(145deg,
+            #ffffff,
+            #f3f9fd);
+    box-shadow:
+        0 10px 26px rgba(8, 53, 91, 0.06);
+}
+
+.ticket-management-card::before {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    left: 20px;
+    height: 2px;
+    content: "";
+    background:
+        linear-gradient(90deg,
+            transparent,
+            #2f80ed,
+            #22bad6,
+            transparent);
+}
+
+.ticket-management-card h3 {
+    margin: 0 0 15px;
+    color: #082442;
+    font-size: clamp(1rem, 1.5vw, 1.08rem);
+}
+
+.management-coverage-card {
+    grid-column: 1 / -1;
+}
+
+.compact-action-form {
+    display: grid;
+    grid-template-columns:
+        minmax(130px, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Priorità e copertura: card compatta e centrata */
+
+.ticket-management-grid .management-coverage-card {
+    grid-column: 1 / -1;
+    width: min(100%, 550px);
+    justify-self: center;
+    padding: 22px 24px;
+}
+
+.management-coverage-card h3 {
+    margin: 0 0 15px;
+    text-align: center;
+}
+
+.management-coverage-card .compact-coverage-form {
+    display: grid;
+    grid-template-columns:
+        150px 220px auto;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.management-coverage-card select {
+    width: 100%;
+    min-width: 0;
+}
+
+.management-coverage-card .compact-action-button {
+    width: auto;
+    min-width: 64px;
+}
+
+
+
+.ticket-management-card .form-message:empty {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    .ticket-management-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .management-coverage-card {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .compact-action-form,
+    .compact-coverage-form {
+        grid-template-columns: 1fr;
+    }
+
+    .compact-action-button {
+        width: max-content;
+        justify-self: end;
+    }
+}
+
+#operatorActions.operator-actions {
+    background: #ffffff;
+    border: 1px solid #d5e3ee;
+    box-shadow:
+        0 14px 35px rgba(8, 53, 91, 0.07);
+}
+
+/* ==========================================
+   CONSULTAZIONI INTERNE — GRIGIO/BLU
+========================================== */
+
+#consultationSection.consultation-section {
+    position: relative;
+    margin-top: 34px;
+    padding: clamp(22px, 3vw, 30px);
+    overflow: hidden;
+    border: 1px solid #b9cce0;
+    border-top: 5px solid #3978bd;
+    border-radius: 20px;
+    background:
+        linear-gradient(145deg,
+            #f8fafc 0%,
+            #edf2f7 48%,
+            #e4eff9 100%);
+    box-shadow:
+        0 16px 38px rgba(29, 67, 105, 0.1);
+}
+
+#consultationSection.consultation-section::before {
+    position: absolute;
+    top: -85px;
+    right: -75px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    content: "";
+    background:
+        radial-gradient(circle,
+            rgba(57, 120, 189, 0.13),
+            transparent 68%);
+    pointer-events: none;
+}
+
+.consultation-section-title {
+    position: relative;
+    margin: 0 0 22px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #c7d5e3;
+    color: #163b63;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    letter-spacing: 0.055em;
+}
+
+/* Modulo */
+
+#consultationSection .consultation-form {
+    position: relative;
+    padding: clamp(18px, 2.5vw, 24px);
+    border: 1px solid #c7d6e4;
+    border-radius: 15px;
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, 0.96),
+            rgba(242, 247, 251, 0.96));
+    box-shadow:
+        0 10px 24px rgba(29, 67, 105, 0.06);
+}
+
+#consultationSection .consultation-form select,
+#consultationSection .consultation-form textarea {
+    border-color: #bdcede;
+    background: #ffffff;
+}
+
+#consultationSection .consultation-form select:focus,
+#consultationSection .consultation-form textarea:focus {
+    border-color: #3978bd;
+    outline: 3px solid rgba(57, 120, 189, 0.12);
+}
+
+/* Pulsante invio */
+
+#consultationSection .consultation-form .button-primary {
+    background:
+        linear-gradient(135deg,
+            #285f9c,
+            #478bd0);
+    box-shadow:
+        0 9px 20px rgba(40, 95, 156, 0.22);
+}
+
+/* Lista delle consultazioni */
+
+#consultationSection .consultation-list {
+    margin-top: 20px;
+}
+
+#consultationSection .consultation-card {
+    border-color: #bdcede;
+    border-left-color: #3978bd;
+    background:
+        linear-gradient(145deg,
+            #ffffff,
+            #f5f8fb);
+}
+
+#consultationSection .consultation-role,
+#consultationSection .consultation-request>span,
+#consultationSection .consultation-response>span {
+    color: #3978bd;
+}
+
+#consultationSection .consultation-status {
+    border-color: #a9c7e1;
+    color: #245f97;
+    background: #e9f2fa;
+}
+
+#consultationSection .consultation-request {
+    border-color: #cad8e5;
+    background:
+        linear-gradient(145deg,
+            #f7f9fb,
+            #edf4f9);
+}
+
+#consultationSection .consultation-edit-button {
+    color: #ffffff;
+    background:
+        linear-gradient(135deg,
+            #285f9c,
+            #478bd0);
+}
+
+@media (max-width: 600px) {
+    #consultationSection.consultation-section {
+        padding: 18px;
+    }
+
+    #consultationSection .consultation-actions {
+        flex-direction: column;
+    }
+
+    #consultationSection .consultation-actions .button {
+        width: 100%;
+    }
+}
+
+/* Rimuove il contenitore esterno superfluo */
+
+#operatorActions.operator-actions {
+    padding-right: 0;
+    padding-left: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Mantiene il divider elegante */
+
+#operatorActions .operator-divider {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: 32px 0;
+    border: 0;
+    background:
+        linear-gradient(90deg,
+            transparent 0%,
+            #b7cadc 12%,
+            #8eabc5 50%,
+            #b7cadc 88%,
+            transparent 100%);
+}
+
+/* ==========================================
+   PALETTE UNIFICATA GRIGIO → BLU ACCIAIO
+========================================== */
+
+:root {
+    --steel-navy: #0d3153;
+    --steel-blue-dark: #28639f;
+    --steel-blue: #3f7fbd;
+    --steel-blue-light: #e4eff9;
+    --steel-gray: #edf2f7;
+    --steel-white: #f9fbfd;
+    --steel-border: #b9cce0;
+    --steel-divider: #c7d5e3;
+    --steel-muted: #5e7489;
+    --steel-shadow:
+        0 16px 38px rgba(29, 67, 105, 0.1);
+}
+
+/* Stile comune delle sezioni principali */
+
+.ticket-management-panel,
+.customer-context-card,
+.boat-context-card,
+.ticket-information,
+#commercialCostsSection,
+.commercial-costs-workspace {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--steel-border);
+    border-top: 5px solid var(--steel-blue);
+    border-radius: 20px;
+    background:
+        linear-gradient(145deg,
+            var(--steel-white) 0%,
+            var(--steel-gray) 48%,
+            var(--steel-blue-light) 100%);
+    box-shadow: var(--steel-shadow);
+}
+
+/* Titoli */
+
+.ticket-management-panel h2,
+.customer-context-card h3,
+.boat-context-card h3,
+.ticket-information h2,
+#commercialCostsSection h2,
+.commercial-costs-workspace h2 {
+    color: var(--steel-navy);
+}
+
+/* Etichette Cliente, Imbarcazione, Ticket ecc. */
+
+.context-label,
+.ticket-number,
+.commercial-costs-workspace .eyebrow,
+#commercialCostsSection .eyebrow {
+    color: var(--steel-blue-dark);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* ==========================================
+   CLIENTE E IMBARCAZIONE
+========================================== */
+
+.customer-context-card,
+.boat-context-card {
+    color: var(--steel-navy);
+}
+
+.customer-context-card::before,
+.boat-context-card::before,
+.ticket-information::before,
+#commercialCostsSection::before {
+    position: absolute;
+    top: -80px;
+    right: -75px;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    content: "";
+    background:
+        radial-gradient(circle,
+            rgba(63, 127, 189, 0.11),
+            transparent 68%);
+    pointer-events: none;
+}
+
+.customer-information>div,
+.boat-information-grid>div {
+    border-color: var(--steel-divider);
+    background: rgba(255, 255, 255, 0.68);
+}
+
+.customer-information dt,
+.boat-information-grid dt {
+    color: var(--steel-blue-dark);
+}
+
+.customer-information dd,
+.boat-information-grid dd {
+    color: var(--steel-navy);
+}
+
+/* ==========================================
+   INFORMAZIONI DEL TICKET
+========================================== */
+
+.ticket-information {
+    color: var(--steel-navy);
+}
+
+.ticket-information h2 {
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--steel-divider);
+}
+
+.ticket-information dl>div {
+    border-color: var(--steel-divider);
+}
+
+.ticket-information dt {
+    color: var(--steel-blue-dark);
+}
+
+.ticket-information dd {
+    color: var(--steel-navy);
+}
+
+/* ==========================================
+   TICKET
+========================================== */
+
+.ticket-card-header {
+    padding: 12px 16px;
+    border: 1px solid var(--steel-border);
+    border-radius: 12px;
+    background:
+        linear-gradient(135deg,
+            #f8fafc,
+            #e5eff8);
+}
+
+#ticketTitle {
+    color: var(--steel-navy);
+}
+
+#ticketDescription {
+    border-left-color: var(--steel-blue);
+    color: var(--steel-navy);
+    background:
+        linear-gradient(135deg,
+            #f6f9fc,
+            #e8f1f8);
+}
+
+/* ==========================================
+   GESTIONE DEL TICKET
+========================================== */
+
+.ticket-management-panel {
+    background:
+        linear-gradient(145deg,
+            #f9fbfd 0%,
+            #edf2f7 52%,
+            #e3eef8 100%);
+}
+
+.ticket-management-card {
+    border-color: #c6d6e4;
+    background:
+        linear-gradient(145deg,
+            rgba(255, 255, 255, 0.96),
+            rgba(241, 246, 250, 0.96));
+}
+
+.ticket-management-card::before {
+    background:
+        linear-gradient(90deg,
+            transparent,
+            var(--steel-blue),
+            transparent);
+}
+
+.ticket-management-card h3 {
+    color: var(--steel-navy);
+}
+
+/* ==========================================
+   GESTIONE COMMERCIALE / ARTICOLI
+========================================== */
+
+#commercialCostsSection,
+.commercial-costs-workspace {
+    padding: clamp(22px, 3vw, 30px);
+}
+
+.commercial-products-heading {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--steel-divider);
+}
+
+.commercial-products-heading h2 {
+    color: var(--steel-navy);
+}
+
+.commercial-products-heading p {
+    color: var(--steel-muted);
+}
+
+.commercial-item-row {
+    border-color: #c6d6e4;
+    background:
+        linear-gradient(145deg,
+            #ffffff,
+            #f2f7fb);
+}
+
+.commercial-summary {
+    border-color: var(--steel-border);
+    background:
+        linear-gradient(145deg,
+            #f8fafc,
+            #e8f1f8);
+}
+
+.commercial-grand-total {
+    background:
+        linear-gradient(135deg,
+            var(--steel-blue-dark),
+            var(--steel-blue)) !important;
+}
+
+/* ==========================================
+   PULSANTI COORDINATI
+========================================== */
+
+.ticket-management-panel .button-primary,
+#commercialCostsSection .button-primary,
+.commercial-costs-workspace .button-primary {
+    color: #ffffff;
+    background:
+        linear-gradient(135deg,
+            var(--steel-blue-dark),
+            var(--steel-blue));
+    box-shadow:
+        0 8px 18px rgba(40, 99, 159, 0.2);
+}
+
+/* ==========================================
+   CONTRASTO E LEGGIBILITÀ TESTI
+========================================== */
+
+/* Titoli principali */
+
+.customer-context-card h3,
+.boat-context-card h3,
+.ticket-information h2,
+.ticket-management-panel h2,
+#commercialCostsSection h2,
+.consultation-section-title {
+    color: #092b4c !important;
+}
+
+/* Etichette CLIENTE, IMBARCAZIONE, TICKET */
+
+.customer-context-card .context-label,
+.boat-context-card .context-label,
+.ticket-number,
+#ticketNumber {
+    color: #245f97 !important;
+    font-weight: 900 !important;
+}
+
+/* Etichette dei dati */
+
+.customer-information dt,
+.boat-information-grid dt,
+.ticket-information dt {
+    color: #245f97 !important;
+    font-weight: 800 !important;
+}
+
+/* Valori dei dati */
+
+.customer-information dd,
+.boat-information-grid dd,
+.ticket-information dd {
+    color: #071f38 !important;
+    font-weight: 700 !important;
+}
+
+/* Testi normali */
+
+.customer-context-card,
+.boat-context-card,
+.ticket-information,
+.ticket-management-panel,
+#commercialCostsSection,
+.consultation-section {
+    color: #071f38;
+}
+
+/* Sfondo leggermente più chiaro */
+
+.customer-context-card,
+.boat-context-card,
+.ticket-information {
+    background:
+        linear-gradient(145deg,
+            #ffffff 0%,
+            #f2f6fa 55%,
+            #e7f0f8 100%) !important;
+}
+
+/* Schede interne più bianche */
+
+.customer-information>div,
+.boat-information-grid>div {
+    border: 1px solid #bed0df !important;
+    border-left: 4px solid #4a86bd !important;
+    background: #ffffff !important;
+    box-shadow:
+        0 7px 16px rgba(29, 67, 105, 0.08);
+}
+
+/* Griglia ordinata della scheda imbarcazione */
+
+.boat-information-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+    gap: 14px;
+}
+
+/* Matricola, anno e localizzazione */
+
+.boat-information-grid>div {
+    grid-column: span 2;
+    min-width: 0;
+}
+
+/* Indirizzo di consegna */
+
+.boat-information-grid>div:nth-child(4) {
+    grid-column: 1 / -1;
+}
+
+/* Date della garanzia */
+
+#boatWarrantyStartGroup,
+#boatWarrantyEndGroup {
+    grid-column: span 3;
+}
+
+#boatWarrantyStartGroup dt,
+#boatWarrantyEndGroup dt {
+    white-space: nowrap;
+}
+
+#boatWarrantyStartGroup,
+#boatWarrantyEndGroup {
+    min-height: 82px;
+    padding: 15px 17px;
+}
+
+/* Tablet */
+
+@media (max-width: 850px) {
+    .boat-information-grid>div {
+        grid-column: span 3;
+    }
+
+    .boat-information-grid>div:nth-child(4) {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Telefono */
+
+@media (max-width: 560px) {
+    .boat-information-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .boat-information-grid>div,
+    .boat-information-grid>div:nth-child(4),
+    #boatWarrantyStartGroup,
+    #boatWarrantyEndGroup {
+        grid-column: 1;
+    }
+
+    #boatWarrantyStartGroup dt,
+    #boatWarrantyEndGroup dt {
+        white-space: normal;
+    }
+}
+
+/* ==========================================
+   CLIENTE + IMBARCAZIONE — HI-TECH MINIMAL
+========================================== */
+
+.case-context-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(250px, 0.72fr) minmax(520px, 1.65fr);
+    align-items: stretch;
+    gap: 20px;
+}
+
+/* Pannelli principali */
+
+.customer-context-card,
+.boat-context-card {
+    position: relative;
+    padding: clamp(22px, 3vw, 28px) !important;
+    overflow: hidden;
+    border: 1px solid #b8ccdd !important;
+    border-radius: 20px !important;
+    color: #071f38;
+    background:
+        linear-gradient(145deg,
+            #ffffff 0%,
+            #f1f5f9 52%,
+            #e4eef7 100%) !important;
+    box-shadow:
+        0 18px 42px rgba(20, 55, 87, 0.1) !important;
+}
+
+/* Linea superiore hi-tech */
+
+.customer-context-card::after,
+.boat-context-card::after {
+    position: absolute;
+    top: 0;
+    right: 24px;
+    left: 24px;
+    height: 3px;
+    border-radius: 0 0 4px 4px;
+    content: "";
+    background:
+        linear-gradient(90deg,
+            transparent,
+            #28639f,
+            #5696cf,
+            transparent);
+}
+
+/* Intestazioni */
+
+.customer-context-card>.context-label,
+.boat-context-card .context-label {
+    display: inline-flex;
+    margin-bottom: 7px;
+    color: #3978bd !important;
+    font-size: 0.68rem;
+    font-weight: 900 !important;
+    letter-spacing: 0.12em;
+}
+
+.customer-context-card h3,
+.boat-context-card h3 {
+    margin: 0;
+    color: #071f38 !important;
+    font-size: clamp(1.3rem, 2vw, 1.55rem);
+    letter-spacing: -0.025em;
+}
+
+.context-card-heading {
+    min-height: 64px;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #c5d4e1;
+}
+
+/* ==========================================
+   MATRICE DATI CLIENTE
+========================================== */
+
+.customer-information {
+    display: grid;
+    gap: 1px;
+    margin-top: 20px;
+    overflow: hidden;
+    border: 1px solid #c4d3df;
+    border-radius: 14px;
+    background: #c4d3df;
+    box-shadow:
+        0 10px 22px rgba(20, 55, 87, 0.07);
+}
+
+.customer-information>div {
+    min-width: 0;
+    padding: 16px 17px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background:
+        rgba(255, 255, 255, 0.94) !important;
+    box-shadow: none !important;
+}
+
+/* ==========================================
+   MATRICE DATI IMBARCAZIONE
+========================================== */
+
+.boat-information-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid #c4d3df;
+    border-radius: 14px;
+    background: #c4d3df;
+    box-shadow:
+        0 10px 22px rgba(20, 55, 87, 0.07);
+}
+
+.boat-information-grid>div {
+    grid-column: span 2;
+    min-width: 0;
+    min-height: 78px;
+    padding: 16px 17px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background:
+        rgba(255, 255, 255, 0.94) !important;
+    box-shadow: none !important;
+}
+
+/* Indirizzo su tutta la riga */
+
+.boat-information-grid>div:nth-child(4) {
+    grid-column: 1 / -1;
+    min-height: auto;
+}
+
+/* Garanzia: metà riga ciascuna */
+
+#boatWarrantyStartGroup,
+#boatWarrantyEndGroup {
+    grid-column: span 3;
+    min-height: 78px;
+}
+
+/* Etichette */
+
+.customer-information dt,
+.boat-information-grid dt {
+    margin: 0 0 7px;
+    color: #3978bd !important;
+    font-size: 0.66rem;
+    font-weight: 900 !important;
+    line-height: 1.25;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Valori */
+
+.customer-information dd,
+.boat-information-grid dd {
+    margin: 0;
+    color: #071f38 !important;
+    font-size: 0.92rem;
+    font-weight: 750 !important;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* Badge garanzia */
+
+#boatWarrantyStatus.warranty-badge {
+    padding: 8px 14px;
+    border: 1px solid #86d8bd;
+    border-radius: 999px;
+    color: #087052;
+    background:
+        linear-gradient(135deg,
+            #effcf7,
+            #d7f8eb);
+    box-shadow:
+        0 7px 18px rgba(16, 185, 129, 0.14);
+    font-size: 0.72rem;
+    font-weight: 850;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+    .case-context-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .boat-information-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .boat-information-grid>div,
+    #boatWarrantyStartGroup,
+    #boatWarrantyEndGroup {
+        grid-column: span 1;
+    }
+
+    .boat-information-grid>div:nth-child(4) {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 460px) {
+    .boat-information-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .boat-information-grid>div,
+    .boat-information-grid>div:nth-child(4),
+    #boatWarrantyStartGroup,
+    #boatWarrantyEndGroup {
+        grid-column: 1;
+    }
+}
+
+/* ==========================================
+   PALETTE E TIPOGRAFIA ELEGANTE
+========================================== */
+
+:root {
+    --ui-ink: #102a43;
+    --ui-text: #243b53;
+    --ui-muted: #627d98;
+    --ui-accent: #356a9a;
+    --ui-accent-soft: #eaf1f7;
+    --ui-line: #d4dee7;
+    --ui-surface: #ffffff;
+    --ui-surface-soft: #f6f8fa;
+}
+
+/* Font generale della pagina */
+
+.ticket-detail,
+.ticket-detail button,
+.ticket-detail input,
+.ticket-detail select,
+.ticket-detail textarea {
+    font-family:
+        "Segoe UI Variable",
+        "Segoe UI",
+        Inter,
+        Arial,
+        sans-serif !important;
+}
+
+/* Titolo pagina */
+
+.ticket-detail>h1,
+.workspace-heading h1 {
+    color: var(--ui-ink) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.025em;
+}
+
+/* Pannelli Cliente e Imbarcazione */
+
+.customer-context-card,
+.boat-context-card {
+    border: 1px solid var(--ui-line) !important;
+    border-radius: 18px !important;
+    background:
+        linear-gradient(145deg,
+            var(--ui-surface) 0%,
+            var(--ui-surface-soft) 100%) !important;
+    box-shadow:
+        0 12px 30px rgba(16, 42, 67, 0.07) !important;
+}
+
+/* Linea superiore meno accesa */
+
+.customer-context-card::after,
+.boat-context-card::after {
+    height: 2px;
+    background:
+        linear-gradient(90deg,
+            transparent,
+            #527da4,
+            #8eacc6,
+            transparent);
+}
+
+/* CLIENTE / IMBARCAZIONE */
+
+.customer-context-card .context-label,
+.boat-context-card .context-label {
+    color: var(--ui-muted) !important;
+    font-size: 0.68rem !important;
+    font-weight: 650 !important;
+    letter-spacing: 0.09em !important;
+}
+
+/* Linda Neri / C44 042 */
+
+.customer-context-card h3,
+.boat-context-card h3 {
+    color: var(--ui-ink) !important;
+    font-size: clamp(1.25rem, 2vw, 1.45rem) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.025em !important;
+}
+
+/* Matrice dei dati */
+
+.customer-information,
+.boat-information-grid {
+    border-color: var(--ui-line) !important;
+    background: var(--ui-line) !important;
+    box-shadow:
+        0 8px 20px rgba(16, 42, 67, 0.05) !important;
+}
+
+/* Celle */
+
+.customer-information>div,
+.boat-information-grid>div {
+    background: rgba(255, 255, 255, 0.96) !important;
+}
+
+/* Etichette: Email, Matricola ecc. */
+
+.customer-information dt,
+.boat-information-grid dt,
+.ticket-information dt {
+    color: var(--ui-muted) !important;
+    font-size: 0.68rem !important;
+    font-weight: 650 !important;
+    letter-spacing: 0.065em !important;
+    line-height: 1.3;
+}
+
+/* Valori */
+
+.customer-information dd,
+.boat-information-grid dd,
+.ticket-information dd {
+    color: var(--ui-text) !important;
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    line-height: 1.45;
+}
+
+/* Divisori */
+
+.context-card-heading,
+.section-divider {
+    border-color: var(--ui-line) !important;
+}
+
+/* Ticket e stato */
+
+.ticket-card-header {
+    border-color: var(--ui-line) !important;
+    background: var(--ui-surface-soft) !important;
+}
+
+.ticket-number {
+    color: var(--ui-text) !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.045em !important;
+}
+
+.ticket-status {
+    font-size: 0.7rem !important;
+    font-weight: 650 !important;
+}
+
+/* Badge garanzia */
+
+#boatWarrantyStatus.warranty-badge {
+    border-color: #a9d9c7;
+    color: #27674f;
+    background: #eef8f4;
+    box-shadow: none;
+    font-weight: 650;
+}
+
+/* Titolo del ticket */
+
+#ticketTitle {
+    color: var(--ui-ink) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.035em !important;
+}
+
+/* Testo descrizione */
+
+#ticketDescription {
+    color: var(--ui-text) !important;
+    font-weight: 400 !important;
+    line-height: 1.65;
+}
+
+/* Sfondo principale neutro */
+
+html,
+body {
+    background: #f1f3f5 !important;
+}
+
+.dashboard-main {
+    background:
+        linear-gradient(145deg,
+            #f5f6f7 0%,
+            #eceff2 100%) !important;
+}
+
+.dashboard-main::before,
+.dashboard-main::after {
+    display: none !important;
+}
+
+/* ==========================================
+   GERARCHIA COLORI BLU
+========================================== */
+
+:root {
+    --blue-night: #082b4c;
+    --blue-deep: #0f3d66;
+    --blue-ocean: #185787;
+    --blue-steel: #3f739c;
+    --blue-data: #123d5c;
+    --blue-muted: #66849c;
+    --blue-line: #bdd1e1;
+    --blue-powder: #e9f1f7;
+}
+
+/* Titolo principale della pagina */
+
+.ticket-detail>h1,
+.workspace-heading h1 {
+    color: var(--blue-night) !important;
+    font-weight: 720 !important;
+    letter-spacing: -0.035em;
+}
+
+/* Titolo del ticket */
+
+#ticketTitle {
+    color: #0b416f !important;
+    font-weight: 720 !important;
+    letter-spacing: -0.035em !important;
+}
+
+/* Titoli delle sezioni principali */
+
+.ticket-management-panel h2,
+.consultation-section-title,
+#commercialCostsSection h2,
+.commercial-costs-workspace h2,
+.ticket-information h2,
+.history-section h2,
+.documents-section h2,
+.feedback-section h2 {
+    color: var(--blue-deep) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em;
+}
+
+/* Titoli delle schede interne */
+
+.customer-context-card h3,
+.boat-context-card h3,
+.ticket-management-card h3,
+.consultation-card h3,
+.commercial-item-row h3 {
+    color: var(--blue-ocean) !important;
+    font-weight: 680 !important;
+}
+
+/* CLIENTE, IMBARCAZIONE, GESTIONE COMMERCIALE ecc. */
+
+.context-label,
+.eyebrow,
+.ticket-number,
+.consultation-role,
+.consultation-request>span,
+.consultation-response>span {
+    color: var(--blue-steel) !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.075em !important;
+}
+
+/* Etichette dei dati */
+
+.customer-information dt,
+.boat-information-grid dt,
+.ticket-information dt,
+.commercial-totals dt,
+.document-information dt {
+    color: var(--blue-muted) !important;
+    font-weight: 680 !important;
+    letter-spacing: 0.055em !important;
+}
+
+/* Dati inseriti */
+
+.customer-information dd,
+.boat-information-grid dd,
+.ticket-information dd,
+.commercial-totals dd,
+.document-information dd {
+    color: var(--blue-data) !important;
+    font-weight: 620 !important;
+}
+
+/* Nome cliente e modello barca più importanti */
+
+#ticketOwner,
+#boatModel {
+    color: var(--blue-night) !important;
+    font-weight: 730 !important;
+}
+
+/* Descrizione del ticket */
+
+#ticketDescription {
+    color: #174a6d !important;
+    font-weight: 450 !important;
+}
+
+/* Testo delle richieste di consultazione */
+
+.consultation-request p,
+.consultation-response p {
+    color: #173f5d !important;
+}
+
+/* Campi dei moduli */
+
+.ticket-detail input,
+.ticket-detail select,
+.ticket-detail textarea {
+    color: var(--blue-data) !important;
+}
+
+.ticket-detail input::placeholder,
+.ticket-detail textarea::placeholder {
+    color: #8aa1b4 !important;
+}
+
+/* Label dei moduli */
+
+.ticket-detail label {
+    color: var(--blue-deep) !important;
+    font-weight: 650 !important;
+}
+
+/* Divisori e bordi coordinati */
+
+.section-divider,
+.operator-divider,
+.ticket-management-heading,
+.commercial-products-heading,
+.consultation-section-title {
+    border-color: var(--blue-line) !important;
+}
+
+/* Link e azioni secondarie */
+
+.ticket-detail a:not(.button) {
+    color: var(--blue-ocean);
+}
+
+/* Totale complessivo */
+
+.commercial-grand-total dt {
+    color: #dcecf8 !important;
+}
+
+.commercial-grand-total dd {
+    color: #ffffff !important;
+    font-weight: 750 !important;
+}
+
+/* ==========================================
+   COLORI VISIBILI PER NOMI E DATI
+========================================== */
+
+/* Nome cliente */
+
+.customer-context-card #ticketOwner {
+    color: #1c5f9e !important;
+    font-weight: 720 !important;
+}
+
+/* Modello imbarcazione */
+
+.boat-context-card #boatModel {
+    color: #1c5f9e !important;
+    font-weight: 720 !important;
+}
+
+/* Informazioni inserite del cliente */
+
+.customer-context-card .customer-information dd {
+    color: #245b82 !important;
+    font-weight: 620 !important;
+}
+
+/* Informazioni inserite della barca */
+
+.boat-context-card .boat-information-grid dd {
+    color: #245b82 !important;
+    font-weight: 620 !important;
+}
+
+/* Titolo del ticket */
+
+.ticket-detail #ticketTitle {
+    color: #0d4f83 !important;
+    font-weight: 720 !important;
+}
+
+/* Descrizione inserita nel ticket */
+
+.ticket-detail #ticketDescription {
+    color: #2b6388 !important;
+}
+
+/* Informazioni laterali del ticket */
+
+.ticket-detail .ticket-information dd {
+    color: #245b82 !important;
+    font-weight: 620 !important;
+}
+
+/* Etichette, più chiare rispetto ai valori */
+
+.customer-context-card .customer-information dt,
+.boat-context-card .boat-information-grid dt,
+.ticket-detail .ticket-information dt {
+    color: #66859e !important;
+}
+
+/* Titoli delle sezioni in blu acceso */
+
+.workspace-heading h1,
+.ticket-management-heading h2,
+.consultation-section-title,
+.commercial-products-heading h2,
+.ticket-information h2,
+.history-section h2,
+.documents-section h2,
+.feedback-section h2 {
+    color: #168fea !important;
+    text-shadow:
+        0 4px 14px rgba(22, 143, 234, 0.14);
+}
+
+/* Titolo Dettagli della richiesta */
+
+.case-context .workspace-heading h1,
+.case-context .workspace-heading h2 {
+    color: #168fea !important;
+    text-shadow:
+        0 4px 14px rgba(22, 143, 234, 0.14);
+}
+
+/* Pulsanti allegati minimali */
+
+.attachment-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+}
+
+.attachment-icon-button {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid #bdd1e1;
+    border-radius: 10px;
+    color: #168fea;
+    background: #ffffff;
+    cursor: pointer;
+    transition:
+        color 0.18s ease,
+        border-color 0.18s ease,
+        background-color 0.18s ease,
+        transform 0.18s ease;
+}
+
+.attachment-icon-button svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.attachment-icon-button:hover {
+    color: #ffffff;
+    border-color: #168fea;
+    background: #168fea;
+    transform: translateY(-2px);
+}
+
+.attachment-delete-button {
+    color: #c24141;
+    border-color: #e7c2c2;
+}
+
+.attachment-delete-button:hover {
+    color: #ffffff;
+    border-color: #c24141;
+    background: #c24141;
+}
+
+/* ==========================================
+   LAYOUT DEFINITIVO TICKET E INFORMAZIONI
+========================================== */
+
+#ticketDetail .ticket-detail-grid {
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.7fr) minmax(260px, 0.78fr);
+    align-items: stretch;
+    gap: clamp(24px, 3vw, 32px);
+    width: 100%;
+}
+
+#ticketDetail .ticket-detail-grid>* {
+    min-width: 0;
+}
+
+/* Colonna sinistra */
+
+#ticketDetail .ticket-detail-grid>div:first-child {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Foto */
+
+#ticketDetail .ticket-attachment-card {
+    width: 100%;
+    overflow: hidden;
+}
+
+#ticketDetail .ticket-attachment-card img,
+#ticketDetail .ticket-attachment-card video {
+    display: block;
+    width: 100%;
+    max-height: 440px;
+    object-fit: contain;
+    background: #f3f6f8;
+}
+
+/* Pannello Informazioni */
+#ticketDetail .ticket-information {
+    height: auto;
+    min-height: 0;
+    align-self: start;
+}
+
+#ticketDetail .ticket-information dl {
+    display: block;
+    margin: 0;
+}
+
+#ticketDetail .ticket-information dl>div {
+    padding: 8px 0;
+    border-bottom: 1px solid #d4dee7;
+}
+
+#ticketDetail .ticket-information dt {
+    margin: 0 0 2px;
+}
+
+#ticketDetail .ticket-information dd {
+    margin: 0;
+}
+
+#ticketDetail .ticket-information dl>div:last-child {
+    padding-bottom: 2px;
+    border-bottom: 0;
+}
+
+
+@media (max-width: 850px) {
+    #ticketDetail .ticket-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #ticketDetail .ticket-information {
+        height: auto;
+    }
+
+    #ticketDetail .ticket-information dl {
+        display: block;
+    }
+
+    #ticketDetail .ticket-information dl>div {
+        padding: 9px 0;
+    }
+}
+
+/* Titolo del problema in rosso */
+
+#ticketDetail #ticketTitle {
+    color: #c62828 !important;
+    text-shadow:
+        0 4px 14px rgba(198, 40, 40, 0.12);
+}
+
+/* Problema segnalato dal cliente */
+
+#ticketDetail #ticketDescription {
+    padding: 16px 20px;
+    border: 0;
+    border-left: 5px solid #8f1f1f;
+    border-radius: 11px;
+    color: #ffffff !important;
+    background:
+        linear-gradient(135deg,
+            #b92626 0%,
+            #d94747 100%) !important;
+    box-shadow:
+        0 10px 24px rgba(185, 38, 38, 0.2);
+    font-weight: 500 !important;
+    line-height: 1.55;
+}
+
+/* Sposta Informazioni leggermente verso l’alto */
+
+#ticketDetail .ticket-information {
+    transform: translateY(-30px);
+}
+
+@media (max-width: 850px) {
+    #ticketDetail .ticket-information {
+        transform: none;
+    }
+}
+
+.case-context .workspace-heading h1,
+.case-context .workspace-heading h2 {
+    text-transform: uppercase;
+}
+
+/* Ticket senza riquadro e senza stato */
+
+#ticketDetail .ticket-card-header {
+    display: block;
+    margin: 28px 0 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent !important;
+    box-shadow: none;
+}
+
+#ticketDetail .ticket-card-header .ticket-status {
+    display: none;
+}
+
+#ticketDetail #ticketNumber {
+    color: #168fea !important;
+    font-size: clamp(1.25rem, 2.2vw, 1.65rem) !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.025em !important;
+}
+
+/* Cestino della stessa dimensione visiva delle altre icone */
+
+.attachment-delete-button svg {
+    transform: scale(1.5) !important;
+}
+
+/* Upload allegati minimale */
+
+.attachment-upload-instruction {
+    display: none;
+}
+
+.minimal-upload-form {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.minimal-file-picker,
+.minimal-upload-button {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid #b9cfe0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.minimal-file-picker {
+    padding: 0 13px;
+    color: #245b82;
+    background: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 650;
+}
+
+.minimal-upload-button {
+    width: auto;
+    padding: 0 13px;
+    gap: 7px;
+    font-size: 0.82rem;
+    font-weight: 650;
+}
+
+.minimal-file-picker svg,
+.minimal-upload-button svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.minimal-file-picker:hover {
+    border-color: #168fea;
+    color: #168fea;
+}
+
+.minimal-upload-button:hover {
+    background: #0878ce;
+    transform: translateY(-1px);
+}
+
+.minimal-upload-button {
+    color: #ffffff !important;
+    border-color: #168fea !important;
+    background: #168fea !important;
+}
+
+.minimal-upload-button span,
+.minimal-upload-button svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
+.minimal-upload-button:hover {
+    color: #ffffff !important;
+    border-color: #0878ce !important;
+    background: #0878ce !important;
+}
+
+/* Barca in garanzia */
+
+#boatWarrantyStatus.warranty-badge.warranty-active {
+    color: #ffffff !important;
+    border-color: #14945d !important;
+    background:
+        linear-gradient(135deg,
+            #118653,
+            #20bd73) !important;
+    box-shadow:
+        0 8px 18px rgba(20, 148, 93, 0.25) !important;
+}
+
+#additionalAttachmentsSection {
+    border-top: none !important;
+}
+
+/* ==========================================
+   PRIORITÀ E COPERTURA — DEFINITIVO
+========================================== */
+
+.ticket-management-grid .management-coverage-card {
+    grid-column: 1 / -1;
+    width: min(100%, 600px);
+    justify-self: center;
+    padding: 22px 24px;
+    border-top: 3px solid #4385bd;
+    background:
+        linear-gradient(145deg,
+            #ffffff,
+            #f4f8fb);
+}
+
+.management-coverage-card h3 {
+    margin: 0 0 18px;
+    color: #0f4f80;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.management-coverage-card .compact-coverage-form {
+    display: grid;
+    grid-template-columns:
+        160px 230px auto;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.management-coverage-card select {
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 0 36px 0 13px;
+    border: 1px solid #b9cede;
+    border-radius: 10px;
+    color: #174b70;
+    background: #ffffff;
+    font: inherit;
+}
+
+.management-coverage-card select:focus {
+    border-color: #168fea;
+    outline: 3px solid rgba(22, 143, 234, 0.12);
+}
+
+.management-coverage-card .compact-action-button {
+    width: auto;
+    min-width: 68px;
+    height: 40px;
+    padding: 0 15px;
+}
+
+@media (max-width: 620px) {
+    .ticket-management-grid .management-coverage-card {
+        width: 100%;
+    }
+
+    .management-coverage-card .compact-coverage-form {
+        grid-template-columns: 1fr;
+    }
+
+    .management-coverage-card .compact-action-button {
+        width: max-content;
+        justify-self: end;
+    }
+}
+
+/* ==========================================
+   STATO E ASSEGNAZIONE — STESSO LOOK
+========================================== */
+
+.ticket-management-grid .ticket-management-card:not(.management-coverage-card) {
+    padding: 22px 24px;
+    border-top: 3px solid #4385bd;
+    background:
+        linear-gradient(145deg,
+            #ffffff,
+            #f4f8fb);
+}
+
+.ticket-management-card:not(.management-coverage-card) h3 {
+    margin: 0 0 18px;
+    color: #0f4f80;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.ticket-management-card .compact-action-form {
+    display: grid;
+    grid-template-columns:
+        minmax(150px, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.ticket-management-card .compact-action-form select {
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 0 36px 0 13px;
+    border: 1px solid #b9cede;
+    border-radius: 10px;
+    color: #174b70;
+    background: #ffffff;
+    font: inherit;
+}
+
+.ticket-management-card .compact-action-form select:focus {
+    border-color: #168fea;
+    outline: 3px solid rgba(22, 143, 234, 0.12);
+}
+
+.ticket-management-card .compact-action-form .compact-action-button {
+    width: auto;
+    min-width: 78px;
+    height: 40px;
+    padding: 0 15px;
+}
+
+@media (max-width: 620px) {
+    .ticket-management-card .compact-action-form {
+        grid-template-columns: 1fr;
+    }
+
+    .ticket-management-card .compact-action-form .compact-action-button {
+        width: max-content;
+        justify-self: end;
+    }
+}
+
+/* Consultazioni interne apribili e richiudibili */
+
+#consultationSection .consultation-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: #168fea !important;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+
+#consultationSection .consultation-section-title::-webkit-details-marker {
+    display: none;
+}
+
+.consultation-toggle-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #a9c8df;
+    border-radius: 10px;
+    color: #168fea;
+    background: #ffffff;
+}
+
+.consultation-toggle-icon::before {
+    content: "+";
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+#consultationSection[open] .consultation-toggle-icon::before {
+    content: "−";
+}
+
+#consultationSection[open] .consultation-section-title {
+    margin-bottom: 22px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #c7d5e3;
+}
+
+#consultationSection .consultation-toggle-icon {
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+#consultationSection .consultation-section-title:hover .consultation-toggle-icon {
+    color: #ffffff;
+    background: #168fea;
+}
+
+#consultationSection .consultation-section-title {
+    outline: none;
+}
+
+#consultationSection .consultation-section-title:focus-visible {
+    outline: 2px solid #168fea;
+    outline-offset: 5px;
+    border-radius: 8px;
+}
+
+.consultation-response-form {
+    display: grid;
+    gap: 14px;
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px solid #bfd4e8;
+    border-radius: 16px;
+    background: linear-gradient(135deg,
+            #ffffff 0%,
+            #f2f7fc 100%);
+}
+
+.consultation-response-label {
+    color: #0789f4;
+    font-size: 0.86rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.consultation-response-form textarea {
+    width: 100%;
+    min-height: 130px;
+    padding: 15px 16px;
+    border: 1px solid #b8cee4;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #064b7c;
+    font: inherit;
+    line-height: 1.55;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.consultation-response-form textarea:focus {
+    border-color: #168df2;
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(22, 141, 242, 0.12);
+}
+
+.consultation-response-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.consultation-attachment-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 16px;
+    border: 1px solid #72b6ef;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #07578f;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.consultation-attachment-button:hover {
+    background: #edf7ff;
+    border-color: #168df2;
+}
+
+.consultation-attachment-input {
+    display: none;
+}
+
+.consultation-selected-files {
+    display: grid;
+    gap: 6px;
+}
+
+.consultation-selected-file {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 11px;
+    border-radius: 8px;
+    background: #eaf4fd;
+    color: #07578f;
+    font-size: 0.85rem;
+    overflow-wrap: anywhere;
+}
+
+.consultation-upload-help {
+    color: #667f98;
+    font-size: 0.78rem;
+}
+
+@media (max-width: 600px) {
+    .consultation-response-form {
+        padding: 15px;
+    }
+
+    .consultation-response-toolbar {
+        align-items: stretch;
+    }
+
+    .consultation-response-toolbar>* {
+        flex: 1;
+    }
+}
+
+.received-consultations-section {
+    margin-bottom: 32px;
+    padding: 18px;
+    background: #ffffff;
+    border-radius: 20px;
+}
+
+.received-consultations-section>h2 {
+    margin: 0 0 18px;
+    color: #d2202f;
+}
+
+.consultation-dashboard-list {
+    display: grid;
+    gap: 16px;
+}
+
+.consultation-dashboard-card {
+    display: block;
+    padding: 22px;
+    color: #082d55;
+    text-decoration: none;
+    background: #ffffff;
+    border: 1px solid #cbdceb;
+    border-left: 6px solid #2878c8;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(11, 61, 103, 0.08);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.consultation-dashboard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(11, 61, 103, 0.14);
+}
+
+/* Ticket #6 in blu */
+.consultation-dashboard-heading {
+    margin-bottom: 12px;
+}
+
+.consultation-dashboard-heading strong {
+    color: #155eaa;
+}
+
+/* Titolo del ticket rosso su sfondo bianco */
+.consultation-dashboard-card h3 {
+    margin: 8px 0 14px;
+    color: #d2202f;
+    background: #ffffff;
+}
+
+/* Solo il testo della richiesta ha sfondo rosso */
+.consultation-dashboard-card>p {
+    margin: 0 0 16px;
+    padding: 16px 18px;
+    color: #ffffff;
+    background: #d2202f;
+    border-radius: 12px;
+    line-height: 1.6;
+}
+
+/* "Richiesta da:" in grigio */
+.consultation-dashboard-requester {
+    display: block;
+    color: #78899a;
+}
+
+.consultation-dashboard-requester-label {
+    color: #78899a;
+    font-weight: 500;
+}
+
+/* Nome del richiedente in blu */
+.consultation-dashboard-requester-name {
+    color: #155eaa;
+    font-weight: 700;
+}
+
+/* ==================================================
+   RISPOSTA TECNICA — ALLEGATI E AZIONI
+   ================================================== */
+
+.consultation-response {
+    position: relative;
+    margin-top: 16px;
+    padding: 22px;
+    border: 1px solid #8adac8;
+    border-radius: 14px;
+    background:
+        linear-gradient(145deg,
+            #ffffff 0%,
+            #f1faf8 100%);
+}
+
+.consultation-response>p {
+    margin: 14px 0 18px;
+    color: #064b73;
+    line-height: 1.65;
+    white-space: pre-wrap;
+}
+
+.consultation-attachments {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(47, 120, 181, 0.16);
+}
+
+.consultation-attachments-title {
+    width: 100%;
+    margin-bottom: 3px;
+    color: #56748f;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.consultation-attachment {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 6px 0 11px;
+    border: 1px solid #bdd4e8;
+    border-radius: 9px;
+    background: #ffffff;
+    box-shadow: 0 5px 14px rgba(8, 62, 106, 0.06);
+}
+
+.consultation-attachment a {
+    display: inline-flex;
+    align-items: center;
+    color: #0863a5;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.consultation-attachment a:hover {
+    color: #0789f4;
+    text-decoration: underline;
+}
+
+.consultation-attachment-delete {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #dc3545;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.consultation-attachment-delete:hover {
+    background: #fff0f1;
+}
+
+.consultation-response-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.consultation-response-actions .button {
+    min-height: 38px;
+    padding: 0 17px;
+    border-radius: 9px;
+    font-size: 0.84rem;
+    font-weight: 800;
+}
+
+.consultation-response-actions .consultation-edit-button {
+    border: 1px solid #2f78b5;
+    background:
+        linear-gradient(135deg,
+            #226aa6,
+            #438dca);
+    color: #ffffff;
+    box-shadow:
+        0 7px 16px rgba(32, 101, 159, 0.18);
+}
+
+.consultation-response-actions .consultation-delete-button {
+    border: 1px solid #ef9b9b;
+    background: #ffffff;
+    color: #c92e35;
+    box-shadow: none;
+}
+
+.consultation-response-actions .consultation-delete-button:hover {
+    border-color: #d9303e;
+    background: #fff1f2;
+}
+
+@media (max-width: 600px) {
+    .consultation-response {
+        padding: 16px;
+    }
+
+    .consultation-attachment {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .consultation-attachment a {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .consultation-response-actions {
+        justify-content: stretch;
+    }
+
+    .consultation-response-actions .button {
+        flex: 1;
+    }
 }

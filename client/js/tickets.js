@@ -1,35 +1,22 @@
-const ticketList = document.getElementById("ticketList");
-const message = document.getElementById("message");
+const ticketList =
+    document.getElementById("ticketList");
 
+const message =
+    document.getElementById("message");
 
 const categorie = {
     problema_tecnico: "Problema tecnico",
-    accesso_account: "Accesso all'account",
+    accesso_account: "Accesso account",
     fatturazione: "Fatturazione",
-    informazioni: "Richiesta di informazioni",
+    informazioni: "Informazioni",
     altro: "Altro"
 };
-
 
 const stati = {
     aperto: "Aperto",
     in_lavorazione: "In lavorazione",
     risolto: "Risolto",
     chiuso: "Chiuso"
-};
-
-
-const tipiRichiesta = {
-    garanzia: "Garanzia",
-    ricambi: "Ricambi",
-    servizio: "Servizio"
-};
-
-
-const coperture = {
-    da_valutare: "Da valutare",
-    in_garanzia: "In garanzia",
-    fuori_garanzia: "Fuori garanzia"
 };
 
 const priorita = {
@@ -39,80 +26,516 @@ const priorita = {
     urgente: "Urgente"
 };
 
-function escapeHtml(testo) {
-    const elemento = document.createElement("div");
-
-    elemento.textContent =
-        String(testo ?? "");
-
-    return elemento.innerHTML;
-}
-
-
 function formatDate(data) {
-    return new Date(data).toLocaleString("it-IT", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    });
-}
-
-
-function formatCost(costo) {
-    if (costo === null || costo === undefined) {
-        return "Non definito";
+    if (!data) {
+        return "Data non disponibile";
     }
 
-    return Number(costo).toLocaleString("it-IT", {
-        style: "currency",
-        currency: "EUR"
-    });
+    return new Date(data).toLocaleString(
+        "it-IT",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
 }
 
+function createTicketInformation(label, value) {
+    const container =
+        document.createElement("div");
 
-function createBoatInformation(ticket) {
-    if (!ticket.barca_id) {
-        return `
-            <div class="ticket-boat ticket-boat-missing">
-                <strong>Barca non associata</strong>
+    const etichetta =
+        document.createElement("dt");
 
-                <span>
-                    Ticket creato prima dell'introduzione
-                    della gestione delle barche.
-                </span>
+    etichetta.textContent = label;
+
+    const contenuto =
+        document.createElement("dd");
+
+    contenuto.textContent = value;
+
+    container.appendChild(etichetta);
+    container.appendChild(contenuto);
+
+    return container;
+}
+
+function createTicketPreview(ticket) {
+    const preview =
+        document.createElement("div");
+
+    preview.className =
+        "profile-ticket-preview";
+
+    const attachmentId =
+        ticket.allegato_anteprima_id;
+
+    const attachmentType =
+        ticket.allegato_anteprima_tipo;
+
+    const attachmentMime =
+        ticket.allegato_anteprima_mime;
+
+    const attachmentName =
+        ticket.allegato_anteprima_nome ||
+        `Allegato del ticket ${ticket.id}`;
+
+    if (!attachmentId) {
+        const placeholder =
+            document.createElement("div");
+
+        placeholder.className =
+            "profile-ticket-preview-placeholder";
+
+        const simbolo =
+            document.createElement("span");
+
+        simbolo.className =
+            "profile-ticket-preview-symbol";
+
+        simbolo.textContent = "⚓";
+
+        const testo =
+            document.createElement("span");
+
+        testo.textContent =
+            "Nessuna foto o video";
+
+        placeholder.appendChild(simbolo);
+        placeholder.appendChild(testo);
+        preview.appendChild(placeholder);
+
+        return preview;
+    }
+
+    const attachmentUrl =
+        `/api/tickets/attachments/` +
+        `${attachmentId}/view`;
+
+    if (attachmentType === "foto") {
+        const immagine =
+            document.createElement("img");
+
+        immagine.src = attachmentUrl;
+        immagine.alt = attachmentName;
+        immagine.loading = "lazy";
+
+        preview.appendChild(immagine);
+
+        return preview;
+    }
+
+    if (attachmentType === "video") {
+        const video =
+            document.createElement("video");
+
+        video.controls = true;
+        video.preload = "metadata";
+        video.playsInline = true;
+
+        const sorgente =
+            document.createElement("source");
+
+        sorgente.src = attachmentUrl;
+
+        if (attachmentMime) {
+            sorgente.type = attachmentMime;
+        }
+
+        video.appendChild(sorgente);
+        preview.appendChild(video);
+
+        return preview;
+    }
+
+    const placeholder =
+        document.createElement("div");
+
+    placeholder.className =
+        "profile-ticket-preview-placeholder";
+
+    const simbolo =
+        document.createElement("span");
+
+    simbolo.className =
+        "profile-ticket-preview-symbol";
+
+    simbolo.textContent = "⚓";
+
+    const testo =
+        document.createElement("span");
+
+    testo.textContent =
+        "Anteprima non disponibile";
+
+    placeholder.appendChild(simbolo);
+    placeholder.appendChild(testo);
+    preview.appendChild(placeholder);
+
+    return preview;
+}
+
+function showTickets(tickets) {
+    ticketList.innerHTML = "";
+
+    if (!Array.isArray(tickets) || tickets.length === 0) {
+        ticketList.innerHTML = `
+            <div class="empty-state">
+                <h2>Nessun ticket presente</h2>
+
+                <p>
+                    Non hai ancora aperto richieste
+                    di assistenza.
+                </p>
             </div>
         `;
+
+        return;
     }
 
-    return `
-        <div class="ticket-boat">
-            <div>
-                <span class="ticket-boat-label">
-                    Barca
-                </span>
+    const lista =
+        document.createElement("div");
 
-                <strong>
-                    ${escapeHtml(ticket.barca_modello)}
-                </strong>
-            </div>
+    lista.className =
+        "profile-ticket-results";
 
-            <div>
-                <span class="ticket-boat-label">
-                    Matricola
-                </span>
+    tickets.forEach((ticket) => {
+        const card =
+            document.createElement("article");
 
-                <strong>
-                    ${escapeHtml(ticket.barca_matricola)}
-                </strong>
-            </div>
-        </div>
-    `;
+        card.className =
+            `profile-ticket-row ` +
+            `profile-ticket-row-${ticket.stato}`;
+
+        /*
+         * Colonna sinistra:
+         * anteprima foto o video
+         */
+        const preview =
+            createTicketPreview(ticket);
+
+        /*
+         * Colonna centrale:
+         * informazioni del ticket
+         */
+        const contenuto =
+            document.createElement("div");
+
+        contenuto.className =
+            "profile-ticket-content";
+
+        const intestazione =
+            document.createElement("div");
+
+        intestazione.className =
+            "profile-ticket-heading";
+
+        const numeroTicket =
+            document.createElement("span");
+
+        numeroTicket.className =
+            "profile-ticket-number";
+
+        numeroTicket.textContent =
+            `Ticket #${ticket.id}`;
+
+        const stato =
+            document.createElement("span");
+
+        stato.className =
+            `ticket-status status-${ticket.stato}`;
+
+        stato.textContent =
+            stati[ticket.stato] ??
+            "Stato non disponibile";
+
+        intestazione.appendChild(numeroTicket);
+        intestazione.appendChild(stato);
+
+        const titolo =
+            document.createElement("h3");
+
+        titolo.textContent =
+            ticket.titolo ||
+            "Ticket senza titolo";
+
+        /*
+         * Informazioni della barca
+         */
+        const barca =
+            document.createElement("div");
+
+        barca.className =
+            "profile-ticket-boat";
+
+        const barcaLabel =
+            document.createElement("span");
+
+        barcaLabel.textContent =
+            "Imbarcazione";
+
+        const barcaValue =
+            document.createElement("strong");
+
+        if (ticket.barca_id) {
+            const modello =
+                ticket.barca_modello ||
+                "Modello non disponibile";
+
+            const matricola =
+                ticket.barca_matricola ||
+                "Matricola non disponibile";
+
+            barcaValue.textContent =
+                `${modello} — ${matricola}`;
+        } else {
+            barcaValue.textContent =
+                "Barca non associata";
+        }
+
+        barca.appendChild(barcaLabel);
+        barca.appendChild(barcaValue);
+
+        /*
+         * Categoria, priorità e data
+         */
+        const informazioni =
+            document.createElement("dl");
+
+        informazioni.className =
+            "profile-ticket-information";
+
+        informazioni.appendChild(
+            createTicketInformation(
+                "Categoria",
+                categorie[ticket.categoria] ??
+                "Non indicata"
+            )
+        );
+
+        informazioni.appendChild(
+            createTicketInformation(
+                "Priorità",
+                priorita[ticket.priorita] ??
+                "Media"
+            )
+        );
+
+        informazioni.appendChild(
+            createTicketInformation(
+                "Data di apertura",
+                formatDate(ticket.created_at)
+            )
+        );
+
+        contenuto.appendChild(intestazione);
+        contenuto.appendChild(titolo);
+        contenuto.appendChild(barca);
+        contenuto.appendChild(informazioni);
+
+        /*
+         * Colonna destra:
+         * pulsante del dettaglio
+         */
+        const azioni =
+            document.createElement("div");
+
+        azioni.className =
+            "profile-ticket-actions";
+
+        const dettaglioLink =
+            document.createElement("a");
+
+        dettaglioLink.className =
+            "button button-primary " +
+            "profile-ticket-detail-link";
+
+        dettaglioLink.href =
+            `ticket-detail.html?id=` +
+            `${encodeURIComponent(ticket.id)}`;
+
+        dettaglioLink.textContent =
+            "Visualizza dettaglio";
+
+        azioni.appendChild(dettaglioLink);
+
+        card.appendChild(preview);
+        card.appendChild(contenuto);
+        card.appendChild(azioni);
+
+        lista.appendChild(card);
+    });
+
+    ticketList.appendChild(lista);
 }
 
+function createConsultationsSection() {
+    let section =
+        document.getElementById("receivedConsultations");
+
+    if (section) {
+        return section;
+    }
+
+    section = document.createElement("section");
+    section.id = "receivedConsultations";
+    section.className = "received-consultations-section";
+
+    ticketList.parentNode.insertBefore(
+        section,
+        ticketList
+    );
+
+    return section;
+}
+
+function showMyConsultations(consultations) {
+    const section = createConsultationsSection();
+
+    section.innerHTML = "";
+
+    if (
+        !Array.isArray(consultations) ||
+        consultations.length === 0
+    ) {
+        section.remove();
+        return;
+    }
+
+    const title = document.createElement("h2");
+    title.textContent = "Richieste di consultazione";
+
+    section.appendChild(title);
+
+    const list = document.createElement("div");
+    list.className = "consultation-dashboard-list";
+
+    consultations.forEach((consultation) => {
+        const card = document.createElement("a");
+
+        card.className =
+            "consultation-dashboard-card";
+
+        card.href =
+            `ticket-detail.html?id=${encodeURIComponent(
+                consultation.ticket_id
+            )}`;
+
+        const heading =
+            document.createElement("div");
+
+        heading.className =
+            "consultation-dashboard-heading";
+
+        const ticketNumber =
+            document.createElement("strong");
+
+        ticketNumber.textContent =
+            `Ticket #${consultation.ticket_id}`;
+
+        
+        heading.appendChild(ticketNumber);
+
+        const ticketTitle =
+            document.createElement("h3");
+
+        ticketTitle.textContent =
+            consultation.ticket_titolo ||
+            "Ticket senza titolo";
+
+        const request =
+            document.createElement("p");
+
+        request.textContent =
+            consultation.richiesta;
+
+        const requester =
+    document.createElement("small");
+
+requester.className =
+    "consultation-dashboard-requester";
+
+const requesterLabel =
+    document.createElement("span");
+
+requesterLabel.className =
+    "consultation-dashboard-requester-label";
+
+requesterLabel.textContent =
+    "Richiesta da: ";
+
+const requesterName =
+    document.createElement("strong");
+
+requesterName.className =
+    "consultation-dashboard-requester-name";
+
+requesterName.textContent =
+    `${consultation.richiedente_nome} ` +
+    `${consultation.richiedente_cognome}`;
+
+requester.appendChild(requesterLabel);
+requester.appendChild(requesterName);
+
+        card.appendChild(heading);
+        card.appendChild(ticketTitle);
+        card.appendChild(request);
+        card.appendChild(requester);
+
+        list.appendChild(card);
+    });
+
+    section.appendChild(list);
+}
+
+async function loadMyConsultations() {
+    try {
+        const response =
+            await fetch(
+                "/api/tickets/consultations/mine"
+            );
+
+        /*
+         * Un cliente normale non può ricevere
+         * consultazioni: in quel caso non mostriamo nulla.
+         */
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+            return;
+        }
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.message ||
+                "Impossibile caricare le consultazioni"
+            );
+        }
+
+        showMyConsultations(
+            result.consultazioni
+        );
+    } catch (error) {
+        console.error(
+            "Errore caricamento consultazioni:",
+            error
+        );
+    }
+}
 
 async function loadTickets() {
+    ticketList.innerHTML =
+        "<p>Caricamento dei ticket...</p>";
+
+    message.textContent = "";
+    message.className = "form-message";
+
     try {
         const response =
             await fetch("/api/tickets");
@@ -121,157 +544,30 @@ async function loadTickets() {
             await response.json();
 
         if (response.status === 401) {
-            window.location.href = "login.html";
+            window.location.href =
+                "login.html";
+
             return;
         }
 
         if (!response.ok) {
-            throw new Error(risultato.message);
+            throw new Error(
+                risultato.message ||
+                "Impossibile caricare i ticket"
+            );
         }
 
-        if (risultato.ticket.length === 0) {
-            ticketList.innerHTML = `
-                <div class="empty-state">
-                    <h2>Nessun ticket presente</h2>
-
-                    <p>
-                        Non hai ancora aperto richieste
-                        di assistenza.
-                    </p>
-
-                    <a
-                        class="button button-primary"
-                        href="new-ticket.html"
-                    >
-                        Apri il primo ticket
-                    </a>
-                </div>
-            `;
-
-            return;
-        }
-
-        ticketList.innerHTML = risultato.ticket
-            .map((ticket) => {
-                const tipo =
-                    tipiRichiesta[ticket.tipo_richiesta] ??
-                    "Non indicato";
-
-                const copertura =
-                    coperture[ticket.copertura] ??
-                    "Da valutare";
-
-                return `
-                   <article
-    class="ticket-card ticket-card-${ticket.stato}"
->
-                        <div class="ticket-card-header">
-                            <span class="ticket-number">
-                                Ticket #${ticket.id}
-                            </span>
-
-                           <div class="ticket-badges">
-    <span
-        class="
-            ticket-priority
-            priority-${ticket.priorita ?? "media"}
-        "
-    >
-        ${priorita[ticket.priorita] ?? "Media"}
-    </span>
-
-    <span
-        class="
-            ticket-status
-            status-${ticket.stato}
-        "
-    >
-        ${stati[ticket.stato] ?? ticket.stato}
-    </span>
-</div>
-                        </div>
-
-                        <h2>
-                            ${escapeHtml(ticket.titolo)}
-                        </h2>
-
-                        <p class="ticket-description">
-                            ${escapeHtml(ticket.descrizione)}
-                        </p>
-
-                        ${createBoatInformation(ticket)}
-
-                        <div class="ticket-meta">
-                            <span>
-                                Cliente:
-                                <strong>
-                                    ${escapeHtml(`${ticket.utente_nome} ${ticket.utente_cognome}`)}
-                                </strong>
-                            </span>
-                            <span>
-                                Operatore:
-                                <strong>
-                                    ${ticket.operatore_id
-                        ? escapeHtml(
-                            `${ticket.operatore_nome} ${ticket.operatore_cognome}`
-                        )
-                        : "Non assegnato"
-                    }
-                                </strong>
-                            </span>
-
-                            <span>
-                                Categoria:
-                                <strong>
-                                    ${categorie[ticket.categoria] ??
-                    escapeHtml(ticket.categoria)}
-                                </strong>
-                            </span>
-
-                            <span>
-                                Tipo:
-                                <strong>${tipo}</strong>
-                            </span>
-
-                            <span>
-                                Copertura:
-                                <strong>${copertura}</strong>
-                            </span>
-
-                            <span>
-                                Costo:
-                                <strong>
-                                    ${formatCost(ticket.costo)}
-                                </strong>
-                            </span>
-
-                            <span>
-                                Creato:
-                                <strong>
-                                    ${formatDate(ticket.created_at)}
-                                </strong>
-                            </span>
-                        </div>
-
-                        <a
-                            class="ticket-detail-link"
-                            href="ticket-detail.html?id=${ticket.id}"
-                        >
-                            Visualizza dettagli →
-                        </a>
-                    </article>
-                `;
-            })
-            .join("");
+        showTickets(risultato.ticket);
     } catch (error) {
         ticketList.innerHTML = "";
 
-        message.textContent = error.message;
+        message.textContent =
+            error.message;
 
         message.className =
             "form-message error-message";
     }
 }
 
-
+loadMyConsultations();
 loadTickets();

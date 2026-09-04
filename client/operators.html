@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Gestione operatori - Ticketing Helpdesk
+    </title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-container">
+            <a class="brand" href="dashboard.html">
+                <span class="brand-mark">TH</span>
+
+                <span class="brand-text">
+                    <strong>Ticketing Helpdesk</strong>
+                    <small>Gestione operatori</small>
+                </span>
+            </a>
+
+            <div class="header-actions">
+                <a class="button button-small" href="dashboard.html">
+                    Dashboard
+                </a>
+
+                <button id="logoutButton" class="button button-small" type="button">
+                    Esci
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-main operators-main">
+        <section class="dashboard-welcome">
+            <h1>Gestione operatori</h1>
+
+            <p>
+                Consulta gli operatori interni e aggiungi
+                nuovi account autorizzati.
+            </p>
+        </section>
+
+        <section class="workspace-section operator-list-section">
+            <div class="workspace-heading">
+                <div>
+                    <h2>Operatori registrati</h2>
+
+                    <p>
+                        Elenco degli operatori disponibili
+                        per l’assegnazione dei ticket.
+                    </p>
+                </div>
+            </div>
+
+            <div id="operatorsList" class="operators-list">
+                <p>Caricamento degli operatori...</p>
+            </div>
+
+            <p id="operatorsMessage" class="form-message" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="workspace-section operator-create-section">
+            <div class="workspace-heading">
+                <div>
+                    <h2 id="operatorFormTitle">
+                        Aggiungi un nuovo operatore
+                    </h2>
+
+                    <p id="operatorFormDescription">
+                        Crea un account interno che potrà
+                        gestire e ricevere i ticket.
+                    </p>
+
+                </div>
+            </div>
+
+            <form id="operatorForm" class="auth-form">
+                <div id="operatorPasswordFields" class="form-row">
+                    <div class="form-group">
+                        <label for="nome">
+                            Nome *
+                        </label>
+
+                        <input id="nome" name="nome" type="text" minlength="2" autocomplete="given-name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cognome">
+                            Cognome *
+                        </label>
+
+                        <input id="cognome" name="cognome" type="text" minlength="2" autocomplete="family-name"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        Email *
+                    </label>
+
+                    <input id="email" name="email" type="email" autocomplete="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">
+                        Telefono *
+                    </label>
+
+                    <input id="telefono" name="telefono" type="tel" minlength="7" maxlength="30" autocomplete="tel"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="funzione">
+                        Funzione aziendale *
+                    </label>
+
+                    <input id="funzione" name="funzione" type="text" placeholder="Esempio: Operatore After Sales"
+                        minlength="2" maxlength="100" required>
+
+                    <small>
+                        Indica il ruolo svolto internamente
+                        all’azienda.
+                    </small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">
+                            Password iniziale *
+                        </label>
+
+                        <input id="password" name="password" type="password" minlength="8" autocomplete="new-password"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confermaPassword">
+                            Conferma password *
+                        </label>
+
+                        <input id="confermaPassword" name="conferma_password" type="password" minlength="8"
+                            autocomplete="new-password" required>
+                    </div>
+                </div>
+
+                <div class="operator-form-actions">
+                    <button id="createOperatorButton" class="button button-primary" type="submit">
+                        Crea operatore
+                    </button>
+
+                    <button id="cancelOperatorEditButton" class="button button-secondary" type="button" hidden>
+                        Annulla modifica
+                    </button>
+                </div>
+            </form>
+
+            <p id="operatorFormMessage" class="form-message" role="status" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <footer class="company-footer">
+        <div class="company-footer-content">
+            <strong>Sessa International Srl</strong>
+
+            <span>
+                Via Cortenuova 21/23,
+                24050 Cividate al Piano,
+                Bergamo, Italy
+            </span>
+
+            <span>
+                Tel. +39 0363.946500
+                <span aria-hidden="true">•</span>
+                Fax +39 0363.976766
+            </span>
+
+            <span>P.I.: 04064960166</span>
+        </div>
+    </footer>
+
+    <script src="js/operators.js"></script>
+</body>
+
+</html>

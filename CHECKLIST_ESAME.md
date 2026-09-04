@@ -61,7 +61,7 @@
 - [x] Dashboard
 - [x] Creazione ticket
 - [x] Elenco e dettaglio ticket
-- [ ] Controllo responsive
+- [x] Controllo responsive
 - [ ] Correzione finale del CSS
 - [ ] Messaggi di errore chiari
 

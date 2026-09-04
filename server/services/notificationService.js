@@ -12,7 +12,9 @@ const tipiConsentiti = [
     "comunicazione_cliente",
     "spedizione_aggiornata",
     "escalation",
-    "allarme_cliente"
+    "allarme_cliente",
+    "consultazione_interna",
+    "risposta_consultazione"
 ];
 
 function verificaTipo(tipo) {

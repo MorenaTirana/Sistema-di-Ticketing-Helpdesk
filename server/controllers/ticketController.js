@@ -20,11 +20,31 @@ async function createTicket(req, res) {
         const {
             cliente_id,
             barca_id,
+            indirizzo_consegna,
+            localizzazione_barca,
             tipo_richiesta,
             titolo,
             descrizione,
             categoria
         } = req.body;
+
+        const allegati =
+            Array.isArray(req.files)
+                ? req.files
+                : [];
+
+        const contieneFotoOVideo =
+            allegati.some((file) =>
+                file.mimetype.startsWith("image/") ||
+                file.mimetype.startsWith("video/")
+            );
+
+        if (!contieneFotoOVideo) {
+            return res.status(400).json({
+                message:
+                    "Carica almeno una foto o un video del problema"
+            });
+        }
 
         const tipiRichiestaConsentiti = [
             "garanzia",
@@ -93,7 +113,9 @@ async function createTicket(req, res) {
             !titolo ||
             !descrizione ||
             !categoria ||
-            !tipo_richiesta
+            !tipo_richiesta ||
+            !indirizzo_consegna ||
+            !localizzazione_barca
         ) {
             return res.status(400).json({
                 message:
@@ -113,6 +135,10 @@ async function createTicket(req, res) {
 
         const titoloPulito = titolo.trim();
         const descrizionePulita = descrizione.trim();
+        const indirizzoConsegnaPulito =
+            indirizzo_consegna.trim();
+        const localizzazioneBarcaPulita =
+            localizzazione_barca.trim();
 
         if (titoloPulito.length < 5) {
             return res.status(400).json({
@@ -125,6 +151,24 @@ async function createTicket(req, res) {
             return res.status(400).json({
                 message:
                     "La descrizione deve contenere almeno 10 caratteri"
+            });
+        }
+
+        if (
+            indirizzoConsegnaPulito.length < 5 ||
+            indirizzoConsegnaPulito.length > 255
+        ) {
+            return res.status(400).json({
+                message: "Indirizzo di consegna non valido"
+            });
+        }
+
+        if (
+            localizzazioneBarcaPulita.length < 2 ||
+            localizzazioneBarcaPulita.length > 255
+        ) {
+            return res.status(400).json({
+                message: "Localizzazione della barca non valida"
             });
         }
 
@@ -165,16 +209,20 @@ async function createTicket(req, res) {
             `INSERT INTO ticket (
                 utente_id,
                 barca_id,
+                indirizzo_consegna,
+                localizzazione_barca,
                 operatore_id,
                 titolo,
                 descrizione,
                 categoria,
                 tipo_richiesta
              )
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
                 clienteId,
                 barcaId,
+                indirizzoConsegnaPulito,
+                localizzazioneBarcaPulita,
                 operatoreId,
                 titoloPulito,
                 descrizionePulita,
@@ -185,10 +233,70 @@ async function createTicket(req, res) {
 
         const ticketId = risultato.insertId;
 
+        await connection.execute(
+            `UPDATE barche
+             SET localizzazione = ?
+             WHERE id = ?
+               AND utente_id = ?`,
+            [
+                localizzazioneBarcaPulita,
+                barcaId,
+                clienteId
+            ]
+        );
+
+        for (const allegato of allegati) {
+            let tipo = "documento";
+
+            if (
+                allegato.mimetype.startsWith("image/")
+            ) {
+                tipo = "foto";
+            } else if (
+                allegato.mimetype.startsWith("video/")
+            ) {
+                tipo = "video";
+            }
+
+            await connection.execute(
+                `INSERT INTO ticket_allegati (
+                    ticket_id,
+                    ticket_voce_id,
+                    tipo,
+                    descrizione,
+                    nome_file_originale,
+                    nome_file_salvato,
+                    mime_type,
+                    dimensione_file,
+                    durata_secondi,
+                    nome_anteprima,
+                    caricato_da,
+                    visibile_cliente,
+                    consenso_analisi_ai
+                 )
+                 VALUES (
+                    ?, NULL, ?, ?, ?, ?, ?, ?,
+                    NULL, NULL, ?, 1, 0
+                 )`,
+                [
+                    ticketId,
+                    tipo,
+                    "Allegato iniziale della richiesta",
+                    allegato.originalname,
+                    allegato.filename,
+                    allegato.mimetype,
+                    allegato.size,
+                    utenteCollegato.id
+                ]
+            );
+        }
         /*
-         * Se il ticket è stato inserito dall'operatore,
-         * il cliente riceve una notifica.
-         */
+       * Se il ticket è creato da un operatore,
+       * viene avvisato il cliente.
+       *
+       * Se è creato dal cliente,
+       * vengono avvisati tutti gli operatori.
+       */
         if (utenteCollegato.ruolo === "operatore") {
             await createNotification({
                 utenteId: clienteId,
@@ -199,6 +307,33 @@ async function createTicket(req, res) {
                     `per la tua richiesta di assistenza.`,
                 connection
             });
+        } else {
+            const [operatori] =
+                await connection.execute(
+                    `SELECT id
+             FROM utenti
+             WHERE ruolo = 'operatore'`
+                );
+
+            const nomeCliente = [
+                utenteCollegato.nome,
+                utenteCollegato.cognome
+            ]
+                .filter(Boolean)
+                .join(" ");
+
+            for (const operatore of operatori) {
+                await createNotification({
+                    utenteId: operatore.id,
+                    ticketId,
+                    tipo: "nuovo_ticket",
+                    messaggio:
+                        `${nomeCliente || "Un cliente"} ` +
+                        `ha aperto il ticket #${ticketId}: ` +
+                        `"${titoloPulito}".`,
+                    connection
+                });
+            }
         }
 
         await connection.commit();
@@ -210,6 +345,10 @@ async function createTicket(req, res) {
                 id: ticketId,
                 utente_id: clienteId,
                 barca_id: barcaId,
+                indirizzo_consegna:
+                    indirizzoConsegnaPulito,
+                localizzazione_barca:
+                    localizzazioneBarcaPulita,
                 operatore_id: operatoreId,
                 titolo: titoloPulito,
                 descrizione: descrizionePulita,
@@ -257,6 +396,8 @@ async function getTickets(req, res) {
                 t.tipo_richiesta,
                 t.copertura,
                 t.costo,
+                t.indirizzo_consegna,
+                t.localizzazione_barca,
                 b.id AS barca_id,
                 b.modello AS barca_modello,
                 b.matricola AS barca_matricola,
@@ -271,26 +412,53 @@ async function getTickets(req, res) {
                 op.id AS operatore_id,
                 op.nome AS operatore_nome,
                 op.cognome AS operatore_cognome,
-                op.email AS operatore_email
+                op.email AS operatore_email,
+                anteprima.id AS allegato_anteprima_id,
+                anteprima.tipo AS allegato_anteprima_tipo,
+                anteprima.mime_type AS allegato_anteprima_mime,
+                anteprima.nome_file_originale
+    AS allegato_anteprima_nome
 
             FROM ticket AS t
+
             INNER JOIN utenti AS u
                 ON t.utente_id = u.id
+
             LEFT JOIN barche AS b
                 ON t.barca_id = b.id 
+            
             LEFT JOIN utenti AS op
                 ON t.operatore_id = op.id
+
+            LEFT JOIN ticket_allegati AS anteprima
+                ON anteprima.id = (
+                    SELECT MIN(ta.id)
+                    FROM ticket_allegati AS ta
+                    WHERE ta.ticket_id = t.id
+                        AND ta.tipo IN ('foto', 'video')
+    )
         `;
 
         const parametri = [];
 
-        if (utente.ruolo === "utente") {
-            query += `
-                WHERE t.utente_id = ?
-            `;
+       if (utente.ruolo === "utente") {
+    query += `
+        WHERE t.utente_id = ?
+    `;
 
-            parametri.push(utente.id);
-        }
+    parametri.push(utente.id);
+} else if (utente.ruolo === "tecnico") {
+    query += `
+        WHERE EXISTS (
+            SELECT 1
+            FROM consultazioni_ticket AS ct
+            WHERE ct.ticket_id = t.id
+              AND ct.consulente_id = ?
+        )
+    `;
+
+    parametri.push(utente.id);
+}
 
         query += `
             ORDER BY
@@ -343,18 +511,29 @@ async function getTicketById(req, res) {
                 t.tipo_richiesta,
                 t.copertura,
                 t.costo,
+                t.indirizzo_consegna,
+                t.localizzazione_barca,
                 b.id AS barca_id,
                 b.modello AS barca_modello,
                 b.matricola AS barca_matricola,
                 b.anno_produzione AS barca_anno_produzione,
-                b.localizzazione AS barca_localizzazione,
-                b.indirizzo_consegna AS barca_indirizzo_consegna,
+                COALESCE(
+                    t.localizzazione_barca,
+                    b.localizzazione
+                ) AS barca_localizzazione,
+                COALESCE(
+                    t.indirizzo_consegna,
+                    b.indirizzo_consegna
+                ) AS barca_indirizzo_consegna,
                 b.garanzia_attivata_il,
                 b.garanzia_scadenza_il,
                 u.id AS utente_id,
                 u.nome AS utente_nome,
                 u.cognome AS utente_cognome,
                 u.email AS utente_email,
+                u.telefono AS utente_telefono,
+                u.indirizzo_residenza
+                    AS utente_indirizzo_residenza,
                 op.id AS operatore_id,
                 op.nome AS operatore_nome,
                 op.cognome AS operatore_cognome,
@@ -387,6 +566,27 @@ async function getTicketById(req, res) {
             });
         }
 
+        if (utente.ruolo === "tecnico") {
+    const [consultazioni] =
+        await db.execute(
+            `SELECT id
+             FROM consultazioni_ticket
+             WHERE ticket_id = ?
+               AND consulente_id = ?
+             LIMIT 1`,
+            [
+                ticketId,
+                utente.id
+            ]
+        );
+
+    if (consultazioni.length === 0) {
+        return res.status(403).json({
+            message:
+                "Puoi visualizzare solamente i ticket per i quali hai ricevuto una consultazione"
+        });
+    }
+}
         return res.status(200).json({
             ticket
         });
@@ -667,6 +867,25 @@ async function assignTicket(req, res) {
     try {
         const ticketId = Number(req.params.id);
         const operatoreId = Number(req.body.operatore_id);
+        const utenteCorrente =
+    req.session.utente;
+
+const [gestori] = await db.execute(
+    `SELECT id
+     FROM utenti
+     WHERE id = ?
+       AND ruolo = 'operatore'
+       AND puo_gestire_operatori = TRUE
+       AND attivo = TRUE`,
+    [utenteCorrente.id]
+);
+
+if (gestori.length === 0) {
+    return res.status(403).json({
+        message:
+            "Solamente il Main Operator può assegnare i ticket"
+    });
+}
 
         if (!Number.isInteger(ticketId) || ticketId <= 0) {
             return res.status(400).json({
@@ -706,26 +925,33 @@ async function assignTicket(req, res) {
 
         // Controlliamo che l'utente scelto
         // sia realmente un operatore.
-        const [operatori] = await db.execute(
-            `SELECT
-                id,
-                nome,
-                cognome,
-                email
-             FROM utenti
-             WHERE id = ?
-               AND ruolo = 'operatore'`,
-            [operatoreId]
-        );
+      const [operatori] = await db.execute(
+    `SELECT
+        id,
+        nome,
+        cognome,
+        email,
+        funzione,
+        tipo_operatore
+     FROM utenti
+     WHERE id = ?
+       AND ruolo = 'operatore'
+       AND tipo_operatore = 'after_sales'
+       AND attivo = TRUE`,
+    [operatoreId]
+);
 
         if (operatori.length === 0) {
             return res.status(400).json({
-                message:
-                    "L'utente selezionato non è un operatore"
+               message:
+    "Il ticket può essere assegnato solamente a un operatore After Sales"
             });
         }
 
-        if (ticket.operatore_id === operatoreId) {
+     if (
+    Number(ticket.operatore_id) ===
+    operatoreId
+) {
             return res.status(400).json({
                 message:
                     "Il ticket è già assegnato a questo operatore"
@@ -777,11 +1003,123 @@ async function assignTicket(req, res) {
     }
 }
 
+async function updateTicketBoat(req, res) {
+    try {
+        const ticketId =
+            Number(req.params.id);
+
+        const barcaId =
+            Number(req.body.barca_id);
+
+        if (
+            !Number.isInteger(ticketId) ||
+            ticketId <= 0
+        ) {
+            return res.status(400).json({
+                message:
+                    "Identificativo del ticket non valido"
+            });
+        }
+
+        if (
+            !Number.isInteger(barcaId) ||
+            barcaId <= 0
+        ) {
+            return res.status(400).json({
+                message:
+                    "Seleziona una barca valida"
+            });
+        }
+
+        const [tickets] =
+            await db.execute(
+                `SELECT
+                    id,
+                    utente_id
+                 FROM ticket
+                 WHERE id = ?`,
+                [ticketId]
+            );
+
+        if (tickets.length === 0) {
+            return res.status(404).json({
+                message: "Ticket non trovato"
+            });
+        }
+
+        const ticket =
+            tickets[0];
+
+        const utente =
+            req.session.utente;
+
+        if (
+            utente.ruolo === "utente" &&
+            Number(ticket.utente_id) !==
+            Number(utente.id)
+        ) {
+            return res.status(403).json({
+                message:
+                    "Non puoi modificare questo ticket"
+            });
+        }
+
+        const [barche] =
+            await db.execute(
+                `SELECT
+                    id,
+                    modello,
+                    matricola
+                 FROM barche
+                 WHERE id = ?
+                   AND utente_id = ?`,
+                [
+                    barcaId,
+                    ticket.utente_id
+                ]
+            );
+
+        if (barche.length === 0) {
+            return res.status(403).json({
+                message:
+                    "La barca selezionata non appartiene al cliente del ticket"
+            });
+        }
+
+        await db.execute(
+            `UPDATE ticket
+             SET barca_id = ?
+             WHERE id = ?`,
+            [
+                barcaId,
+                ticketId
+            ]
+        );
+
+        return res.status(200).json({
+            message:
+                "Barca associata correttamente al ticket",
+
+            barca: barche[0]
+        });
+    } catch (error) {
+        console.error(
+            "Errore associazione barca:",
+            error
+        );
+
+        return res.status(500).json({
+            message: "Errore interno del server"
+        });
+    }
+}
+
 module.exports = {
     createTicket,
     getTickets,
     getTicketById,
     updateTicketStatus,
     updateTicketManagement,
-    assignTicket
+    assignTicket,
+    updateTicketBoat
 };
