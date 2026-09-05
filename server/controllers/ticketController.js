@@ -297,43 +297,54 @@ async function createTicket(req, res) {
        * Se è creato dal cliente,
        * vengono avvisati tutti gli operatori.
        */
-        if (utenteCollegato.ruolo === "operatore") {
-            await createNotification({
-                utenteId: clienteId,
-                ticketId,
-                tipo: "nuova_pratica",
-                messaggio:
-                    `È stata registrata la pratica #${ticketId} ` +
-                    `per la tua richiesta di assistenza.`,
-                connection
-            });
-        } else {
-            const [operatori] =
-                await connection.execute(
-                    `SELECT id
-             FROM utenti
-             WHERE ruolo = 'operatore'`
-                );
-
-            const nomeCliente = [
-                utenteCollegato.nome,
-                utenteCollegato.cognome
-            ]
-                .filter(Boolean)
-                .join(" ");
-
-            for (const operatore of operatori) {
+        /*
+         * Un eventuale errore della notifica
+         * non annulla il ticket già creato.
+         */
+        try {
+            if (utenteCollegato.ruolo === "operatore") {
                 await createNotification({
-                    utenteId: operatore.id,
+                    utenteId: clienteId,
                     ticketId,
-                    tipo: "nuovo_ticket",
+                    tipo: "nuova_pratica",
                     messaggio:
-                        `${nomeCliente || "Un cliente"} ` +
-                        `ha aperto il ticket #${ticketId}: ` +
-                        `"${titoloPulito}".`,
+                        `È stata registrata la pratica #${ticketId} ` +
+                        `per la tua richiesta di assistenza.`,
                     connection
                 });
+            } else {
+                const [operatori] =
+                    await connection.execute(
+                        `SELECT id
+             FROM utenti
+             WHERE ruolo = 'operatore'`
+                    );
+
+                const nomeCliente = [
+                    utenteCollegato.nome,
+                    utenteCollegato.cognome
+                ]
+                    .filter(Boolean)
+                    .join(" ");
+
+                for (const operatore of operatori) {
+                    await createNotification({
+                        utenteId: operatore.id,
+                        ticketId,
+                        tipo: "nuovo_ticket",
+                        messaggio:
+                            `${nomeCliente || "Un cliente"} ` +
+                            `ha aperto il ticket #${ticketId}: ` +
+                            `"${titoloPulito}".`,
+                        connection
+                    });
+                }
             }
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica nuovo ticket:",
+                notificationError
+            );
         }
 
         await connection.commit();
@@ -708,13 +719,20 @@ async function updateTicketStatus(req, res) {
         };
 
         // 7. Creazione della notifica per il proprietario
-        await createNotification({
-            utenteId: ticket.utente_id,
-            ticketId: ticketId,
-            tipo: "stato_modificato",
-            messaggio:
-                `Lo stato del ticket #${ticketId} è stato modificato in "${nomiStato[stato]}".`
-        });
+        try {
+            await createNotification({
+                utenteId: ticket.utente_id,
+                ticketId: ticketId,
+                tipo: "stato_modificato",
+                messaggio:
+                    `Lo stato del ticket #${ticketId} è stato modificato in "${nomiStato[stato]}".`
+            });
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica cambio stato:",
+                notificationError
+            );
+        }
 
         // 8. Risposta inviata al frontend
         return res.status(200).json({
@@ -894,15 +912,22 @@ async function updateCustomerResolution(req, res) {
                     ? `Il cliente ha confermato la risoluzione del ticket #${ticketId}.`
                     : `Il cliente ha indicato che il problema del ticket #${ticketId} persiste.`;
 
-            await createNotification({
-                utenteId:
-                    ticket.operatore_id,
-                ticketId,
-                tipo:
-                    "conferma_cliente",
-                messaggio:
-                    messaggioNotifica
-            });
+            try {
+                await createNotification({
+                    utenteId:
+                        ticket.operatore_id,
+                    ticketId,
+                    tipo:
+                        "conferma_cliente",
+                    messaggio:
+                        messaggioNotifica
+                });
+            } catch (notificationError) {
+                console.error(
+                    "Errore notifica conferma cliente:",
+                    notificationError
+                );
+            }
         }
 
         return res.status(200).json({
@@ -1229,17 +1254,28 @@ async function updateTicketManagement(req, res) {
                 ? "non ancora definito"
                 : `${costoDaSalvare.toFixed(2)} euro`;
 
-        await createNotification({
-            utenteId: ticket.utente_id,
-            ticketId,
-            tipo: "gestione_aggiornata",
-            messaggio:
-                `Il ticket #${ticketId} è stato aggiornato: ` +
-                `priorità "${nomiPriorita[priorita]}", ` +
-                `copertura "${nomiCopertura[copertura]}", ` +
-                `costo ${testoCosto}.`,
-            connection
-        });
+        /*
+         * Un eventuale errore della notifica non deve
+         * annullare l'aggiornamento già valido del ticket.
+         */
+        try {
+            await createNotification({
+                utenteId: ticket.utente_id,
+                ticketId,
+                tipo: "gestione_aggiornata",
+                messaggio:
+                    `Il ticket #${ticketId} è stato aggiornato: ` +
+                    `priorità "${nomiPriorita[priorita]}", ` +
+                    `copertura "${nomiCopertura[copertura]}", ` +
+                    `costo ${testoCosto}.`,
+                connection
+            });
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica gestione aggiornata:",
+                notificationError
+            );
+        }
 
         await connection.commit();
 
@@ -1382,15 +1418,22 @@ async function assignTicket(req, res) {
             [operatoreId, ticketId]
         );
 
-        await createNotification({
-            utenteId: ticket.utente_id,
-            ticketId,
-            tipo: "assegnazione",
-            messaggio:
-                `Il ticket #${ticketId} è stato assegnato ` +
-                `all'operatore ${operatore.nome} ` +
-                `${operatore.cognome}.`
-        });
+        try {
+            await createNotification({
+                utenteId: ticket.utente_id,
+                ticketId,
+                tipo: "assegnazione",
+                messaggio:
+                    `Il ticket #${ticketId} è stato assegnato ` +
+                    `all'operatore ${operatore.nome} ` +
+                    `${operatore.cognome}.`
+            });
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica assegnazione:",
+                notificationError
+            );
+        }
 
         return res.status(200).json({
             message:

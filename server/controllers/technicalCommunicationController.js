@@ -114,7 +114,7 @@ async function createCommunicationDraft(req, res) {
 }
 
 async function sendCommunicationToClient(req, res) {
-    const connection = await db.getConnection();
+    let connection;
 
     try {
         const communicationId = Number(req.params.id);
@@ -135,6 +135,7 @@ async function sendCommunicationToClient(req, res) {
             });
         }
 
+        connection = await db.getConnection();
         await connection.beginTransaction();
 
         /*
@@ -206,40 +207,51 @@ async function sendCommunicationToClient(req, res) {
 
         const ticketId = comunicazione.ticket_id;
 
-        // Notifica per il cliente
-        await createNotification({
-            utenteId: comunicazione.cliente_id,
-            ticketId,
-            tipo: "comunicazione_cliente",
-            messaggio:
-                `Hai ricevuto una nuova comunicazione relativa al ticket #${ticketId}.`,
-            connection
-        });
-
-        // Notifica il tecnico che ha fornito la valutazione
-        if (comunicazione.tecnico_id) {
+        /*
+         * Un eventuale errore delle notifiche non deve
+         * annullare l'invio già valido della comunicazione.
+         */
+        try {
+            // Notifica per il cliente
             await createNotification({
-                utenteId: comunicazione.tecnico_id,
+                utenteId: comunicazione.cliente_id,
                 ticketId,
                 tipo: "comunicazione_cliente",
                 messaggio:
-                    `La comunicazione relativa al ticket #${ticketId} ` +
-                    `è stata inviata al cliente.`,
+                    `Hai ricevuto una nuova comunicazione relativa al ticket #${ticketId}.`,
                 connection
             });
-        }
 
-        // Il capo produzione viene sempre informato
-        await createRoleNotifications({
-            ruolo: "capo_produzione",
-            ticketId,
-            tipo: "comunicazione_cliente",
-            messaggio:
-                `L'operatore ${operatore.nome} ${operatore.cognome} ` +
-                `ha inviato al cliente una comunicazione relativa ` +
-                `al ticket #${ticketId}.`,
-            connection
-        });
+            // Notifica il tecnico che ha fornito la valutazione
+            if (comunicazione.tecnico_id) {
+                await createNotification({
+                    utenteId: comunicazione.tecnico_id,
+                    ticketId,
+                    tipo: "comunicazione_cliente",
+                    messaggio:
+                        `La comunicazione relativa al ticket #${ticketId} ` +
+                        `è stata inviata al cliente.`,
+                    connection
+                });
+            }
+
+            // Il capo produzione viene sempre informato
+            await createRoleNotifications({
+                ruolo: "capo_produzione",
+                ticketId,
+                tipo: "comunicazione_cliente",
+                messaggio:
+                    `L'operatore ${operatore.nome} ${operatore.cognome} ` +
+                    `ha inviato al cliente una comunicazione relativa ` +
+                    `al ticket #${ticketId}.`,
+                connection
+            });
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica comunicazione tecnica:",
+                notificationError
+            );
+        }
 
         await connection.commit();
 
@@ -247,7 +259,9 @@ async function sendCommunicationToClient(req, res) {
             message: "Comunicazione inviata correttamente al cliente"
         });
     } catch (error) {
-        await connection.rollback();
+        if (connection) {
+            await connection.rollback();
+        }
 
         console.error(
             "Errore durante l'invio della comunicazione:",
@@ -258,7 +272,9 @@ async function sendCommunicationToClient(req, res) {
             message: "Errore interno del server"
         });
     } finally {
-        connection.release();
+        if (connection) {
+            connection.release();
+        }
     }
 }
 

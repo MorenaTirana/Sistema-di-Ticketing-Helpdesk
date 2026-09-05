@@ -64,7 +64,7 @@ async function register(req, res) {
                 message: "Esiste già un utente con questa email"
             });
         }
-        const passwordHash = await bcrypt.hash(password, 10);
+        const passwordHash = await bcrypt.hash(password, 12);
 
         const [risultato] = await db.execute(
             `INSERT INTO utenti (
@@ -417,7 +417,7 @@ async function changePassword(req, res) {
         const nuovoHash =
             await bcrypt.hash(
                 nuova_password,
-                10
+                12
             );
 
         await db.execute(
@@ -705,7 +705,7 @@ async function resetPassword(req, res) {
         const nuovoHash =
             await bcrypt.hash(
                 nuova_password,
-                10
+                12
             );
 
         await connection.execute(

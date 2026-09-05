@@ -6,8 +6,7 @@ const {
 } = require("../services/notificationService");
 
 async function createInternalRequest(req, res) {
-    const connection =
-        await db.getConnection();
+    let connection;
 
     try {
         const autore =
@@ -55,6 +54,7 @@ async function createInternalRequest(req, res) {
             });
         }
 
+        connection = await db.getConnection();
         await connection.beginTransaction();
 
         const [ticket] =
@@ -127,16 +127,23 @@ async function createInternalRequest(req, res) {
                 ]
             );
 
-        await createNotification({
-            utenteId: assegnatoAId,
-            ticketId: ticketIdNumerico,
-            tipo: "richiesta_interna",
-            messaggio:
-                `${autore.nome} ${autore.cognome} ` +
-                `ti ha assegnato il ticket ` +
-                `#${ticketIdNumerico} con una richiesta interna.`,
-            connection
-        });
+        try {
+            await createNotification({
+                utenteId: assegnatoAId,
+                ticketId: ticketIdNumerico,
+                tipo: "richiesta_interna",
+                messaggio:
+                    `${autore.nome} ${autore.cognome} ` +
+                    `ti ha assegnato il ticket ` +
+                    `#${ticketIdNumerico} con una richiesta interna.`,
+                connection
+            });
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica richiesta interna:",
+                notificationError
+            );
+        }
 
         await connection.commit();
 
@@ -153,7 +160,9 @@ async function createInternalRequest(req, res) {
             }
         });
     } catch (error) {
-        await connection.rollback();
+        if (connection) {
+            await connection.rollback();
+        }
 
         console.error(
             "Errore creazione richiesta interna:",
@@ -164,7 +173,9 @@ async function createInternalRequest(req, res) {
             message: "Errore interno del server"
         });
     } finally {
-        connection.release();
+        if (connection) {
+            connection.release();
+        }
     }
 }
 
@@ -255,8 +266,7 @@ async function getTicketInternalRequests(
 }
 
 async function createInternalReply(req, res) {
-    const connection =
-        await db.getConnection();
+    let connection;
 
     try {
         const richiestaId =
@@ -290,6 +300,7 @@ async function createInternalReply(req, res) {
             });
         }
 
+        connection = await db.getConnection();
         await connection.beginTransaction();
 
         const [richieste] =
@@ -380,16 +391,23 @@ async function createInternalReply(req, res) {
                 ? richiesta.assegnato_a
                 : richiesta.richiesto_da;
 
-        await createNotification({
-            utenteId: destinatarioNotifica,
-            ticketId: richiesta.ticket_id,
-            tipo: "risposta_interna",
-            messaggio:
-                `${autore.nome} ${autore.cognome} ` +
-                `ha risposto alla richiesta interna ` +
-                `del ticket #${richiesta.ticket_id}.`,
-            connection
-        });
+        try {
+            await createNotification({
+                utenteId: destinatarioNotifica,
+                ticketId: richiesta.ticket_id,
+                tipo: "risposta_interna",
+                messaggio:
+                    `${autore.nome} ${autore.cognome} ` +
+                    `ha risposto alla richiesta interna ` +
+                    `del ticket #${richiesta.ticket_id}.`,
+                connection
+            });
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica risposta interna:",
+                notificationError
+            );
+        }
 
         await connection.commit();
 
@@ -402,7 +420,9 @@ async function createInternalReply(req, res) {
             }
         });
     } catch (error) {
-        await connection.rollback();
+        if (connection) {
+            await connection.rollback();
+        }
 
         console.error(
             "Errore creazione risposta interna:",
@@ -413,7 +433,9 @@ async function createInternalReply(req, res) {
             message: "Errore interno del server"
         });
     } finally {
-        connection.release();
+        if (connection) {
+            connection.release();
+        }
     }
 }
 
@@ -566,20 +588,27 @@ async function shareInternalReplyWithClient(
             [replyId]
         );
 
-        await createNotification({
-            utenteId:
-                risposte[0].cliente_id,
+        try {
+            await createNotification({
+                utenteId:
+                    risposte[0].cliente_id,
 
-            ticketId:
-                risposte[0].ticket_id,
+                ticketId:
+                    risposte[0].ticket_id,
 
-            tipo:
-                "documento_tecnico",
+                tipo:
+                    "documento_tecnico",
 
-            messaggio:
-                `È disponibile un nuovo documento ` +
-                `per il ticket #${risposte[0].ticket_id}.`
-        });
+                messaggio:
+                    `È disponibile un nuovo documento ` +
+                    `per il ticket #${risposte[0].ticket_id}.`
+            });
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica documento condiviso:",
+                notificationError
+            );
+        }
 
         return res.status(200).json({
             message:

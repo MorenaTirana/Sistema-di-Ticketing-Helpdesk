@@ -220,34 +220,45 @@ async function createComment(req, res) {
             ]
         );
 
-        if (utente.ruolo === "operatore") {
-            await createNotification({
-                utenteId:
-                    accesso.ticket.utente_id,
+        /*
+         * Un eventuale errore della notifica
+         * non annulla il commento già salvato.
+         */
+        try {
+            if (utente.ruolo === "operatore") {
+                await createNotification({
+                    utenteId:
+                        accesso.ticket.utente_id,
 
-                ticketId,
+                    ticketId,
 
-                tipo: "feedback_operatore",
+                    tipo: "feedback_operatore",
 
-                messaggio:
-                    `Hai ricevuto un feedback ` +
-                    `dall'operatore per il ticket ` +
-                    `#${ticketId}.`
-            });
-        } else if (accesso.ticket.operatore_id) {
-            await createNotification({
-                utenteId:
-                    accesso.ticket.operatore_id,
+                    messaggio:
+                        `Hai ricevuto un feedback ` +
+                        `dall'operatore per il ticket ` +
+                        `#${ticketId}.`
+                });
+            } else if (accesso.ticket.operatore_id) {
+                await createNotification({
+                    utenteId:
+                        accesso.ticket.operatore_id,
 
-                ticketId,
+                    ticketId,
 
-                tipo: "feedback_cliente",
+                    tipo: "feedback_cliente",
 
-                messaggio:
-                    `${utente.nome} ${utente.cognome} ` +
-                    `ha inviato un feedback per il ` +
-                    `ticket #${ticketId}.`
-            });
+                    messaggio:
+                        `${utente.nome} ${utente.cognome} ` +
+                        `ha inviato un feedback per il ` +
+                        `ticket #${ticketId}.`
+                });
+            }
+        } catch (notificationError) {
+            console.error(
+                "Errore notifica nuovo commento:",
+                notificationError
+            );
         }
 
         return res.status(201).json({
