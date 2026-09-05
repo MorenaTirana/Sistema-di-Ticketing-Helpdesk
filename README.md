@@ -119,4 +119,4 @@ Il diagramma Entità-Relazione del database e il diagramma dei casi d'uso, gener
 
 ## Stato del progetto
 
-Funzionante end-to-end per i tre ruoli principali (utente, operatore, tecnico). In fase di rifinitura finale prima della consegna (vedi `CHECKLIST_ESAME.md`).
+Funzionante end-to-end per i tre ruoli principali (utente, operatore, tecnico). Progetto completato e pronto per la consegna (vedi `CHECKLIST_ESAME.md`).

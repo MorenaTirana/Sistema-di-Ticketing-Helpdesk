@@ -62,7 +62,6 @@
 - [x] Creazione ticket
 - [x] Elenco e dettaglio ticket
 - [x] Controllo responsive
-- [ ] Correzione finale del CSS
 - [x] Messaggi di errore chiari
 
 ## 8. Database
@@ -80,7 +79,5 @@
 - [x] Commit e push
 - [x] README definitivo
 - [x] APPUNTI aggiornati
-- [ ] DOMANDE_ESAME.md
-- [ ] Test finale senza errori
-- [ ] Presentazione e dimostrazione del progetto
+- [x] Test finale senza errori
 
