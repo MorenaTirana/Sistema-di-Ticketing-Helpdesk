@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Ago 09, 2026 alle 18:24
+-- Creato il: Set 05, 2026 alle 10:23
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -24,9 +25,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `allegati_consultazioni`
+--
+
+DROP TABLE IF EXISTS `allegati_consultazioni`;
+CREATE TABLE `allegati_consultazioni` (
+  `id` int(11) NOT NULL,
+  `consultazione_id` int(11) NOT NULL,
+  `risposta_id` int(11) DEFAULT NULL,
+  `caricato_da` int(11) NOT NULL,
+  `nome_originale` varchar(255) NOT NULL,
+  `nome_file` varchar(255) NOT NULL,
+  `mime_type` varchar(150) NOT NULL,
+  `dimensione` bigint(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `allegati_consultazioni`
+--
+
+INSERT INTO `allegati_consultazioni` (`id`, `consultazione_id`, `risposta_id`, `caricato_da`, `nome_originale`, `nome_file`, `mime_type`, `dimensione`, `created_at`) VALUES
+(1, 2, 1, 9, 'schema elettrico.jpg', '1786494766941-d52d988a-05f1-42ed-9ea4-0c2c13cabe3b.jpg', 'image/jpeg', 114146, '2026-08-12 00:32:46');
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `analisi_ai_specialisti`
 --
 
+DROP TABLE IF EXISTS `analisi_ai_specialisti`;
 CREATE TABLE `analisi_ai_specialisti` (
   `analisi_id` int(11) NOT NULL,
   `specializzazione_id` int(11) NOT NULL,
@@ -41,6 +69,7 @@ CREATE TABLE `analisi_ai_specialisti` (
 -- Struttura della tabella `analisi_ai_ticket`
 --
 
+DROP TABLE IF EXISTS `analisi_ai_ticket`;
 CREATE TABLE `analisi_ai_ticket` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -72,9 +101,29 @@ CREATE TABLE `analisi_ai_ticket` (
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `articoli_commerciali_ticket`
+--
+
+DROP TABLE IF EXISTS `articoli_commerciali_ticket`;
+CREATE TABLE `articoli_commerciali_ticket` (
+  `id` int(11) NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `codice_articolo` varchar(100) NOT NULL,
+  `descrizione_articolo` varchar(500) NOT NULL,
+  `costo_articolo` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `quantita` int(11) NOT NULL DEFAULT 1,
+  `estimated_lead_time` varchar(150) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `assegnazioni_tecniche`
 --
 
+DROP TABLE IF EXISTS `assegnazioni_tecniche`;
 CREATE TABLE `assegnazioni_tecniche` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -94,6 +143,7 @@ CREATE TABLE `assegnazioni_tecniche` (
 -- Struttura della tabella `barche`
 --
 
+DROP TABLE IF EXISTS `barche`;
 CREATE TABLE `barche` (
   `id` int(11) NOT NULL,
   `utente_id` int(11) NOT NULL,
@@ -101,7 +151,7 @@ CREATE TABLE `barche` (
   `matricola` varchar(100) NOT NULL,
   `anno_produzione` year(4) NOT NULL,
   `localizzazione` varchar(255) NOT NULL,
-  `indirizzo_consegna` varchar(255) NOT NULL,
+  `indirizzo_consegna` varchar(255) DEFAULT NULL,
   `garanzia_attivata_il` date DEFAULT NULL,
   `garanzia_scadenza_il` date DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -113,8 +163,15 @@ CREATE TABLE `barche` (
 
 INSERT INTO `barche` (`id`, `utente_id`, `modello`, `matricola`, `anno_produzione`, `localizzazione`, `indirizzo_consegna`, `garanzia_attivata_il`, `garanzia_scadenza_il`, `created_at`) VALUES
 (1, 4, 'KL27 EFB 017', 'IT-SES329024D132', '2025', 'Porto di Genova', 'Via del Porto 10, Genova', '2025-09-10', '2027-09-10', '2026-08-06 20:35:35'),
-(2, 4, 'C38 054', 'IT-SEI 231054G123', '2024', 'CODIGORO', 'PORTO MARINA , 17, 24058, CODIGORO', '2024-02-12', '2026-02-12', '2026-08-09 11:03:08'),
-(3, 1, 'C44 042', 'IT-SEI 623042H421', '2025', 'CHIOGGIA', 'VIA GARIBALBI 123, CHIOGGIA , 31056', '2025-05-03', '2027-05-03', '2026-08-09 11:26:52');
+(2, 4, 'C38 054', 'IT-SEI 231054G123', '2024', 'CODIGORO', 'Porto Marina, 17\n24058 Codigoro (FE)\nItalia', '2024-02-12', '2026-02-12', '2026-08-09 11:03:08'),
+(3, 1, 'C44 042', 'IT-SEI 623042H421', '2025', 'CHIOGGIA', 'VIA GARIBALBI 123, CHIOGGIA , 31056', '2025-05-03', '2027-05-03', '2026-08-09 11:26:52'),
+(4, 2, 'C3X FB 011', 'IT-SES 425011K101', '1999', 'PALERMO', 'VIA MAZZONI 16/F, 52012, PALERM', NULL, NULL, '2026-08-09 18:26:12'),
+(5, 2, 'OYSTER 19', 'IT-SES 25621J123', '2001', 'VENEZIA', 'VIA PAPA LEONE 13, 45201, VENEZIA', NULL, NULL, '2026-08-09 19:00:55'),
+(6, 1, 'ISLAMORADA 27', 'IT-SES 124052D4785', '2010', 'LAVAGNA', 'VIA MATTEOTTI 26, 41254 LAVAGNA', NULL, NULL, '2026-08-09 19:11:46'),
+(7, 5, 'F47 012', 'IT-SES 4512012H145', '2015', 'PUGLIA', 'VIA FRANCESCO CRISPI 1, 45124 PUGLIA', NULL, NULL, '2026-08-09 19:38:33'),
+(8, 5, 'KL34 015', 'IT-SES 234015T124', '2016', 'Porto di Genova', 'Via del Porto 10, Genova', NULL, NULL, '2026-08-09 20:12:31'),
+(9, 5, 'C5X EFB 010', 'IT-SES 23568I102', '2018', 'PORTO DI GENOVA', 'MARINA DI GENOVA 12, 26045 GENOVA', NULL, NULL, '2026-08-10 14:34:25'),
+(10, 4, 'F42', 'IT-SEI329024H112', '2013', 'Marina di Varazze', 'Via Papa Giovanni XXIII', NULL, NULL, '2026-09-04 20:28:10');
 
 -- --------------------------------------------------------
 
@@ -122,6 +179,7 @@ INSERT INTO `barche` (`id`, `utente_id`, `modello`, `matricola`, `anno_produzion
 -- Struttura della tabella `categorie_componenti`
 --
 
+DROP TABLE IF EXISTS `categorie_componenti`;
 CREATE TABLE `categorie_componenti` (
   `id` int(11) NOT NULL,
   `codice` varchar(50) NOT NULL,
@@ -158,6 +216,7 @@ INSERT INTO `categorie_componenti` (`id`, `codice`, `nome`, `descrizione`, `atti
 -- Struttura della tabella `categorie_specializzazioni`
 --
 
+DROP TABLE IF EXISTS `categorie_specializzazioni`;
 CREATE TABLE `categorie_specializzazioni` (
   `categoria_id` int(11) NOT NULL,
   `specializzazione_id` int(11) NOT NULL,
@@ -192,22 +251,24 @@ INSERT INTO `categorie_specializzazioni` (`categoria_id`, `specializzazione_id`,
 -- Struttura della tabella `commenti`
 --
 
+DROP TABLE IF EXISTS `commenti`;
 CREATE TABLE `commenti` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
   `utente_id` int(11) NOT NULL,
   `testo` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `commenti`
 --
 
-INSERT INTO `commenti` (`id`, `ticket_id`, `utente_id`, `testo`, `created_at`) VALUES
-(1, 2, 2, 'Il generatore si blocca.', '2026-08-05 19:13:52'),
-(2, 3, 3, 'Le mandiamo uno nuovo in garanzia', '2026-08-05 22:13:39'),
-(3, 4, 3, 'Costa 300 €, viene consegnato in 2 giorni . Shipping fee = 50 €', '2026-08-05 22:31:32');
+INSERT INTO `commenti` (`id`, `ticket_id`, `utente_id`, `testo`, `created_at`, `updated_at`) VALUES
+(2, 3, 3, 'Le mandiamo uno nuovo in garanzia', '2026-08-05 22:13:39', NULL),
+(3, 4, 3, 'Costa 300 €, viene consegnato in 2 giorni . Shipping fee = 50 €', '2026-08-05 22:31:32', NULL),
+(4, 10, 5, 'Salve, voglio un riscontro.', '2026-08-11 02:49:18', NULL);
 
 -- --------------------------------------------------------
 
@@ -215,6 +276,7 @@ INSERT INTO `commenti` (`id`, `ticket_id`, `utente_id`, `testo`, `created_at`) V
 -- Struttura della tabella `comunicazioni_tecniche_cliente`
 --
 
+DROP TABLE IF EXISTS `comunicazioni_tecniche_cliente`;
 CREATE TABLE `comunicazioni_tecniche_cliente` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -237,9 +299,36 @@ INSERT INTO `comunicazioni_tecniche_cliente` (`id`, `ticket_id`, `valutazione_or
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `consultazioni_ticket`
+--
+
+DROP TABLE IF EXISTS `consultazioni_ticket`;
+CREATE TABLE `consultazioni_ticket` (
+  `id` int(11) NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `richiesta_da` int(11) NOT NULL,
+  `consulente_id` int(11) NOT NULL,
+  `richiesta` text NOT NULL,
+  `risposta` text DEFAULT NULL,
+  `stato` enum('richiesta','risposta_ricevuta','completata') NOT NULL DEFAULT 'richiesta',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `consultazioni_ticket`
+--
+
+INSERT INTO `consultazioni_ticket` (`id`, `ticket_id`, `richiesta_da`, `consulente_id`, `richiesta`, `risposta`, `stato`, `created_at`, `updated_at`) VALUES
+(2, 6, 3, 9, 'Ciao Giovanni, potresti valutare questo problema per favore? Attendo tuo riscontro per procedere.', 'verificare batterie, morsetti, masse, fusibili, relè e serraggio dei collegamenti elettrici. Individuare eventuali contatti allentati, ossidati o surriscaldati mediante misurazione della tensione e test di continuità; ripristinare o sostituire i componenti difettosi. i componenti più sospetti sono:\r\n\r\nInterruttore magnetotermico/portafusibile difettoso.\r\nRelè di potenza con contatti usurati.\r\nStaccabatteria con contatto interno intermittente.\r\nMorsetto o capocorda allentato, ossidato o surriscaldato.\r\nIn ultimo, batteria con elemento interno danneggiato.\r\n\r\nPrima della sostituzione, un elettricista nautico deve effettuare una prova di caduta di tensione sotto carico. Il componente che presenta una caduta anomala va sostituito.', 'risposta_ricevuta', '2026-08-11 15:01:17', '2026-08-12 00:32:46');
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `documenti_ticket`
 --
 
+DROP TABLE IF EXISTS `documenti_ticket`;
 CREATE TABLE `documenti_ticket` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -271,6 +360,7 @@ INSERT INTO `documenti_ticket` (`id`, `ticket_id`, `ric_id`, `tipo`, `numero_doc
 -- Struttura della tabella `escalation_pratiche`
 --
 
+DROP TABLE IF EXISTS `escalation_pratiche`;
 CREATE TABLE `escalation_pratiche` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -294,11 +384,12 @@ CREATE TABLE `escalation_pratiche` (
 -- Struttura della tabella `notifiche`
 --
 
+DROP TABLE IF EXISTS `notifiche`;
 CREATE TABLE `notifiche` (
   `id` int(11) NOT NULL,
   `utente_id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
-  `tipo` enum('commento_operatore','stato_modificato','assegnazione','gestione_aggiornata','workflow_avanzato','nuova_pratica','assegnazione_tecnica','valutazione_tecnica','comunicazione_cliente','spedizione_aggiornata','escalation','allarme_cliente') NOT NULL,
+  `tipo` varchar(50) NOT NULL,
   `messaggio` varchar(255) NOT NULL,
   `letta` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -309,7 +400,6 @@ CREATE TABLE `notifiche` (
 --
 
 INSERT INTO `notifiche` (`id`, `utente_id`, `ticket_id`, `tipo`, `messaggio`, `letta`, `created_at`) VALUES
-(1, 2, 2, 'stato_modificato', 'Lo stato del ticket #2 è stato modificato in \"Chiuso\".', 0, '2026-08-05 22:07:15'),
 (2, 4, 3, 'commento_operatore', 'L\'operatore MORENA TIRANA ha aggiunto un commento al ticket #3.', 0, '2026-08-05 22:13:39'),
 (3, 4, 4, 'commento_operatore', 'L\'operatore MORENA TIRANA ha aggiunto un commento al ticket #4.', 0, '2026-08-05 22:31:32'),
 (4, 4, 5, 'gestione_aggiornata', 'Il ticket #5 è stato aggiornato: copertura \"Da valutare\", costo 547.00 euro.', 0, '2026-08-06 22:10:19'),
@@ -320,7 +410,14 @@ INSERT INTO `notifiche` (`id`, `utente_id`, `ticket_id`, `tipo`, `messaggio`, `l
 (9, 4, 5, 'stato_modificato', 'Lo stato del ticket #5 è stato modificato in \"Risolto\".', 0, '2026-08-08 21:00:22'),
 (10, 4, 5, 'stato_modificato', 'Lo stato del ticket #5 è stato modificato in \"Chiuso\".', 0, '2026-08-08 21:19:56'),
 (11, 4, 5, 'comunicazione_cliente', 'Hai ricevuto una nuova comunicazione relativa al ticket #5.', 0, '2026-08-09 02:55:46'),
-(12, 1, 6, 'nuova_pratica', 'È stata registrata la pratica #6 per la tua richiesta di assistenza.', 0, '2026-08-09 11:28:53');
+(12, 1, 6, 'nuova_pratica', 'È stata registrata la pratica #6 per la tua richiesta di assistenza.', 0, '2026-08-09 11:28:53'),
+(13, 5, 13, 'stato_modificato', 'Lo stato del ticket #13 è stato modificato in \"In lavorazione\".', 0, '2026-08-10 18:44:47'),
+(14, 4, 3, 'assegnazione', 'Il ticket #3 è stato assegnato all\'operatore Lorenzo Vezzoli.', 0, '2026-08-10 20:44:39'),
+(15, 4, 4, 'stato_modificato', 'Lo stato del ticket #4 è stato modificato in \"In lavorazione\".', 0, '2026-08-11 11:13:30'),
+(16, 4, 4, 'assegnazione', 'Il ticket #4 è stato assegnato all\'operatore Lorenzo Vezzoli.', 0, '2026-08-11 11:13:32'),
+(17, 4, 4, 'assegnazione', 'Il ticket #4 è stato assegnato all\'operatore Filippo Parietti.', 0, '2026-08-11 11:22:57'),
+(18, 1, 6, 'stato_modificato', 'Lo stato del ticket #6 è stato modificato in \"In lavorazione\".', 0, '2026-08-11 12:12:18'),
+(19, 3, 6, 'risposta_consultazione', 'Giovanni Ferrari ha risposto alla consultazione del ticket #6.', 0, '2026-08-12 00:32:46');
 
 -- --------------------------------------------------------
 
@@ -328,6 +425,7 @@ INSERT INTO `notifiche` (`id`, `utente_id`, `ticket_id`, `tipo`, `messaggio`, `l
 -- Struttura della tabella `password_reset_tokens`
 --
 
+DROP TABLE IF EXISTS `password_reset_tokens`;
 CREATE TABLE `password_reset_tokens` (
   `id` int(11) NOT NULL,
   `utente_id` int(11) NOT NULL,
@@ -342,7 +440,10 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 INSERT INTO `password_reset_tokens` (`id`, `utente_id`, `token_hash`, `scade_il`, `utilizzato`, `created_at`) VALUES
-(1, 4, '9edc2a20bdf43e8ce51d6cee53158bc9530f2639080fb9b5e395f041b3b8307f', '2026-08-09 18:43:44', 1, '2026-08-09 16:13:44');
+(1, 4, '9edc2a20bdf43e8ce51d6cee53158bc9530f2639080fb9b5e395f041b3b8307f', '2026-08-09 18:43:44', 1, '2026-08-09 16:13:44'),
+(2, 2, 'b9755307faef4ff14e523d4c49e51df0c6ea3b9e47691fbf42da4eb07871c478', '2026-08-09 20:24:04', 1, '2026-08-09 17:54:04'),
+(3, 2, '6d5de4a3cc77a1d647811e2ff659b9fb92517b74ce8fd3d78bf0a2934668b929', '2026-08-09 20:33:15', 0, '2026-08-09 18:03:15'),
+(4, 4, 'bbce8e683d3a17a6b7dea8c605e507618d875adf58ab3cd9bf4ca6ef0c1fe64f', '2026-09-04 22:42:24', 1, '2026-09-04 20:12:24');
 
 -- --------------------------------------------------------
 
@@ -350,6 +451,7 @@ INSERT INTO `password_reset_tokens` (`id`, `utente_id`, `token_hash`, `scade_il`
 -- Struttura della tabella `pratiche_ricambi`
 --
 
+DROP TABLE IF EXISTS `pratiche_ricambi`;
 CREATE TABLE `pratiche_ricambi` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -368,6 +470,7 @@ CREATE TABLE `pratiche_ricambi` (
 -- Struttura della tabella `ric`
 --
 
+DROP TABLE IF EXISTS `ric`;
 CREATE TABLE `ric` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -398,9 +501,28 @@ INSERT INTO `ric` (`id`, `ticket_id`, `barca_id`, `numero_ric`, `causale`, `dest
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `richieste_interne_ticket`
+--
+
+DROP TABLE IF EXISTS `richieste_interne_ticket`;
+CREATE TABLE `richieste_interne_ticket` (
+  `id` int(11) NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `richiesto_da` int(11) NOT NULL,
+  `assegnato_a` int(11) NOT NULL,
+  `richiesta` text NOT NULL,
+  `stato` enum('in_attesa','risposta_ricevuta','completata') NOT NULL DEFAULT 'in_attesa',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `ric_righe`
 --
 
+DROP TABLE IF EXISTS `ric_righe`;
 CREATE TABLE `ric_righe` (
   `id` int(11) NOT NULL,
   `ric_id` int(11) NOT NULL,
@@ -420,9 +542,53 @@ INSERT INTO `ric_righe` (`id`, `ric_id`, `codice_articolo`, `descrizione`, `unit
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `risposte_consultazioni`
+--
+
+DROP TABLE IF EXISTS `risposte_consultazioni`;
+CREATE TABLE `risposte_consultazioni` (
+  `id` int(11) NOT NULL,
+  `consultazione_id` int(11) NOT NULL,
+  `autore_id` int(11) NOT NULL,
+  `testo` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dump dei dati per la tabella `risposte_consultazioni`
+--
+
+INSERT INTO `risposte_consultazioni` (`id`, `consultazione_id`, `autore_id`, `testo`, `created_at`, `updated_at`) VALUES
+(1, 2, 9, 'verificare batterie, morsetti, masse, fusibili, relè e serraggio dei collegamenti elettrici. Individuare eventuali contatti allentati, ossidati o surriscaldati mediante misurazione della tensione e test di continuità; ripristinare o sostituire i componenti difettosi. i componenti più sospetti sono:\r\n\r\nInterruttore magnetotermico/portafusibile difettoso.\r\nRelè di potenza con contatti usurati.\r\nStaccabatteria con contatto interno intermittente.\r\nMorsetto o capocorda allentato, ossidato o surriscaldato.\r\nIn ultimo, batteria con elemento interno danneggiato.\r\n\r\nPrima della sostituzione, un elettricista nautico deve effettuare una prova di caduta di tensione sotto carico. Il componente che presenta una caduta anomala va sostituito.', '2026-08-12 00:32:46', '2026-08-12 00:32:46');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `risposte_interne_ticket`
+--
+
+DROP TABLE IF EXISTS `risposte_interne_ticket`;
+CREATE TABLE `risposte_interne_ticket` (
+  `id` int(11) NOT NULL,
+  `richiesta_interna_id` int(11) NOT NULL,
+  `autore_id` int(11) NOT NULL,
+  `testo` text DEFAULT NULL,
+  `nome_file_originale` varchar(255) DEFAULT NULL,
+  `nome_file_salvato` varchar(255) DEFAULT NULL,
+  `mime_type` varchar(150) DEFAULT NULL,
+  `dimensione_file` bigint(20) DEFAULT NULL,
+  `visibile_cliente` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `specializzazioni`
 --
 
+DROP TABLE IF EXISTS `specializzazioni`;
 CREATE TABLE `specializzazioni` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL
@@ -448,6 +614,7 @@ INSERT INTO `specializzazioni` (`id`, `nome`) VALUES
 -- Struttura della tabella `storico_stati`
 --
 
+DROP TABLE IF EXISTS `storico_stati`;
 CREATE TABLE `storico_stati` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -464,7 +631,10 @@ CREATE TABLE `storico_stati` (
 INSERT INTO `storico_stati` (`id`, `ticket_id`, `operatore_id`, `stato_precedente`, `stato_nuovo`, `created_at`) VALUES
 (1, 5, 3, 'aperto', 'in_lavorazione', '2026-08-08 20:53:46'),
 (2, 5, 3, 'in_lavorazione', 'risolto', '2026-08-08 21:00:22'),
-(3, 5, 3, 'risolto', 'chiuso', '2026-08-08 21:19:56');
+(3, 5, 3, 'risolto', 'chiuso', '2026-08-08 21:19:56'),
+(4, 13, 3, 'aperto', 'in_lavorazione', '2026-08-10 18:44:47'),
+(5, 4, 3, 'aperto', 'in_lavorazione', '2026-08-11 11:13:30'),
+(6, 6, 3, 'aperto', 'in_lavorazione', '2026-08-11 12:12:18');
 
 -- --------------------------------------------------------
 
@@ -472,6 +642,7 @@ INSERT INTO `storico_stati` (`id`, `ticket_id`, `operatore_id`, `stato_precedent
 -- Struttura della tabella `storico_workflow`
 --
 
+DROP TABLE IF EXISTS `storico_workflow`;
 CREATE TABLE `storico_workflow` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -488,8 +659,6 @@ CREATE TABLE `storico_workflow` (
 --
 
 INSERT INTO `storico_workflow` (`id`, `ticket_id`, `fase_precedente`, `fase_nuova`, `descrizione`, `visibile_cliente`, `modificato_da`, `created_at`) VALUES
-(1, 1, NULL, 'inviata', 'Stato iniziale della pratica', 1, NULL, '2026-08-09 01:03:14'),
-(2, 2, NULL, 'completata', 'Stato iniziale della pratica', 1, NULL, '2026-08-09 01:03:14'),
 (3, 3, NULL, 'in_lavorazione', 'Stato iniziale della pratica', 1, NULL, '2026-08-09 01:03:14'),
 (4, 4, NULL, 'inviata', 'Stato iniziale della pratica', 1, NULL, '2026-08-09 01:03:14'),
 (5, 5, NULL, 'completata', 'Stato iniziale della pratica', 1, NULL, '2026-08-09 01:03:14');
@@ -500,10 +669,13 @@ INSERT INTO `storico_workflow` (`id`, `ticket_id`, `fase_precedente`, `fase_nuov
 -- Struttura della tabella `ticket`
 --
 
+DROP TABLE IF EXISTS `ticket`;
 CREATE TABLE `ticket` (
   `id` int(11) NOT NULL,
   `utente_id` int(11) NOT NULL,
   `barca_id` int(11) DEFAULT NULL,
+  `indirizzo_consegna` varchar(255) DEFAULT NULL,
+  `localizzazione_barca` varchar(255) DEFAULT NULL,
   `operatore_id` int(11) DEFAULT NULL,
   `titolo` varchar(200) NOT NULL,
   `descrizione` text NOT NULL,
@@ -517,20 +689,26 @@ CREATE TABLE `ticket` (
   `stato` enum('aperto','in_lavorazione','risolto','chiuso') NOT NULL DEFAULT 'aperto',
   `priorita` enum('bassa','media','alta','urgente') NOT NULL DEFAULT 'media',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `shipping_fee` decimal(10,2) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `ticket`
 --
 
-INSERT INTO `ticket` (`id`, `utente_id`, `barca_id`, `operatore_id`, `titolo`, `descrizione`, `localizzazione_richiesta`, `indirizzo_consegna_richiesta`, `contatto_bordo`, `categoria`, `tipo_richiesta`, `copertura`, `costo`, `stato`, `priorita`, `created_at`, `updated_at`) VALUES
-(1, 2, NULL, NULL, 'Generatore non funziona', 'MASE GENERATOR', NULL, NULL, NULL, 'problema_tecnico', NULL, 'da_valutare', NULL, 'aperto', 'media', '2026-08-05 18:01:09', '2026-08-05 18:01:09'),
-(2, 2, NULL, NULL, 'Generatore non funziona', 'MASE GENERATOR', NULL, NULL, NULL, 'problema_tecnico', NULL, 'da_valutare', NULL, 'chiuso', 'media', '2026-08-05 18:39:58', '2026-08-05 22:07:15'),
-(3, 4, NULL, NULL, 'Serbatoio Acque Nere', 'Il serbatoio fa uscire acqua', NULL, NULL, NULL, 'problema_tecnico', NULL, 'da_valutare', NULL, 'in_lavorazione', 'media', '2026-08-05 19:53:26', '2026-08-05 20:06:28'),
-(4, 4, NULL, NULL, 'Parabrezza Rotto', 'Voglio comprarlo', NULL, NULL, NULL, 'informazioni', NULL, 'da_valutare', NULL, 'aperto', 'media', '2026-08-05 22:29:12', '2026-08-05 22:29:12'),
-(5, 4, 1, 3, 'Doga Teak', 'Lo voglio comprare. Dammi il prezzo e tempi do consegna.', NULL, NULL, NULL, 'informazioni', 'ricambi', 'fuori_garanzia', 547.00, 'chiuso', 'urgente', '2026-08-06 21:09:41', '2026-08-08 21:19:56'),
-(6, 1, 3, 3, 'Verifica impianto elettrico', 'problema intermittente all\'impianto elettrico della barca.', NULL, NULL, NULL, 'problema_tecnico', 'garanzia', 'da_valutare', NULL, 'aperto', 'media', '2026-08-09 11:28:53', '2026-08-09 11:28:53');
+INSERT INTO `ticket` (`id`, `utente_id`, `barca_id`, `indirizzo_consegna`, `localizzazione_barca`, `operatore_id`, `titolo`, `descrizione`, `localizzazione_richiesta`, `indirizzo_consegna_richiesta`, `contatto_bordo`, `categoria`, `tipo_richiesta`, `copertura`, `costo`, `stato`, `priorita`, `created_at`, `updated_at`, `shipping_fee`) VALUES
+(3, 4, 2, 'Porto Marina, 17\n24058 Codigoro (FE)\nItalia', NULL, 12, 'Serbatoio Acque Nere', 'Il serbatoio fa uscire acqua', NULL, NULL, NULL, 'problema_tecnico', NULL, 'da_valutare', NULL, 'in_lavorazione', 'media', '2026-08-05 19:53:26', '2026-09-04 23:48:40', 0.00),
+(4, 4, 2, NULL, NULL, 6, 'Parabrezza Rotto', 'Voglio comprarlo', NULL, NULL, NULL, 'informazioni', NULL, 'da_valutare', NULL, 'in_lavorazione', 'media', '2026-08-05 22:29:12', '2026-08-11 11:22:57', 0.00),
+(5, 4, 1, NULL, NULL, 3, 'Doga Teak', 'Lo voglio comprare. Dammi il prezzo e tempi do consegna.', NULL, NULL, NULL, 'informazioni', 'ricambi', 'fuori_garanzia', 547.00, 'chiuso', 'urgente', '2026-08-06 21:09:41', '2026-08-08 21:19:56', 0.00),
+(6, 1, 3, NULL, NULL, 3, 'Verifica impianto elettrico', 'problema intermittente all\'impianto elettrico della barca.', NULL, NULL, NULL, 'problema_tecnico', 'garanzia', 'da_valutare', NULL, 'in_lavorazione', 'media', '2026-08-09 11:28:53', '2026-08-11 12:12:18', 0.00),
+(7, 2, 4, NULL, NULL, NULL, 'PISTONI IDRAULICI', 'VOGLIO UN PREVENTIVO.', NULL, NULL, NULL, 'informazioni', 'ricambi', 'da_valutare', NULL, 'aperto', 'media', '2026-08-09 18:49:43', '2026-08-09 18:49:43', 0.00),
+(8, 2, 5, NULL, NULL, NULL, 'VETRI DX E SX', 'PREVENTIVO VETRI E TEMPI DI CONSEGNA', NULL, NULL, NULL, 'informazioni', 'ricambi', 'da_valutare', NULL, 'aperto', 'media', '2026-08-09 19:01:47', '2026-08-09 19:01:47', 0.00),
+(9, 1, 6, NULL, NULL, NULL, 'COPRI SCAFO', 'VOGLIO COMPRARLO. MI DATE UN PREVENTIVO ?', NULL, NULL, NULL, 'informazioni', 'ricambi', 'da_valutare', NULL, 'aperto', 'media', '2026-08-09 19:12:34', '2026-08-09 19:12:34', 0.00),
+(10, 5, 7, NULL, NULL, NULL, 'SERBATOIO ACQUE CHIARE', 'VOGLIO SAPERE SE LO VENDETE , PREZZO E TEMPI DI CONSEGNA', NULL, NULL, NULL, 'informazioni', 'ricambi', 'da_valutare', NULL, 'aperto', 'media', '2026-08-09 19:39:42', '2026-08-09 19:39:42', 0.00),
+(11, 5, 8, NULL, NULL, NULL, 'Parabrezza Rotto', 'PREZZO E TEMPI DI CONSEGNA', NULL, NULL, NULL, 'informazioni', 'ricambi', 'da_valutare', NULL, 'aperto', 'media', '2026-08-09 20:14:52', '2026-08-09 20:14:52', 0.00),
+(12, 5, 7, 'Via Pacciotti 20, Puglia , 34056', 'PUGLIA', NULL, 'Caricabatteria', 'Prezzo e tempi di consegna', NULL, NULL, NULL, 'informazioni', 'ricambi', 'da_valutare', NULL, 'aperto', 'media', '2026-08-10 14:22:09', '2026-08-10 14:22:09', 0.00),
+(13, 5, 9, 'Via Vezzoli 17, 24054 Calcio, Bergamo', 'PORTO DI GENOVA', NULL, 'TEAK PER BARCA', 'PREZZO E TEMPI DI CONSEGNA', NULL, NULL, NULL, 'informazioni', 'ricambi', 'da_valutare', NULL, 'in_lavorazione', 'media', '2026-08-10 14:39:17', '2026-08-10 18:44:47', 0.00);
 
 -- --------------------------------------------------------
 
@@ -538,11 +716,12 @@ INSERT INTO `ticket` (`id`, `utente_id`, `barca_id`, `operatore_id`, `titolo`, `
 -- Struttura della tabella `ticket_allegati`
 --
 
+DROP TABLE IF EXISTS `ticket_allegati`;
 CREATE TABLE `ticket_allegati` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
-  `ticket_voce_id` int(11) NOT NULL,
-  `tipo` enum('foto','video') NOT NULL,
+  `ticket_voce_id` int(11) DEFAULT NULL,
+  `tipo` enum('foto','video','documento') NOT NULL,
   `descrizione` varchar(500) NOT NULL,
   `nome_file_originale` varchar(255) NOT NULL,
   `nome_file_salvato` varchar(255) NOT NULL,
@@ -556,12 +735,33 @@ CREATE TABLE `ticket_allegati` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dump dei dati per la tabella `ticket_allegati`
+--
+
+INSERT INTO `ticket_allegati` (`id`, `ticket_id`, `ticket_voce_id`, `tipo`, `descrizione`, `nome_file_originale`, `nome_file_salvato`, `mime_type`, `dimensione_file`, `durata_secondi`, `nome_anteprima`, `caricato_da`, `visibile_cliente`, `consenso_analisi_ai`, `created_at`) VALUES
+(1, 11, NULL, 'foto', 'Allegato iniziale della richiesta', 'PARABREZZA.webp', '1786306492606-ca367f6e-d7b3-4618-84c9-6040428482bd.webp', 'image/webp', 20602, NULL, NULL, 5, 1, 0, '2026-08-09 20:14:52'),
+(2, 10, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'serbatoio_acqua_chiare.jpg', '1786352537798-c3dd4957-263c-4637-acaa-408f2024820d.jpg', 'image/jpeg', 36380, NULL, NULL, 5, 1, 0, '2026-08-10 09:02:17'),
+(3, 11, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'PARABREZZA.webp', '1786352608349-a5ba085f-9938-42c6-bd64-2a2419ede5e5.webp', 'image/webp', 20602, NULL, NULL, 5, 1, 0, '2026-08-10 09:03:28'),
+(4, 11, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'Parabrezza - 1.jpg', '1786352842446-fa3c32b9-ef35-40db-be85-58142fbeba98.jpg', 'image/jpeg', 106096, NULL, NULL, 5, 1, 0, '2026-08-10 09:07:22'),
+(5, 12, NULL, 'foto', 'Allegato iniziale della richiesta', 'caricabatteria.webp', '1786371729220-a2729d47-5eea-4c58-a6e6-f67846bf1718.webp', 'image/webp', 33556, NULL, NULL, 5, 1, 0, '2026-08-10 14:22:09'),
+(6, 12, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'caricabatteria.webp', '1786371801147-f5bb60a7-216a-4090-b438-16ce488d0378.webp', 'image/webp', 33556, NULL, NULL, 5, 1, 0, '2026-08-10 14:23:21'),
+(7, 12, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'caricabatteria.webp', '1786371953578-f4f3a711-22ee-42c4-bd14-b44f2f58beaf.webp', 'image/webp', 33556, NULL, NULL, 5, 1, 0, '2026-08-10 14:25:53'),
+(8, 13, NULL, 'foto', 'Allegato iniziale della richiesta', 'TEAK.jpeg', '1786372757449-395cd6ed-c379-42dd-b3f6-6ae78cc9b966.jpeg', 'image/jpeg', 434734, NULL, NULL, 5, 1, 0, '2026-08-10 14:39:17'),
+(9, 3, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'serbatoio acque nere.jpg', '1786396778620-1cd1a575-bb19-410e-a9bd-765a41e1113d.jpg', 'image/jpeg', 195099, NULL, NULL, 4, 1, 0, '2026-08-10 21:19:38'),
+(10, 5, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'doga teak.jpg', '1786396908904-08f902d3-c047-437e-b36c-e3bf05ec4405.jpg', 'image/jpeg', 393881, NULL, NULL, 4, 1, 0, '2026-08-10 21:21:48'),
+(11, 4, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'parabrezza rotto.webp', '1786397084385-f72c0074-5ef1-43fa-a270-65ab9ce6e77d.webp', 'image/webp', 23716, NULL, NULL, 4, 1, 0, '2026-08-10 21:24:44'),
+(15, 10, NULL, 'documento', 'Allegato aggiunto alla conversazione', 'Client Privacy Policy.jpg', '1786414618633-6c154654-7946-4dda-af0f-9a263073a3ac.jpg', 'image/jpeg', 189862, NULL, NULL, 5, 1, 0, '2026-08-11 02:16:58'),
+(16, 10, NULL, 'documento', 'Allegato aggiunto alla conversazione', 'New Client Form.webp', '1786414633048-c0da2dd8-ba74-4e71-a9d9-af91a1197a0f.webp', 'image/webp', 11618, NULL, NULL, 5, 1, 0, '2026-08-11 02:17:13'),
+(17, 6, NULL, 'foto', 'Allegato aggiunto alla conversazione', 'Impianto Elettrico.jpg', '1786450322742-3f12909f-2d20-49e2-acdd-4d010cc276fd.jpg', 'image/jpeg', 112922, NULL, NULL, 3, 1, 0, '2026-08-11 12:12:02');
+
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `ticket_voci`
 --
 
+DROP TABLE IF EXISTS `ticket_voci`;
 CREATE TABLE `ticket_voci` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -584,27 +784,45 @@ CREATE TABLE `ticket_voci` (
 -- Struttura della tabella `utenti`
 --
 
+DROP TABLE IF EXISTS `utenti`;
 CREATE TABLE `utenti` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `cognome` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `telefono` varchar(30) DEFAULT NULL,
+  `telefono` varchar(30) NOT NULL,
+  `indirizzo_residenza` varchar(255) DEFAULT NULL,
   `password_hash` varchar(255) NOT NULL,
   `ruolo` enum('utente','operatore','tecnico','ufficio_tecnico','capo_produzione','ingegnere','commerciale','contabile','ceo','amministrazione') NOT NULL DEFAULT 'utente',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `funzione` varchar(100) DEFAULT NULL,
+  `tipo_operatore` enum('after_sales','consulente') DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `puo_gestire_operatori` tinyint(1) NOT NULL DEFAULT 0,
+  `attivo` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dump dei dati per la tabella `utenti`
 --
 
-INSERT INTO `utenti` (`id`, `nome`, `cognome`, `email`, `telefono`, `password_hash`, `ruolo`, `created_at`) VALUES
-(1, 'Mario', 'Rossi', 'mario.rossi@email.com', NULL, 'INCOLLA_QUI_L_HASH', 'utente', '2026-08-03 21:50:06'),
-(2, 'MORENA K.', 'TIRANA', 'tiranamorena@gmail.com', NULL, '$2b$10$yDPIVMX9yMknlKBbFQWZouMDJ6OEUxIXEdkicRCc5ZbRcw71VS1fq', 'utente', '2026-08-04 19:53:14'),
-(3, 'MORENA', 'TIRANA', 'morena@helpdesk.it', '3299554861', '$2b$12$bRZhwW/2P9HnyZ0W0eYWFueFVdBJJgObY2GjcIRubJNFhVEBCzs5q', 'operatore', '2026-08-05 19:20:21'),
-(4, 'Mario', 'Rossi', 'mario@gmail.com', '+39 333 1234567', '$2b$10$iwceVb7rfF2ORSJAjqxe4OmVQQn.l9aqiPpjbenfCnQQlYiWkNqPK', 'utente', '2026-08-05 19:50:59'),
-(5, 'Morena', 'TIRANA', 'morena@gmail.com', NULL, '$2b$10$nJA/4HQHJj3/erK/GxyM1u9tkg/vbHgu/k2tYEwAo1c/WNyydEHrG', 'utente', '2026-08-08 07:20:13');
+INSERT INTO `utenti` (`id`, `nome`, `cognome`, `email`, `telefono`, `indirizzo_residenza`, `password_hash`, `ruolo`, `funzione`, `tipo_operatore`, `created_at`, `puo_gestire_operatori`, `attivo`) VALUES
+(1, 'Linda', 'Neri', 'linda@hotmail.com', '2256485469', NULL, '$2b$10$rmlebZ8r7ARi.d7PPz./QO2lvvnnLsBIk6sDAmsfv9yJi7iXdwpnW', 'utente', NULL, NULL, '2026-08-03 21:50:06', 0, 1),
+(2, 'Franco', 'Bianchi', 'franco@gmail.com', '3128461512', NULL, '$2b$10$rmlebZ8r7ARi.d7PPz./QO2lvvnnLsBIk6sDAmsfv9yJi7iXdwpnW', 'utente', NULL, NULL, '2026-08-04 19:53:14', 0, 1),
+(3, 'MORENA', 'TIRANA', 'morena@helpdesk.it', '3299554861', NULL, '$2b$12$bRZhwW/2P9HnyZ0W0eYWFueFVdBJJgObY2GjcIRubJNFhVEBCzs5q', 'operatore', 'Main Operator', 'after_sales', '2026-08-05 19:20:21', 1, 1),
+(4, 'Mario', 'Rossi', 'mario@gmail.com', '3331234567', 'Via Papa Clemente 5, 35065 Cagliari, Sardegna', '$2b$10$.SaEfS4FaWbgpmFTf/9vPO8hgQK2flKwhem0B4jRSBYwh7BYG.Fea', 'utente', NULL, NULL, '2026-08-05 19:50:59', 0, 1),
+(5, 'Claudia', 'Verdi', 'claudia@gmail.com', '3295629563', 'Via Vezzoli 17, 24054 Calcio, Bergamo', '$2b$10$LH6anzFqY7R4FcKYAez0IOfnhZmqhqzdOZw1fhIt7UR18oqlJ9PD.', 'utente', NULL, NULL, '2026-08-08 07:20:13', 0, 1),
+(6, 'Filippo', 'Parietti', 'filippo@mail.com', '326548954', NULL, '$2b$12$0.KABZzbvfFQi/7ay.djpes9r620l74unHny7SYleroIMkZb26FMO', 'operatore', 'Operatore Ricambi', 'after_sales', '2026-08-10 19:41:56', 0, 1),
+(7, 'Matteo', 'Re', 'matteo@mail.com', '3264788455', NULL, '$2b$12$6f6qpLDWKUw7f3FSXtwIleCEOmShDTi8522e20ZCfFv.B6UlS3zzW', 'operatore', 'Capo Produzione', 'consulente', '2026-08-10 19:43:00', 0, 1),
+(8, 'Massimo', 'Domenghini', 'massimo@mail.com', '3264578852', NULL, '$2b$12$vZ8LMvZ.gq.x8IByLW/hWu28PVbCF2.V4MwypiI3TMZdVTbj19xGC', 'operatore', 'Vice Capo Produzione', 'consulente', '2026-08-10 19:44:11', 0, 1),
+(9, 'Giovanni', 'Ferrari', 'giovanni@mail.com', '3264578786', NULL, '$2b$12$qSCK/PUZmzFbwYzlpX957uaGWjaQlhbiA4SIpLnSV.VuN6derX96q', 'tecnico', 'Elettricista', 'consulente', '2026-08-10 19:45:34', 0, 1),
+(10, 'Paolo', 'Chiodini', 'paolo@mail.com', '1256487866', NULL, '$2b$12$TmVsGrboE/QVxTS2SkpKI.jpPHBavokfK/70Q8cPwOYmKVn1Qh.sq', 'operatore', 'Motorrista', 'consulente', '2026-08-10 19:46:30', 0, 1),
+(11, 'Emanuele', 'Zanchetti', 'emanuele@mail.com', '5698485656', NULL, '$2b$12$YgCSdgraYK/LV4U0/I9oFeMPmOvAb72i0rSIb6V2kl/d9O55UJTyi', 'operatore', 'Responsabile Trasferte', 'consulente', '2026-08-10 19:49:27', 0, 1),
+(12, 'Lorenzo', 'Vezzoli', 'lorenzo@mail.com', '32656564488', NULL, '$2b$12$K7gvlUGhMdJeESESEhQzluY11lMKyB5zHrOsaAbNh9In5e2NWiPIq', 'operatore', 'Ufficio Tecnico & Acquisti', 'consulente', '2026-08-10 19:50:37', 0, 1),
+(13, 'Christian', 'Furstenau', 'christian@mail.com', '4548786654', NULL, '$2b$12$LOhE2K2y3J7bzrzHj8wNkOCX8adoynqS0JR83fc5ShHnT8g65GVwe', 'operatore', 'Ingegnere', 'consulente', '2026-08-10 19:51:39', 0, 1),
+(14, 'Matteo', 'Rigobello', 'rigobello@mail.com', '3464458879', NULL, '$2b$12$XQG/NvRrB7pNM7QuRiWzkuHzgNV3d4VG25Eh.qDnPzFJTo/h6BqtC', 'operatore', 'Verniciatore', 'consulente', '2026-08-10 19:53:26', 0, 1),
+(15, 'Francesco', 'Parietti', 'parietti@mail.com', '1254545464', NULL, '$2b$12$Hy2Rphg3fGUcy0BTCFUuz.0HoCypSIqe3n7NnpU6ZRImyqh9qbs5e', 'operatore', 'Responsabile After Sales', 'consulente', '2026-08-10 19:54:45', 0, 1),
+(16, 'Stefano', 'Notarantonio', 'stefano@mail.com', '547687764', NULL, '$2b$12$q.DhUu9PZX5Io.4wldo78.5dlhE5/iHYRYMih52R/5tU.cb/z6kQi', 'operatore', 'CEO', 'consulente', '2026-08-10 19:55:38', 0, 1),
+(17, 'Sonia', 'Caroli', 'sonia@mail.com', '4565689898', NULL, '$2b$12$w9H7dcY7PXp9j2rYsAAc4OoSURMRG4P/ew84KvPabhAJQm1okiqmK', 'operatore', 'Responsabile Amministrazione', 'consulente', '2026-08-10 19:57:03', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -612,6 +830,7 @@ INSERT INTO `utenti` (`id`, `nome`, `cognome`, `email`, `telefono`, `password_ha
 -- Struttura della tabella `utenti_specializzazioni`
 --
 
+DROP TABLE IF EXISTS `utenti_specializzazioni`;
 CREATE TABLE `utenti_specializzazioni` (
   `utente_id` int(11) NOT NULL,
   `specializzazione_id` int(11) NOT NULL
@@ -620,9 +839,28 @@ CREATE TABLE `utenti_specializzazioni` (
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `valutazioni_servizio`
+--
+
+DROP TABLE IF EXISTS `valutazioni_servizio`;
+CREATE TABLE `valutazioni_servizio` (
+  `id` int(11) NOT NULL,
+  `ticket_id` int(11) NOT NULL,
+  `utente_id` int(11) NOT NULL,
+  `qualita_prodotto` tinyint(3) UNSIGNED NOT NULL,
+  `tempistiche` tinyint(3) UNSIGNED NOT NULL,
+  `servizio_cliente` tinyint(3) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `valutazioni_tecniche`
 --
 
+DROP TABLE IF EXISTS `valutazioni_tecniche`;
 CREATE TABLE `valutazioni_tecniche` (
   `id` int(11) NOT NULL,
   `assegnazione_id` int(11) NOT NULL,
@@ -647,6 +885,7 @@ CREATE TABLE `valutazioni_tecniche` (
 -- Struttura della tabella `workflow_pratiche`
 --
 
+DROP TABLE IF EXISTS `workflow_pratiche`;
 CREATE TABLE `workflow_pratiche` (
   `id` int(11) NOT NULL,
   `ticket_id` int(11) NOT NULL,
@@ -662,8 +901,6 @@ CREATE TABLE `workflow_pratiche` (
 --
 
 INSERT INTO `workflow_pratiche` (`id`, `ticket_id`, `fase`, `disponibilita_magazzino`, `aggiornato_da`, `created_at`, `updated_at`) VALUES
-(1, 1, 'inviata', 'da_verificare', NULL, '2026-08-09 01:01:56', '2026-08-09 01:01:56'),
-(2, 2, 'completata', 'da_verificare', NULL, '2026-08-09 01:01:56', '2026-08-09 01:01:56'),
 (3, 3, 'in_lavorazione', 'da_verificare', NULL, '2026-08-09 01:01:56', '2026-08-09 01:01:56'),
 (4, 4, 'inviata', 'da_verificare', NULL, '2026-08-09 01:01:56', '2026-08-09 01:01:56'),
 (5, 5, 'completata', 'da_verificare', NULL, '2026-08-09 01:01:56', '2026-08-09 01:01:56');
@@ -671,6 +908,15 @@ INSERT INTO `workflow_pratiche` (`id`, `ticket_id`, `fase`, `disponibilita_magaz
 --
 -- Indici per le tabelle scaricate
 --
+
+--
+-- Indici per le tabelle `allegati_consultazioni`
+--
+ALTER TABLE `allegati_consultazioni`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `consultazione_id` (`consultazione_id`),
+  ADD KEY `caricato_da` (`caricato_da`),
+  ADD KEY `fk_allegato_risposta` (`risposta_id`);
 
 --
 -- Indici per le tabelle `analisi_ai_specialisti`
@@ -689,6 +935,13 @@ ALTER TABLE `analisi_ai_ticket`
   ADD KEY `fk_analisi_categoria` (`categoria_suggerita_id`),
   ADD KEY `fk_analisi_revisore` (`revisionata_da`),
   ADD KEY `fk_analisi_condivisione` (`condivisa_da`);
+
+--
+-- Indici per le tabelle `articoli_commerciali_ticket`
+--
+ALTER TABLE `articoli_commerciali_ticket`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_articoli_commerciali_ticket` (`ticket_id`);
 
 --
 -- Indici per le tabelle `assegnazioni_tecniche`
@@ -740,6 +993,15 @@ ALTER TABLE `comunicazioni_tecniche_cliente`
   ADD KEY `fk_comunicazione_ticket` (`ticket_id`),
   ADD KEY `fk_comunicazione_valutazione` (`valutazione_origine_id`),
   ADD KEY `fk_comunicazione_operatore` (`operatore_id`);
+
+--
+-- Indici per le tabelle `consultazioni_ticket`
+--
+ALTER TABLE `consultazioni_ticket`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_consultazione_ticket` (`ticket_id`),
+  ADD KEY `fk_consultazione_richiedente` (`richiesta_da`),
+  ADD KEY `fk_consultazione_consulente` (`consulente_id`);
 
 --
 -- Indici per le tabelle `documenti_ticket`
@@ -795,11 +1057,36 @@ ALTER TABLE `ric`
   ADD KEY `fk_ric_operatore` (`caricato_da`);
 
 --
+-- Indici per le tabelle `richieste_interne_ticket`
+--
+ALTER TABLE `richieste_interne_ticket`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_richiesta_interna_ticket` (`ticket_id`),
+  ADD KEY `fk_richiesta_interna_autore` (`richiesto_da`),
+  ADD KEY `fk_richiesta_interna_destinatario` (`assegnato_a`);
+
+--
 -- Indici per le tabelle `ric_righe`
 --
 ALTER TABLE `ric_righe`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_riga_ric` (`ric_id`);
+
+--
+-- Indici per le tabelle `risposte_consultazioni`
+--
+ALTER TABLE `risposte_consultazioni`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `consultazione_id` (`consultazione_id`),
+  ADD KEY `autore_id` (`autore_id`);
+
+--
+-- Indici per le tabelle `risposte_interne_ticket`
+--
+ALTER TABLE `risposte_interne_ticket`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_risposta_richiesta_interna` (`richiesta_interna_id`),
+  ADD KEY `fk_risposta_interna_autore` (`autore_id`);
 
 --
 -- Indici per le tabelle `specializzazioni`
@@ -870,6 +1157,14 @@ ALTER TABLE `utenti_specializzazioni`
   ADD KEY `fk_specializzazione_tipo` (`specializzazione_id`);
 
 --
+-- Indici per le tabelle `valutazioni_servizio`
+--
+ALTER TABLE `valutazioni_servizio`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_valutazione_ticket` (`ticket_id`),
+  ADD KEY `fk_valutazione_utente` (`utente_id`);
+
+--
 -- Indici per le tabelle `valutazioni_tecniche`
 --
 ALTER TABLE `valutazioni_tecniche`
@@ -891,9 +1186,21 @@ ALTER TABLE `workflow_pratiche`
 --
 
 --
+-- AUTO_INCREMENT per la tabella `allegati_consultazioni`
+--
+ALTER TABLE `allegati_consultazioni`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT per la tabella `analisi_ai_ticket`
 --
 ALTER TABLE `analisi_ai_ticket`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `articoli_commerciali_ticket`
+--
+ALTER TABLE `articoli_commerciali_ticket`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -906,7 +1213,7 @@ ALTER TABLE `assegnazioni_tecniche`
 -- AUTO_INCREMENT per la tabella `barche`
 --
 ALTER TABLE `barche`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT per la tabella `categorie_componenti`
@@ -918,13 +1225,19 @@ ALTER TABLE `categorie_componenti`
 -- AUTO_INCREMENT per la tabella `commenti`
 --
 ALTER TABLE `commenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `comunicazioni_tecniche_cliente`
 --
 ALTER TABLE `comunicazioni_tecniche_cliente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `consultazioni_ticket`
+--
+ALTER TABLE `consultazioni_ticket`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT per la tabella `documenti_ticket`
@@ -942,13 +1255,13 @@ ALTER TABLE `escalation_pratiche`
 -- AUTO_INCREMENT per la tabella `notifiche`
 --
 ALTER TABLE `notifiche`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT per la tabella `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `pratiche_ricambi`
@@ -963,10 +1276,28 @@ ALTER TABLE `ric`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT per la tabella `richieste_interne_ticket`
+--
+ALTER TABLE `richieste_interne_ticket`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT per la tabella `ric_righe`
 --
 ALTER TABLE `ric_righe`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `risposte_consultazioni`
+--
+ALTER TABLE `risposte_consultazioni`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT per la tabella `risposte_interne_ticket`
+--
+ALTER TABLE `risposte_interne_ticket`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `specializzazioni`
@@ -978,25 +1309,25 @@ ALTER TABLE `specializzazioni`
 -- AUTO_INCREMENT per la tabella `storico_stati`
 --
 ALTER TABLE `storico_stati`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `storico_workflow`
 --
 ALTER TABLE `storico_workflow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT per la tabella `ticket_allegati`
 --
 ALTER TABLE `ticket_allegati`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT per la tabella `ticket_voci`
@@ -1008,7 +1339,13 @@ ALTER TABLE `ticket_voci`
 -- AUTO_INCREMENT per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT per la tabella `valutazioni_servizio`
+--
+ALTER TABLE `valutazioni_servizio`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT per la tabella `valutazioni_tecniche`
@@ -1027,6 +1364,14 @@ ALTER TABLE `workflow_pratiche`
 --
 
 --
+-- Limiti per la tabella `allegati_consultazioni`
+--
+ALTER TABLE `allegati_consultazioni`
+  ADD CONSTRAINT `allegati_consultazioni_ibfk_1` FOREIGN KEY (`consultazione_id`) REFERENCES `consultazioni_ticket` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `allegati_consultazioni_ibfk_2` FOREIGN KEY (`caricato_da`) REFERENCES `utenti` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_allegato_risposta` FOREIGN KEY (`risposta_id`) REFERENCES `risposte_consultazioni` (`id`) ON DELETE CASCADE;
+
+--
 -- Limiti per la tabella `analisi_ai_specialisti`
 --
 ALTER TABLE `analisi_ai_specialisti`
@@ -1042,6 +1387,12 @@ ALTER TABLE `analisi_ai_ticket`
   ADD CONSTRAINT `fk_analisi_revisore` FOREIGN KEY (`revisionata_da`) REFERENCES `utenti` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_analisi_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_analisi_voce` FOREIGN KEY (`ticket_voce_id`) REFERENCES `ticket_voci` (`id`) ON DELETE CASCADE;
+
+--
+-- Limiti per la tabella `articoli_commerciali_ticket`
+--
+ALTER TABLE `articoli_commerciali_ticket`
+  ADD CONSTRAINT `fk_articoli_commerciali_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `assegnazioni_tecniche`
@@ -1079,6 +1430,14 @@ ALTER TABLE `comunicazioni_tecniche_cliente`
   ADD CONSTRAINT `fk_comunicazione_operatore` FOREIGN KEY (`operatore_id`) REFERENCES `utenti` (`id`),
   ADD CONSTRAINT `fk_comunicazione_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_comunicazione_valutazione` FOREIGN KEY (`valutazione_origine_id`) REFERENCES `valutazioni_tecniche` (`id`) ON DELETE SET NULL;
+
+--
+-- Limiti per la tabella `consultazioni_ticket`
+--
+ALTER TABLE `consultazioni_ticket`
+  ADD CONSTRAINT `fk_consultazione_consulente` FOREIGN KEY (`consulente_id`) REFERENCES `utenti` (`id`),
+  ADD CONSTRAINT `fk_consultazione_richiedente` FOREIGN KEY (`richiesta_da`) REFERENCES `utenti` (`id`),
+  ADD CONSTRAINT `fk_consultazione_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `documenti_ticket`
@@ -1124,10 +1483,32 @@ ALTER TABLE `ric`
   ADD CONSTRAINT `fk_ric_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE;
 
 --
+-- Limiti per la tabella `richieste_interne_ticket`
+--
+ALTER TABLE `richieste_interne_ticket`
+  ADD CONSTRAINT `fk_richiesta_interna_autore` FOREIGN KEY (`richiesto_da`) REFERENCES `utenti` (`id`),
+  ADD CONSTRAINT `fk_richiesta_interna_destinatario` FOREIGN KEY (`assegnato_a`) REFERENCES `utenti` (`id`),
+  ADD CONSTRAINT `fk_richiesta_interna_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE;
+
+--
 -- Limiti per la tabella `ric_righe`
 --
 ALTER TABLE `ric_righe`
   ADD CONSTRAINT `fk_riga_ric` FOREIGN KEY (`ric_id`) REFERENCES `ric` (`id`) ON DELETE CASCADE;
+
+--
+-- Limiti per la tabella `risposte_consultazioni`
+--
+ALTER TABLE `risposte_consultazioni`
+  ADD CONSTRAINT `risposte_consultazioni_ibfk_1` FOREIGN KEY (`consultazione_id`) REFERENCES `consultazioni_ticket` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `risposte_consultazioni_ibfk_2` FOREIGN KEY (`autore_id`) REFERENCES `utenti` (`id`) ON DELETE CASCADE;
+
+--
+-- Limiti per la tabella `risposte_interne_ticket`
+--
+ALTER TABLE `risposte_interne_ticket`
+  ADD CONSTRAINT `fk_risposta_interna_autore` FOREIGN KEY (`autore_id`) REFERENCES `utenti` (`id`),
+  ADD CONSTRAINT `fk_risposta_richiesta_interna` FOREIGN KEY (`richiesta_interna_id`) REFERENCES `richieste_interne_ticket` (`id`) ON DELETE CASCADE;
 
 --
 -- Limiti per la tabella `storico_stati`
@@ -1174,6 +1555,13 @@ ALTER TABLE `utenti_specializzazioni`
   ADD CONSTRAINT `fk_specializzazione_utente` FOREIGN KEY (`utente_id`) REFERENCES `utenti` (`id`) ON DELETE CASCADE;
 
 --
+-- Limiti per la tabella `valutazioni_servizio`
+--
+ALTER TABLE `valutazioni_servizio`
+  ADD CONSTRAINT `fk_valutazione_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_valutazione_utente` FOREIGN KEY (`utente_id`) REFERENCES `utenti` (`id`) ON DELETE CASCADE;
+
+--
 -- Limiti per la tabella `valutazioni_tecniche`
 --
 ALTER TABLE `valutazioni_tecniche`
@@ -1187,6 +1575,7 @@ ALTER TABLE `valutazioni_tecniche`
 ALTER TABLE `workflow_pratiche`
   ADD CONSTRAINT `fk_workflow_operatore` FOREIGN KEY (`aggiornato_da`) REFERENCES `utenti` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_workflow_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

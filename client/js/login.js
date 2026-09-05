@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const loginForm = document.getElementById("loginForm");
 const message = document.getElementById("message");
 
@@ -34,7 +42,7 @@ if(!response.ok){
         window.location.href = "dashboard.html"; 
 }, 800); 
        } catch (error) {
-        message.textContent = error.message;
+        message.textContent = messaggioErrore(error);
         message.className = "form-message error-message";
     }
 }); 

@@ -261,19 +261,14 @@
                                 <span>Allega</span>
                             </label>
 
-                            <button
-    id="uploadAttachmentsButton"
-    class="minimal-upload-button"
-    type="submit"
-    aria-label="Carica allegati"
-    title="Carica allegati"
->
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 16V4m-5 5 5-5 5 5M5 20h14" />
-    </svg>
+                            <button id="uploadAttachmentsButton" class="minimal-upload-button" type="submit"
+                                aria-label="Carica allegati" title="Carica allegati">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 16V4m-5 5 5-5 5 5M5 20h14" />
+                                </svg>
 
-    <span>Carica</span>
-</button>
+                                <span>Carica</span>
+                            </button>
                         </form>
                         <p id="attachmentsMessage" class="form-message" role="status"></p>
                     </section>
@@ -329,7 +324,7 @@
                 </aside>
             </div>
 
-            <section id="operatorActions" class="operator-actions">
+            <section id="operatorActions" class="operator-actions" hidden>
                 <div class="ticket-management-panel">
                     <div class="ticket-management-heading">
                         <div>
@@ -350,7 +345,9 @@
                                         In lavorazione
                                     </option>
                                     <option value="risolto">Risolto</option>
-                                    <option value="chiuso">Chiuso</option>
+                                    <option value="chiuso" disabled>
+                                        Chiuso - confermato dal cliente
+                                    </option>
                                 </select>
 
                                 <button class="button button-primary compact-action-button" type="submit">
@@ -384,104 +381,82 @@
                         <section class="ticket-management-card management-coverage-card">
                             <h3>Priorità e copertura</h3>
 
-                            <div class="compact-coverage-form">
-                                <select id="prioritySelect" form="managementForm" aria-label="Priorità" required>
+                            <form id="coverageForm" class="compact-coverage-form">
+                                <select id="prioritySelect" aria-label="Priorità" required>
                                     <option value="bassa">Bassa</option>
                                     <option value="media">Media</option>
                                     <option value="alta">Alta</option>
                                     <option value="urgente">Urgente</option>
                                 </select>
 
-                                <select id="coverageSelect" form="managementForm" aria-label="Copertura del caso"
-                                    required>
+                                <select id="coverageSelect" aria-label="Copertura del caso" required>
                                     <option value="da_valutare">
                                         Da valutare
                                     </option>
+
                                     <option value="in_garanzia">
                                         In garanzia
                                     </option>
+
                                     <option value="fuori_garanzia">
                                         Fuori garanzia
                                     </option>
                                 </select>
 
-                                <button class="button button-primary compact-action-button" type="submit"
-                                    form="managementForm">
+                                <button class="button button-primary compact-action-button" type="submit">
                                     Salva
                                 </button>
-                            </div>
+                            </form>
+
+                            <p id="coverageMessage" class="form-message" role="status"></p>
                         </section>
                     </div>
                 </div>
 
                 <hr class="operator-divider">
-<details
-    id="consultationSection"
-    class="consultation-section"
->
-    <summary class="consultation-section-title">
-        <span>CONSULTAZIONI INTERNE</span>
+                <details id="consultationSection" class="consultation-section">
+                    <summary class="consultation-section-title">
+                        <span>CONSULTAZIONI INTERNE</span>
 
-        <span
-            class="consultation-toggle-icon"
-            aria-hidden="true"
-        ></span>
-    </summary>
+                        <span class="consultation-toggle-icon" aria-hidden="true"></span>
+                    </summary>
 
-    <form
-        id="consultationForm"
-        class="consultation-form"
-        hidden
-    >
-        <div class="form-group">
-            <label for="consultantSelect">
-                Reparto o collaboratore
-            </label>
+                    <form id="consultationForm" class="consultation-form" hidden>
+                        <div class="form-group">
+                            <label for="consultantSelect">
+                                Reparto o collaboratore
+                            </label>
 
-            <select id="consultantSelect" required>
-                <option value="">
-                    Caricamento consulenti...
-                </option>
-            </select>
-        </div>
+                            <select id="consultantSelect" required>
+                                <option value="">
+                                    Caricamento consulenti...
+                                </option>
+                            </select>
+                        </div>
 
-        <div class="form-group">
-            <label for="consultationRequest">
-                Richiesta
-            </label>
+                        <div class="form-group">
+                            <label for="consultationRequest">
+                                Richiesta
+                            </label>
 
-            <textarea
-                id="consultationRequest"
-                rows="4"
-                minlength="3"
-                maxlength="2000"
-                placeholder="Esempio: indicare il codice articolo e il fornitore del parabrezza."
-                required
-            ></textarea>
-        </div>
+                            <textarea id="consultationRequest" rows="4" minlength="3" maxlength="2000"
+                                placeholder="Esempio: indicare il codice articolo e il fornitore del parabrezza."
+                                required></textarea>
+                        </div>
 
-        <button
-            class="button button-primary"
-            type="submit"
-        >
-            Invia consultazione
-        </button>
-    </form>
+                        <button class="button button-primary" type="submit">
+                            Invia consultazione
+                        </button>
+                    </form>
 
-    <p
-        id="consultationMessage"
-        class="form-message"
-        role="status"
-    ></p>
+                    <p id="consultationMessage" class="form-message" role="status"></p>
 
-    <div
-        id="consultationList"
-        class="consultation-list"
-    ></div>
-</details>
+                    <div id="consultationList" class="consultation-list"></div>
+                </details>
                 <div>
             </section>
         </section>
+
         <section id="commercialCostsSection" class="workspace-section commercial-costs-workspace" hidden>
             <form id="managementForm" class="commercial-management-form">
                 <div class="commercial-products-heading">
@@ -542,6 +517,7 @@
                 <p id="managementMessage" class="form-message" role="status"></p>
             </form>
         </section>
+
         <section id="historySection" class="history-section">
             <div class="history-heading">
                 <div>
@@ -597,7 +573,7 @@
                     <p id="clientDocumentsMessage" class="form-message" role="status" aria-live="polite"></p>
                 </section>
 
-                <section class="ticket-document-column operator-document-column">
+                <section id="operatorDocumentsColumn" class="ticket-document-column operator-document-column" hidden>
                     <div class="document-column-heading">
                         <span class="document-column-icon operator-icon">
                             OP
@@ -696,36 +672,57 @@
             </div>
         </section>
 
-        <section id="commentsSection" class="feedback-section">
-            <div class="feedback-grid">
-                <article class="feedback-column customer-feedback-column">
-                    <h2>Feedback del cliente</h2>
+        <section id="customerResolutionSection" class="customer-resolution-section" hidden>
+            <h2>Il problema è stato risolto?</h2>
 
-                    <div id="customerFeedbackList" class="feedback-list"></div>
-                </article>
+            <p>
+                L’operatore ha indicato il ticket come risolto.
+                Conferma il risultato oppure segnala che il problema persiste.
+            </p>
 
-                <article class="feedback-column operator-feedback-column">
-                    <h2>Feedback dell’operatore</h2>
+            <form id="customerResolutionForm">
 
-                    <div id="operatorFeedbackList" class="feedback-list"></div>
-                </article>
-            </div>
-
-            <form id="commentForm" class="feedback-form">
-                <label id="feedbackFormTitle" for="commentText">
-                    Scrivi un feedback o una risposta
-                </label>
-
-                <textarea id="commentText" name="testo" placeholder="Scrivi il messaggio..." rows="4" minlength="2"
-                    maxlength="2000" required></textarea>
-
-                <button class="button button-primary" type="submit">
-                    Invia feedback
+                <button class="button button-primary" type="submit" value="confermato" name="esito">
+                    Conferma risoluzione
                 </button>
+
+                <button class="button" type="submit" value="persiste" name="esito">
+                    Il problema persiste
+                </button>
+
             </form>
 
-            <p id="commentsMessage" class="form-message" role="status"></p>
+            <p id="customerResolutionMessage" class="form-message" role="status" aria-live="polite"></p>
         </section>
+
+        <details id="commentsSection" class="feedback-section communications-section" open>
+            <summary class="communications-summary">
+                <span>Comunicazioni</span>
+
+                <span class="communications-chevron" aria-hidden="true">
+                    ▼
+                </span>
+            </summary>
+
+            <div class="communications-content">
+                <div id="communicationsList" class="communications-list"></div>
+
+                <form id="commentForm" class="feedback-form">
+                    <label id="feedbackFormTitle" for="commentText">
+                        Scrivi un feedback o una risposta
+                    </label>
+
+                    <textarea id="commentText" name="testo" placeholder="Scrivi il messaggio..." rows="4" minlength="2"
+                        maxlength="2000" required></textarea>
+
+                    <button class="button button-primary" type="submit">
+                        Invia feedback
+                    </button>
+                </form>
+
+                <p id="commentsMessage" class="form-message" role="status"></p>
+            </div>
+        </details>
 
         <p id="message" class="form-message" role="status"></p>
     </main>

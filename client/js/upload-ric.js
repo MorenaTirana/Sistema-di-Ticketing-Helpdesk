@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const ricForm = document.getElementById("ricForm");
 const ticketIdInput = document.getElementById("ticketId");
 const numeroRicInput = document.getElementById("numeroRic");
@@ -84,7 +92,7 @@ async function inizializzaPagina() {
     } catch (error) {
         ricForm.hidden = true;
 
-        message.textContent = error.message;
+        message.textContent = messaggioErrore(error);
         message.className =
             "form-message error-message";
     }
@@ -143,7 +151,7 @@ ricForm.addEventListener("submit", async (event) => {
         numeroRicInput.value = "";
         documentoInput.value = "";
     } catch (error) {
-        message.textContent = error.message;
+        message.textContent = messaggioErrore(error);
         message.className =
             "form-message error-message";
     }

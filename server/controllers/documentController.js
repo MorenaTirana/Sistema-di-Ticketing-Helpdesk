@@ -243,7 +243,9 @@ async function getDocumentsByTicket(req, res) {
         }
 
         query += `
-            ORDER BY d.data_documento DESC, d.id DESC
+            ORDER BY
+    COALESCE(d.created_at, d.data_documento) ASC,
+    d.id ASC
         `;
 
         const [documenti] = await db.execute(

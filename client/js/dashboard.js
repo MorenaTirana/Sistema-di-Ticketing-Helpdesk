@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const userName = document.getElementById("userName");
 const userRole = document.getElementById("userRole");
 const roleInformation =
@@ -26,6 +34,21 @@ const boatsCardTitle =
 
 const boatsCardDescription =
     document.getElementById("boatsCardDescription");
+
+const totalTicketsCount =
+    document.getElementById("totalTicketsCount");
+
+const openTicketsCount =
+    document.getElementById("openTicketsCount");
+
+const workingTicketsCount =
+    document.getElementById("workingTicketsCount");
+
+const resolvedTicketsCount =
+    document.getElementById("resolvedTicketsCount");
+
+const closedTicketsCount =
+    document.getElementById("closedTicketsCount");
 
 async function loadCurrentUser() {
     try {
@@ -73,8 +96,8 @@ async function loadCurrentUser() {
                 "Consulta le imbarcazioni registrate dai clienti.";
 
 
-    operatorManagementCard.hidden =
-        !utente.puo_gestire_operatori;
+            operatorManagementCard.hidden =
+                !utente.puo_gestire_operatori;
 
         } else {
             if (roleInformation) {
@@ -88,7 +111,7 @@ async function loadCurrentUser() {
             boatsCardDescription.textContent =
                 "Consulta le tue imbarcazioni registrate.";
 
-             operatorManagementCard.hidden = true;
+            operatorManagementCard.hidden = true;
         }
 
         return true;
@@ -99,7 +122,7 @@ async function loadCurrentUser() {
         );
 
         message.textContent =
-            error.message;
+            messaggioErrore(error);
 
         message.className =
             "form-message error-message";
@@ -108,7 +131,70 @@ async function loadCurrentUser() {
     }
 }
 
+async function loadTicketSummary() {
+    try {
+        const response =
+            await fetch("/api/tickets");
 
+        const risultato =
+            await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                risultato.message ||
+                "Impossibile caricare il riepilogo dei ticket"
+            );
+        }
+
+        const tickets =
+            Array.isArray(risultato.ticket)
+                ? risultato.ticket
+                : [];
+
+        const totals = {
+            aperto: 0,
+            in_lavorazione: 0,
+            risolto: 0,
+            chiuso: 0
+        };
+
+        tickets.forEach((ticket) => {
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    totals,
+                    ticket.stato
+                )
+            ) {
+                totals[ticket.stato] += 1;
+            }
+        });
+        totalTicketsCount.textContent =
+            tickets.length;
+
+        openTicketsCount.textContent =
+            totals.aperto;
+
+        workingTicketsCount.textContent =
+            totals.in_lavorazione;
+
+        resolvedTicketsCount.textContent =
+            totals.risolto + totals.chiuso;
+
+        closedTicketsCount.textContent =
+            totals.chiuso;
+    } catch (error) {
+        console.error(
+            "Errore caricamento riepilogo:",
+            error
+        );
+
+        message.textContent =
+            messaggioErrore(error);
+
+        message.className =
+            "form-message error-message";
+    }
+}
 
 async function loadNotifications() {
     try {
@@ -203,7 +289,7 @@ async function openNotification(notifica) {
         window.location.href =
             `ticket-detail.html?id=${notifica.ticket_id}`;
     } catch (error) {
-        message.textContent = error.message;
+        message.textContent = messaggioErrore(error);
         message.className =
             "form-message error-message";
     }
@@ -230,18 +316,21 @@ logoutButton.addEventListener("click", async () => {
 
         window.location.href = "login.html";
     } catch (error) {
-        message.textContent = error.message;
+        message.textContent = messaggioErrore(error);
         message.className =
             "form-message error-message";
     }
 });
 
-
 async function initializeDashboard() {
-    const utenteCaricato = await loadCurrentUser();
+    const utenteCaricato =
+        await loadCurrentUser();
 
     if (utenteCaricato) {
-        await loadNotifications();
+        await Promise.all([
+            loadNotifications(),
+            loadTicketSummary()
+        ]);
     }
 }
 

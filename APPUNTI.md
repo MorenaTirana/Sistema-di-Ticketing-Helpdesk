@@ -340,3 +340,37 @@ il file `CHECKLIST_ESAME.md`.
 La checklist distingue le funzionalità già implementate da quelle
 che devono ancora essere testate o completate.
 
+## 19. Evoluzione del progetto e stato finale
+
+Il progetto è cresciuto molto oltre le tre tabelle iniziali (`utenti`,
+`ticket`, `commenti`) descritte al punto 11. Nel corso dello sviluppo
+ho aggiunto la gestione delle imbarcazioni dei clienti, i ruoli di
+operatore e tecnico, l'assegnazione dei ticket, lo storico degli
+stati, le consultazioni tecniche tra operatore e tecnici interni, le
+Richieste Interne Componenti (RIC), l'upload e la visibilità
+configurabile dei documenti, le comunicazioni tecniche verso il
+cliente e le notifiche persistenti. Lo schema del database prevede
+anche altri ruoli gestionali (ufficio tecnico, capo produzione,
+ingegnere, commerciale, contabile, CEO, amministrazione) pensati
+come base per sviluppi futuri, ma ad oggi il backend gestisce
+attivamente solo utente, operatore e tecnico.
+
+Prima della consegna ho eseguito una verifica mirata dei requisiti
+obbligatori (autenticazione, creazione ticket, elenco e dettaglio,
+commenti, chiusura da parte del cliente, visione completa per
+l'operatore, validazione e gestione degli errori) testando le API
+del backend. Ho inoltre:
+
+- corretto la gestione degli errori di rete lato frontend, per
+  distinguere un problema di connessione da un errore applicativo
+  restituito dal server;
+- corretto un'autorizzazione mancante che permetteva a un tecnico
+  autenticato di accedere a commenti, allegati e cronologia di
+  ticket per i quali non aveva ricevuto alcuna consultazione;
+- allineato `database/schema.sql` al database realmente in uso,
+  correggendo un hash di password non più aggiornato;
+- aggiornato `.gitignore` per escludere file di backup e di verifica
+  non destinati al repository;
+- creato i diagrammi ER e dei casi d'uso in `DIAGRAMMI.md`, basati
+  sullo schema e sul codice effettivi del progetto.
+

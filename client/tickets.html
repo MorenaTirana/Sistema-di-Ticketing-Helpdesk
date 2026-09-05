@@ -47,7 +47,62 @@
 
                 </div>
             </div>
+            <div class="ticket-filters" aria-label="Filtri dei ticket">
 
+                <div class="form-group">
+                    <label for="ticketSearch">Cerca</label>
+                    <input id="ticketSearch" type="search" placeholder="Numero, titolo o imbarcazione">
+                </div>
+
+                <div class="form-group">
+                    <label for="statusFilter">Stato</label>
+                    <select id="statusFilter">
+                        <option value="">Tutti gli stati</option>
+                        <option value="aperto">Aperto</option>
+                        <option value="in_lavorazione">In lavorazione</option>
+                        <option value="risolto">Risolto</option>
+                        <option value="chiuso">Chiuso</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="priorityFilter">Priorità</label>
+                    <select id="priorityFilter">
+                        <option value="">Tutte le priorità</option>
+                        <option value="bassa">Bassa</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                        <option value="urgente">Urgente</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="categoryFilter">Categoria</label>
+                    <select id="categoryFilter">
+                        <option value="">Tutte le categorie</option>
+                        <option value="problema_tecnico">Problema tecnico</option>
+                        <option value="accesso_account">Accesso account</option>
+                        <option value="fatturazione">Fatturazione</option>
+                        <option value="informazioni">Informazioni</option>
+                        <option value="altro">Altro</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="operatorFilter">Operatore</label>
+                    <select id="operatorFilter">
+                        <option value="">Tutti gli operatori</option>
+                        <option value="non_assegnato">Non assegnato</option>
+                    </select>
+                </div>
+
+                <button id="resetFilters" class="button button-small" type="button">
+                    Azzera filtri
+                </button>
+
+            </div>
+
+            <p id="ticketResultCount" aria-live="polite"></p>
             <div id="ticketList" class="profile-ticket-list">
                 <p>Caricamento dei ticket...</p>
             </div>

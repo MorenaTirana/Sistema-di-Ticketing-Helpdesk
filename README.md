@@ -1,63 +1,122 @@
 # Sistema di Ticketing / Helpdesk
 
-Applicazione web per la gestione delle richieste di assistenza tramite ticket.
+Applicazione web per la gestione delle richieste di assistenza tecnica nel settore della nautica, tramite ticket.
 
 ## Obiettivo del progetto
 
-Il sistema permette agli utenti di inviare richieste di assistenza e seguirne l'evoluzione. Gli operatori possono visualizzare i ticket, rispondere agli utenti e modificarne lo stato.
+Il sistema permette ai clienti di aprire ticket di assistenza relativi alle proprie imbarcazioni, agli operatori di gestirli (assegnazione, priorità, costi, documenti) e ai tecnici interni di fornire consulenza specialistica su richiesta.
 
-## Utenti del sistema
+## Ruoli del sistema
 
-### Utente
+### Utente (cliente)
 
 * Si registra e accede all'applicazione.
-* Apre un ticket indicando titolo, descrizione e categoria.
-* Visualizza i propri ticket.
-* Visualizza il dettaglio e lo stato di un ticket.
+* Associa una o più imbarcazioni al proprio profilo.
+* Apre un ticket relativo a un'imbarcazione, allegando foto/video del problema.
+* Visualizza i propri ticket, il relativo stato, i costi e la cronologia.
 * Aggiunge commenti ai propri ticket.
+* Visualizza documenti e comunicazioni tecniche resi visibili dall'operatore.
+* Conferma la risoluzione (chiudendo il ticket) oppure segnala che il problema persiste.
 
 ### Operatore
 
-* Accede all'applicazione.
-* Visualizza tutti i ticket.
-* Risponde ai ticket.
-* Modifica lo stato dei ticket.
+* Visualizza ed elenca tutti i ticket.
+* Assegna priorità, stato, operatore responsabile e costi ai ticket.
+* Gestisce le imbarcazioni e, se principale, gli altri operatori.
+* Richiede consulenze tecniche ai tecnici interni.
+* Carica documenti (preventivi, fatture, ecc.) e comunicazioni tecniche per il cliente.
+* Gestisce le Richieste Interne Componenti (RIC).
 
-## Funzionalità previste
+### Tecnico
 
-### Livello 1
+* Fornisce consulenza tecnica sui ticket per cui è stato interpellato da un operatore.
+* Accede solamente ai ticket per i quali ha ricevuto una richiesta di consultazione.
 
-* Registrazione e autenticazione.
-* Creazione dei ticket.
-* Elenco e dettaglio dei ticket.
-* Commenti.
-* Gestione dello stato.
-* Controllo delle autorizzazioni.
-* Validazione degli input.
-* Gestione degli errori.
+> Lo schema del database prevede ulteriori ruoli gestionali (ufficio tecnico, capo produzione, ingegnere, commerciale, contabile, CEO, amministrazione) come base per sviluppi futuri: ad oggi solo utente, operatore e tecnico sono gestiti attivamente dal backend.
 
-### Livello 2
+## Funzionalità implementate
 
-* Priorità dei ticket.
-* Assegnazione a un operatore.
-* Storico dei cambiamenti di stato.
-* Filtri per categoria, stato, priorità e operatore.
-* Dashboard con conteggi dei ticket.
-* Conferma della risoluzione da parte dell'utente.
+* Autenticazione completa: registrazione, login, logout, recupero e reimpostazione password, sessioni server-side (`express-session`), password protette con `bcrypt`.
+* Controllo delle autorizzazioni per ruolo su tutte le API.
+* Ciclo di vita completo del ticket: creazione con allegati, stato, priorità, assegnazione, costo, storico dei cambi di stato, chiusura confermata dal cliente.
+* Gestione delle imbarcazioni associate ai clienti.
+* Commenti sui ticket.
+* Allegati (foto, video, documenti) sui ticket.
+* Consultazioni tecniche tra operatore e tecnici interni, con risposte e allegati.
+* Richieste Interne Componenti (RIC) e upload/download documenti, con visibilità configurabile per il cliente.
+* Comunicazioni tecniche dall'operatore al cliente.
+* Notifiche persistenti per gli aggiornamenti sui ticket.
+* Validazione degli input lato server e gestione coerente degli errori (codici di stato HTTP appropriati, messaggi applicativi in italiano).
 
-## Tecnologie previste
+## Tecnologie utilizzate
 
-* HTML per la struttura delle pagine.
-* CSS per la presentazione grafica.
-* JavaScript per il comportamento del frontend.
-* Node.js per eseguire JavaScript nel backend.
-* Express per creare il server e le API.
-* MySQL per la persistenza dei dati.
+* HTML, CSS e JavaScript (vanilla) per il frontend.
+* Node.js ed Express 5 per il server e le API REST.
+* MySQL (MariaDB, tramite XAMPP) per la persistenza dei dati, con pool di connessioni (`mysql2`).
+* `express-session` per le sessioni, `bcryptjs` per l'hashing delle password, `multer` per gli upload, `dotenv` per la configurazione.
+
+## Installazione
+
+1. Clonare il repository e installare le dipendenze:
+
+   ```bash
+   git clone https://github.com/MorenaTirana/Sistema-di-Ticketing-Helpdesk.git
+   cd Sistema-di-Ticketing-Helpdesk
+   npm install
+   ```
+
+2. Avviare MySQL (ad esempio tramite XAMPP) e creare il database importando lo schema:
+
+   ```bash
+   mysql -u root -p < database/schema.sql
+   ```
+
+   In alternativa è possibile importare `database/schema.sql` da phpMyAdmin.
+
+3. Copiare `.env.example` in `.env` e compilare i valori (host, credenziali del proprio MySQL locale e una chiave per `SESSION_SECRET`):
+
+   ```
+   PORT=3002
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=
+   DB_NAME=ticketing_helpdesk
+   SESSION_SECRET=una_chiave_sicura_a_scelta
+   ```
+
+## Avvio
+
+```bash
+npm start
+```
+
+Il server si avvia su `http://localhost:3002` (o sulla porta indicata in `PORT`).
+
+## Utilizzo
+
+Aprire il browser su `http://localhost:3002/login.html` e accedere con un account esistente, oppure registrarne uno nuovo da `http://localhost:3002/register.html` (i nuovi account vengono creati con ruolo "utente"). Gli account con ruolo operatore o tecnico vanno creati direttamente nel database o da un operatore con permessi di gestione.
+
+### Credenziali di test
+
+Account demo presenti nel seed di `database/schema.sql`, disponibili su un'installazione locale pulita:
+
+| Ruolo | Email | Password |
+|---|---|---|
+| Operatore | morena@helpdesk.it | Morena123 |
+| Utente (cliente) | claudia@gmail.com | Claudia123 |
+
+> Sono account demo validi solo su un database locale di sviluppo: non contengono dati reali né vanno riutilizzati al di fuori di questo ambiente.
+
+## Diagrammi
+
+Il diagramma Entità-Relazione del database e il diagramma dei casi d'uso, generati a partire dallo schema e dal codice reali, sono disponibili in [DIAGRAMMI.md](DIAGRAMMI.md).
+
+## Struttura del progetto
+
+* `client/` — pagine HTML, JavaScript e CSS del frontend.
+* `server/` — applicazione Express (routes, controllers, middleware, services).
+* `database/` — schema SQL del database.
 
 ## Stato del progetto
 
-Progettazione iniziale.
-
-
-
-
+Funzionante end-to-end per i tre ruoli principali (utente, operatore, tecnico). In fase di rifinitura finale prima della consegna (vedi `CHECKLIST_ESAME.md`).

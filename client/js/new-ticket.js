@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const ticketForm =
     document.getElementById("ticketForm");
 
@@ -141,7 +149,7 @@ async function loadClients() {
 
         clientSelect.disabled = false;
     } catch (error) {
-        message.textContent = error.message;
+        message.textContent = messaggioErrore(error);
 
         message.className =
             "form-message error-message";
@@ -234,7 +242,7 @@ async function loadBoats(clienteId = null) {
             "Impossibile caricare le barche"
         );
 
-        message.textContent = error.message;
+        message.textContent = messaggioErrore(error);
 
         message.className =
             "form-message error-message";
@@ -356,6 +364,31 @@ ticketForm.addEventListener(
 
             return;
         }
+
+        if (files.length > 8) {
+            message.textContent =
+                "Puoi caricare al massimo 8 file per ticket.";
+
+            message.className =
+                "form-message error-message";
+
+            return;
+        }
+
+        const fileTroppoGrande = files.find(
+            (file) => file.size > 100 * 1024 * 1024
+        );
+
+        if (fileTroppoGrande) {
+            message.textContent =
+                `Il file "${fileTroppoGrande.name}" supera la dimensione massima di 100 MB.`;
+
+            message.className =
+                "form-message error-message";
+
+            return;
+        }
+
         message.textContent =
             "Invio del ticket in corso...";
 
@@ -411,7 +444,7 @@ ticketForm.addEventListener(
             });
         } catch (error) {
             message.textContent =
-                error.message;
+                messaggioErrore(error);
 
             message.className =
                 "form-message error-message";

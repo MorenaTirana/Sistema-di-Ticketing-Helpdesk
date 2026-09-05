@@ -16415,3 +16415,617 @@ body.boats-page
 .boat-ticket-toggle {
     align-self: center !important;
 }
+
+/* Feedback coordinati con il look di boats.html */
+
+.feedback-section {
+    margin-top: 30px;
+    padding: 28px;
+    background: rgba(255, 255, 255, 0.93);
+    border: 1px solid rgba(164, 204, 222, 0.78);
+    border-top: 3px solid #29bfe8;
+    border-radius: 22px;
+    box-shadow: 0 20px 48px rgba(4, 36, 59, 0.14);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.feedback-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.feedback-grid:has(.feedback-column[hidden]) {
+    grid-template-columns: 1fr;
+}
+
+.feedback-column[hidden] {
+    display: none !important;
+}
+
+.feedback-column {
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    color: #092b48;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(164, 204, 222, 0.78);
+    border-top: 3px solid #29bfe8;
+    border-radius: 18px;
+    box-shadow: 0 14px 32px rgba(4, 36, 59, 0.12);
+}
+
+.feedback-column h2,
+.operator-feedback-column h2 {
+    margin: 0 !important;
+    padding: 20px 24px;
+    color: #ffffff !important;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(7, 43, 75, 0.98),
+            rgba(12, 93, 148, 0.94)
+        );
+    font-size: 1.15rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    text-shadow: none !important;
+}
+
+.feedback-list {
+    display: grid;
+    gap: 12px;
+    padding: 20px 24px 24px;
+    background: rgba(248, 252, 254, 0.94);
+}
+
+.feedback-card {
+    padding: 17px 18px;
+    color: #092b48;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #d6e6ed;
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+.feedback-card-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding-bottom: 11px;
+    border-bottom: 1px solid #d9e7ed;
+}
+
+.feedback-card-heading strong {
+    color: #092b48;
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+.feedback-card-heading time {
+    color: #64849a;
+    font-size: 0.7rem;
+}
+
+.feedback-card p {
+    margin: 14px 0 0;
+    color: #173c58;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.feedback-form {
+    display: grid;
+    gap: 12px;
+    margin-top: 22px;
+    padding: 24px;
+    background: rgba(236, 247, 251, 0.9);
+    border: 1px solid #d0e3ec;
+    border-radius: 16px;
+}
+
+.feedback-form label {
+    color: #092b48;
+    font-weight: 750;
+}
+
+.feedback-form textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 15px;
+    color: #092b48;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #bdd6e2;
+    border-radius: 12px;
+    resize: vertical;
+}
+
+.feedback-form textarea:focus {
+    outline: none;
+    border-color: #29aeda;
+    box-shadow: 0 0 0 4px rgba(41, 174, 218, 0.14);
+}
+
+.feedback-form .button {
+    width: fit-content;
+    min-width: 170px;
+    border-radius: 11px;
+}
+
+@media (max-width: 750px) {
+    .feedback-section {
+        padding: 17px;
+    }
+
+    .feedback-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feedback-column h2,
+    .operator-feedback-column h2,
+    .feedback-list,
+    .feedback-form {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}/* Comunicazioni cronologiche */
+
+.communications-section {
+    padding: 0;
+    overflow: hidden;
+}
+
+.communications-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 27px;
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(7, 43, 75, 0.98),
+            rgba(12, 93, 148, 0.94)
+        );
+    cursor: pointer;
+    list-style: none;
+    font-size: 1.3rem;
+    font-weight: 750;
+}
+
+.communications-summary::-webkit-details-marker {
+    display: none;
+}
+
+.communications-chevron {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    transition: transform 0.25s ease;
+}
+
+.communications-section:not([open])
+.communications-chevron {
+    transform: rotate(-90deg);
+}
+
+.communications-content {
+    padding: 26px;
+    background: #eef6fa;
+}
+
+.communications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.communication-row {
+    display: flex;
+    width: 100%;
+}
+
+.communication-row.customer-message {
+    justify-content: flex-start;
+}
+
+.communication-row.operator-message {
+    justify-content: flex-end;
+}
+
+.communication-row .feedback-card {
+    width: min(72%, 720px);
+    padding: 16px 18px;
+    border-radius: 16px;
+}
+
+.customer-message .feedback-card {
+    color: #0b416f;
+    background: #ffffff;
+    border: 1px solid #bcd9e8;
+    border-bottom-left-radius: 4px;
+}
+
+.operator-message .feedback-card {
+    color: #ffffff;
+    background:
+        linear-gradient(
+            135deg,
+            #075078,
+            #087f99
+        );
+    border: 1px solid #168eaa;
+    border-bottom-right-radius: 4px;
+}
+
+.operator-message .feedback-card strong,
+.operator-message .feedback-card p,
+.operator-message .feedback-card time,
+.operator-message .feedback-edited {
+    color: #ffffff;
+}
+
+.operator-message .feedback-card-heading {
+    border-bottom-color: rgba(255, 255, 255, 0.25);
+}
+
+.communications-empty {
+    margin: 0;
+    padding: 28px;
+    color: #668298;
+    text-align: center;
+    background: #ffffff;
+    border: 1px dashed #abcbdc;
+    border-radius: 13px;
+}
+
+.communications-content .feedback-form {
+    margin-top: 24px;
+}
+
+@media (max-width: 750px) {
+    .communications-summary {
+        padding: 18px;
+    }
+
+    .communications-content {
+        padding: 16px;
+    }
+
+    .communication-row .feedback-card {
+        width: 88%;
+    }
+}/* Archivio documenti in ordine cronologico verticale */
+
+.documents-section .ticket-documents-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+}
+
+.documents-section .ticket-document-column {
+    width: 100%;
+}
+
+.documents-section .operator-document-column {
+    background: rgba(248, 252, 254, 0.95);
+}
+
+.documents-section .document-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.documents-section .document-card {
+    width: 100%;
+}
+/* Documenti identici ai ticket della pagina boats.html */
+
+.documents-section .ticket-documents-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.documents-section .operator-document-column {
+    order: 1;
+}
+
+.documents-section .client-document-column {
+    order: 2;
+}
+
+/* Elenco documenti */
+
+.documents-section .document-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+/* Singolo documento */
+
+.document-timeline-card {
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(164, 204, 222, 0.92);
+    border-left: 5px solid #20b8dc;
+    border-radius: 15px;
+    box-shadow: 0 9px 24px rgba(4, 36, 59, 0.1);
+}
+
+/* Riga chiusa */
+
+.document-timeline-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    min-height: 66px;
+    padding: 13px 17px;
+    cursor: pointer;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.97);
+}
+
+.document-timeline-summary::-webkit-details-marker {
+    display: none;
+}
+
+.document-summary-main {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+}
+
+.document-summary-type {
+    color: #087aaa;
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.document-summary-main strong {
+    color: #092b48;
+    font-size: 1rem;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+/* Parte destra della riga */
+
+.document-summary-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 13px;
+}
+
+.document-summary-right time {
+    color: #5f7f95;
+    font-size: 0.73rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.document-summary-right .public-badge,
+.document-summary-right .internal-badge {
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.document-summary-chevron {
+    display: grid;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    color: #ffffff;
+    background:
+        linear-gradient(
+            145deg,
+            #0d91b1,
+            #075277
+        );
+    border: 2px solid #07344d;
+    border-radius: 50%;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        0 5px 12px rgba(3, 53, 77, 0.2);
+    font-size: 0.7rem;
+    transition:
+        transform 0.22s ease,
+        background 0.22s ease;
+}
+
+.document-timeline-card[open]
+.document-summary-chevron {
+    transform: rotate(180deg);
+    background:
+        linear-gradient(
+            145deg,
+            #075277,
+            #0d91b1
+        );
+}
+
+/* Dettagli aperti */
+
+.document-timeline-content {
+    padding: 18px 20px 20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(244, 250, 252, 0.98),
+            rgba(233, 245, 249, 0.96)
+        );
+    border-top: 1px solid #cbdfe8;
+}
+
+.document-timeline-content .document-information {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+    margin: 0;
+}
+
+.document-detail-item {
+    display: grid;
+    grid-template-columns:
+        minmax(110px, 0.45fr)
+        minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    padding: 9px 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #cbdde6;
+    border-radius: 0;
+}
+
+.document-detail-item dt {
+    margin: 0;
+    color: #5b7d92;
+    font-size: 0.65rem;
+    font-weight: 850;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.document-detail-item dd {
+    margin: 0;
+    padding-left: 12px;
+    color: #092b48;
+    border-left: 2px solid #22b8df;
+    font-size: 0.86rem;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+/* Icone azioni */
+
+.icon-document-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 18px;
+}
+
+.icon-document-actions .attachment-icon-button {
+    display: grid;
+    width: 39px;
+    height: 39px;
+    padding: 0;
+    place-items: center;
+    color: #ffffff;
+    background:
+        linear-gradient(
+            145deg,
+            #0c8cad,
+            #07577c
+        );
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 7px 16px rgba(5, 77, 108, 0.18);
+}
+
+.icon-document-actions
+.attachment-icon-button svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.icon-document-actions
+.attachment-icon-button:hover {
+    transform: translateY(-2px);
+    background:
+        linear-gradient(
+            145deg,
+            #12a9ca,
+            #08638b
+        );
+}
+
+/* Caricamento sempre dopo i documenti */
+
+.documents-section .client-document-column {
+    background: rgba(244, 250, 252, 0.94);
+    border: 1px solid #c7dfe9;
+    border-top: 3px solid #29bfe8;
+    border-radius: 17px;
+}
+
+/* Responsive */
+
+@media (max-width: 750px) {
+    .document-timeline-summary {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .document-summary-main {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .document-summary-right {
+        flex-wrap: wrap;
+    }
+
+    .document-summary-right time {
+        display: none;
+    }
+
+    .document-timeline-content
+    .document-information {
+        grid-template-columns: 1fr;
+    }
+
+    .document-detail-item {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .document-detail-item dd {
+        padding-left: 0;
+        border-left: 0;
+    }
+}
+
+@media (max-width: 750px) {
+    .document-timeline-summary {
+        align-items: flex-start;
+    }
+
+    .document-summary-right {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .document-timeline-content
+    .document-information {
+        grid-template-columns: 1fr;
+    }
+}

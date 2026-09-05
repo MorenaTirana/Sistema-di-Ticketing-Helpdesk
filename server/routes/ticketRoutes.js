@@ -102,6 +102,12 @@ router.patch(
 );
 
 router.patch(
+    "/:id/resolution",
+    requireAuth,
+    ticketController.updateCustomerResolution
+);
+
+router.patch(
     "/:id/management",
     requireOperator,
     ticketController.updateTicketManagement

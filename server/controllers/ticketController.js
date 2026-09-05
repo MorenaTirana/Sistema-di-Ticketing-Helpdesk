@@ -441,14 +441,14 @@ async function getTickets(req, res) {
 
         const parametri = [];
 
-       if (utente.ruolo === "utente") {
-    query += `
+        if (utente.ruolo === "utente") {
+            query += `
         WHERE t.utente_id = ?
     `;
 
-    parametri.push(utente.id);
-} else if (utente.ruolo === "tecnico") {
-    query += `
+            parametri.push(utente.id);
+        } else if (utente.ruolo === "tecnico") {
+            query += `
         WHERE EXISTS (
             SELECT 1
             FROM consultazioni_ticket AS ct
@@ -457,8 +457,8 @@ async function getTickets(req, res) {
         )
     `;
 
-    parametri.push(utente.id);
-}
+            parametri.push(utente.id);
+        }
 
         query += `
             ORDER BY
@@ -511,6 +511,7 @@ async function getTicketById(req, res) {
                 t.tipo_richiesta,
                 t.copertura,
                 t.costo,
+                t.shipping_fee,
                 t.indirizzo_consegna,
                 t.localizzazione_barca,
                 b.id AS barca_id,
@@ -567,26 +568,43 @@ async function getTicketById(req, res) {
         }
 
         if (utente.ruolo === "tecnico") {
-    const [consultazioni] =
-        await db.execute(
-            `SELECT id
+            const [consultazioni] =
+                await db.execute(
+                    `SELECT id
              FROM consultazioni_ticket
              WHERE ticket_id = ?
                AND consulente_id = ?
              LIMIT 1`,
-            [
-                ticketId,
-                utente.id
-            ]
-        );
+                    [
+                        ticketId,
+                        utente.id
+                    ]
+                );
 
-    if (consultazioni.length === 0) {
-        return res.status(403).json({
-            message:
-                "Puoi visualizzare solamente i ticket per i quali hai ricevuto una consultazione"
-        });
-    }
-}
+            if (consultazioni.length === 0) {
+                return res.status(403).json({
+                    message:
+                        "Puoi visualizzare solamente i ticket per i quali hai ricevuto una consultazione"
+                });
+            }
+        }
+        const [articoliCommerciali] =
+            await db.execute(
+                `SELECT
+            id,
+            codice_articolo,
+            descrizione_articolo,
+            costo_articolo,
+            quantita,
+            estimated_lead_time
+         FROM articoli_commerciali_ticket
+         WHERE ticket_id = ?
+         ORDER BY id ASC`,
+                [ticketId]
+            );
+
+        ticket.articoli_commerciali =
+            articoliCommerciali;
         return res.status(200).json({
             ticket
         });
@@ -610,8 +628,7 @@ async function updateTicketStatus(req, res) {
         const statiConsentiti = [
             "aperto",
             "in_lavorazione",
-            "risolto",
-            "chiuso"
+            "risolto"
         ];
 
         // 1. Controllo dell'identificativo del ticket
@@ -622,6 +639,13 @@ async function updateTicketStatus(req, res) {
         }
 
         // 2. Controllo dello stato ricevuto
+        if (stato === "chiuso") {
+            return res.status(400).json({
+                message:
+                    "Il ticket può essere chiuso solamente dal cliente dopo la conferma della risoluzione"
+            });
+        }
+
         if (!statiConsentiti.includes(stato)) {
             return res.status(400).json({
                 message: "Stato non valido"
@@ -712,6 +736,197 @@ async function updateTicketStatus(req, res) {
     }
 }
 
+async function updateCustomerResolution(req, res) {
+    try {
+        const ticketId =
+            Number(req.params.id);
+
+        const utente =
+            req.session.utente;
+
+        const { esito } =
+            req.body;
+
+        if (
+            !Number.isInteger(ticketId) ||
+            ticketId <= 0
+        ) {
+            return res.status(400).json({
+                message:
+                    "Identificativo del ticket non valido"
+            });
+        }
+
+        if (utente.ruolo !== "utente") {
+            return res.status(403).json({
+                message:
+                    "La conferma è riservata al cliente"
+            });
+        }
+
+        const esitiConsentiti = [
+            "confermato",
+            "persiste"
+        ];
+
+        if (!esitiConsentiti.includes(esito)) {
+            return res.status(400).json({
+                message:
+                    "Esito della conferma non valido"
+            });
+        }
+
+        const [risultati] =
+            await db.execute(
+                `SELECT
+                    id,
+                    titolo,
+                    utente_id,
+                    operatore_id,
+                    stato
+                 FROM ticket
+                 WHERE id = ?`,
+                [ticketId]
+            );
+
+        if (risultati.length === 0) {
+            return res.status(404).json({
+                message: "Ticket non trovato"
+            });
+        }
+
+        const ticket =
+            risultati[0];
+
+        if (
+            Number(ticket.utente_id) !==
+            Number(utente.id)
+        ) {
+            return res.status(403).json({
+                message:
+                    "Non puoi confermare questo ticket"
+            });
+        }
+
+        if (ticket.stato !== "risolto") {
+            return res.status(400).json({
+                message:
+                    "Puoi confermare solamente un ticket risolto"
+            });
+        }
+
+        const nuovoStato =
+            esito === "confermato"
+                ? "chiuso"
+                : "in_lavorazione";
+
+        await db.execute(
+            `UPDATE ticket
+             SET stato = ?
+             WHERE id = ?`,
+            [
+                nuovoStato,
+                ticketId
+            ]
+        );
+
+        const testoFeedback =
+            esito === "confermato"
+                ? "Confermo che il problema è stato risolto."
+                : "Il problema persiste e richiede ulteriore assistenza.";
+
+        await db.execute(
+            `INSERT INTO commenti (
+        ticket_id,
+        utente_id,
+        testo
+    )
+    VALUES (?, ?, ?)`,
+            [
+                ticketId,
+                utente.id,
+                testoFeedback
+            ]
+        );
+        if (esito === "confermato") {
+            const autoreMessaggio =
+                ticket.operatore_id ||
+                utente.id;
+
+            const messaggioChiusura =
+                `La richiesta “${ticket.titolo}” è stata risolta ` +
+                `e il ticket n. ${ticketId} viene pertanto chiuso. ` +
+                `Restiamo a disposizione per ulteriori necessità. ` +
+                `Grazie per la preziosa collaborazione.`;
+
+            await db.execute(
+                `INSERT INTO commenti (
+            ticket_id,
+            utente_id,
+            testo
+        )
+        VALUES (?, ?, ?)`,
+                [
+                    ticketId,
+                    autoreMessaggio,
+                    messaggioChiusura
+                ]
+            );
+        }
+        await db.execute(
+            `INSERT INTO storico_stati (
+                ticket_id,
+                operatore_id,
+                stato_precedente,
+                stato_nuovo
+            )
+            VALUES (?, NULL, ?, ?)`,
+            [
+                ticketId,
+                ticket.stato,
+                nuovoStato
+            ]
+        );
+
+        if (ticket.operatore_id) {
+            const messaggioNotifica =
+                esito === "confermato"
+                    ? `Il cliente ha confermato la risoluzione del ticket #${ticketId}.`
+                    : `Il cliente ha indicato che il problema del ticket #${ticketId} persiste.`;
+
+            await createNotification({
+                utenteId:
+                    ticket.operatore_id,
+                ticketId,
+                tipo:
+                    "conferma_cliente",
+                messaggio:
+                    messaggioNotifica
+            });
+        }
+
+        return res.status(200).json({
+            message:
+                esito === "confermato"
+                    ? "Risoluzione confermata. Il ticket è stato chiuso."
+                    : "Segnalazione ricevuta. Il ticket è tornato in lavorazione.",
+            ticket: {
+                id: ticketId,
+                stato: nuovoStato
+            }
+        });
+    } catch (error) {
+        console.error(
+            "Errore conferma risoluzione:",
+            error
+        );
+
+        return res.status(500).json({
+            message:
+                "Errore interno del server"
+        });
+    }
+}
 
 async function updateTicketManagement(req, res) {
     try {
@@ -721,9 +936,14 @@ async function updateTicketManagement(req, res) {
         const {
             copertura,
             costo,
-            priorita
+            priorita,
+            shipping_fee,
+            articoli
         } = req.body;
 
+
+        const aggiornaCommerciale =
+            Array.isArray(articoli);
         const copertureConsentite = [
             "da_valutare",
             "in_garanzia",
@@ -781,6 +1001,125 @@ async function updateTicketManagement(req, res) {
                 message: "Costo non valido"
             });
         }
+        const shippingFeeNormalizzato =
+            shipping_fee === undefined
+                ? null
+                : Number(shipping_fee);
+
+        if (
+            shippingFeeNormalizzato !== null &&
+            (
+                !Number.isFinite(
+                    shippingFeeNormalizzato
+                ) ||
+                shippingFeeNormalizzato < 0
+            )
+        ) {
+            return res.status(400).json({
+                message:
+                    "Costo di spedizione non valido"
+            });
+        }
+
+        const articoliNormalizzati = [];
+
+        if (aggiornaCommerciale) {
+            if (articoli.length > 50) {
+                return res.status(400).json({
+                    message:
+                        "Puoi inserire al massimo 50 articoli"
+                });
+            }
+
+            for (const articolo of articoli) {
+                const codiceArticolo =
+                    typeof articolo.codice_articolo ===
+                        "string"
+                        ? articolo.codice_articolo.trim()
+                        : "";
+
+                const descrizioneArticolo =
+                    typeof articolo.descrizione_articolo ===
+                        "string"
+                        ? articolo.descrizione_articolo.trim()
+                        : "";
+
+                const costoArticolo =
+                    Number(articolo.costo_articolo);
+
+                const quantita =
+                    Number(articolo.quantita);
+
+                const tempoConsegna =
+                    typeof articolo.estimated_lead_time ===
+                        "string"
+                        ? articolo.estimated_lead_time.trim()
+                        : "";
+
+                if (
+                    !codiceArticolo ||
+                    codiceArticolo.length > 100
+                ) {
+                    return res.status(400).json({
+                        message:
+                            "Inserisci un codice articolo valido"
+                    });
+                }
+
+                if (
+                    !descrizioneArticolo ||
+                    descrizioneArticolo.length > 500
+                ) {
+                    return res.status(400).json({
+                        message:
+                            "Inserisci una descrizione valida per ogni articolo"
+                    });
+                }
+
+                if (
+                    !Number.isFinite(costoArticolo) ||
+                    costoArticolo < 0
+                ) {
+                    return res.status(400).json({
+                        message:
+                            "Il costo di un articolo non è valido"
+                    });
+                }
+
+                if (
+                    !Number.isInteger(quantita) ||
+                    quantita < 1
+                ) {
+                    return res.status(400).json({
+                        message:
+                            "La quantità deve essere un numero intero maggiore di zero"
+                    });
+                }
+
+                if (tempoConsegna.length > 150) {
+                    return res.status(400).json({
+                        message:
+                            "Il tempo di consegna è troppo lungo"
+                    });
+                }
+
+                articoliNormalizzati.push({
+                    codice_articolo:
+                        codiceArticolo,
+
+                    descrizione_articolo:
+                        descrizioneArticolo,
+
+                    costo_articolo:
+                        costoArticolo,
+
+                    quantita,
+
+                    estimated_lead_time:
+                        tempoConsegna || null
+                });
+            }
+        }
 
         const [ticketTrovati] = await db.execute(
             `SELECT id, utente_id
@@ -797,19 +1136,75 @@ async function updateTicketManagement(req, res) {
 
         const ticket = ticketTrovati[0];
 
+        const totaleArticoli =
+            articoliNormalizzati.reduce(
+                (totale, articolo) =>
+                    totale +
+                    (
+                        articolo.costo_articolo *
+                        articolo.quantita
+                    ),
+                0
+            );
+
+        const costoDaSalvare =
+            aggiornaCommerciale
+                ? totaleArticoli +
+                (shippingFeeNormalizzato || 0)
+                : costoNormalizzato;
+
         await db.execute(
             `UPDATE ticket
-             SET copertura = ?,
-                 costo = ?,
-                 priorita = ?
-             WHERE id = ?`,
+     SET
+        copertura = ?,
+        costo = ?,
+        priorita = ?,
+        shipping_fee =
+            COALESCE(?, shipping_fee)
+     WHERE id = ?`,
             [
                 copertura,
-                costoNormalizzato,
+                costoDaSalvare,
                 priorita,
+                shippingFeeNormalizzato,
                 ticketId
             ]
         );
+
+        if (aggiornaCommerciale) {
+            await db.execute(
+                `DELETE
+         FROM articoli_commerciali_ticket
+         WHERE ticket_id = ?`,
+                [ticketId]
+            );
+
+            for (
+                const articolo of
+                articoliNormalizzati
+            ) {
+                await db.execute(
+                    `INSERT INTO
+                articoli_commerciali_ticket (
+                    ticket_id,
+                    codice_articolo,
+                    descrizione_articolo,
+                    costo_articolo,
+                    quantita,
+                    estimated_lead_time
+                )
+             VALUES (?, ?, ?, ?, ?, ?)`,
+                    [
+                        ticketId,
+                        articolo.codice_articolo,
+                        articolo.descrizione_articolo,
+                        articolo.costo_articolo,
+                        articolo.quantita,
+                        articolo.estimated_lead_time
+                    ]
+                );
+            }
+        }
 
         const nomiCopertura = {
             da_valutare: "Da valutare",
@@ -825,9 +1220,9 @@ async function updateTicketManagement(req, res) {
         };
 
         const testoCosto =
-            costoNormalizzato === null
+            costoDaSalvare === null
                 ? "non ancora definito"
-                : `${costoNormalizzato.toFixed(2)} euro`;
+                : `${costoDaSalvare.toFixed(2)} euro`;
 
         await createNotification({
             utenteId: ticket.utente_id,
@@ -847,7 +1242,11 @@ async function updateTicketManagement(req, res) {
             ticket: {
                 id: ticketId,
                 copertura,
-                costo: costoNormalizzato,
+                costo: costoDaSalvare,
+                shipping_fee:
+                    shippingFeeNormalizzato,
+                articoli:
+                    articoliNormalizzati,
                 priorita
             }
         });
@@ -868,24 +1267,24 @@ async function assignTicket(req, res) {
         const ticketId = Number(req.params.id);
         const operatoreId = Number(req.body.operatore_id);
         const utenteCorrente =
-    req.session.utente;
+            req.session.utente;
 
-const [gestori] = await db.execute(
-    `SELECT id
+        const [gestori] = await db.execute(
+            `SELECT id
      FROM utenti
      WHERE id = ?
        AND ruolo = 'operatore'
        AND puo_gestire_operatori = TRUE
        AND attivo = TRUE`,
-    [utenteCorrente.id]
-);
+            [utenteCorrente.id]
+        );
 
-if (gestori.length === 0) {
-    return res.status(403).json({
-        message:
-            "Solamente il Main Operator può assegnare i ticket"
-    });
-}
+        if (gestori.length === 0) {
+            return res.status(403).json({
+                message:
+                    "Solamente il Main Operator può assegnare i ticket"
+            });
+        }
 
         if (!Number.isInteger(ticketId) || ticketId <= 0) {
             return res.status(400).json({
@@ -925,8 +1324,8 @@ if (gestori.length === 0) {
 
         // Controlliamo che l'utente scelto
         // sia realmente un operatore.
-      const [operatori] = await db.execute(
-    `SELECT
+        const [operatori] = await db.execute(
+            `SELECT
         id,
         nome,
         cognome,
@@ -938,20 +1337,20 @@ if (gestori.length === 0) {
        AND ruolo = 'operatore'
        AND tipo_operatore = 'after_sales'
        AND attivo = TRUE`,
-    [operatoreId]
-);
+            [operatoreId]
+        );
 
         if (operatori.length === 0) {
             return res.status(400).json({
-               message:
-    "Il ticket può essere assegnato solamente a un operatore After Sales"
+                message:
+                    "Il ticket può essere assegnato solamente a un operatore After Sales"
             });
         }
 
-     if (
-    Number(ticket.operatore_id) ===
-    operatoreId
-) {
+        if (
+            Number(ticket.operatore_id) ===
+            operatoreId
+        ) {
             return res.status(400).json({
                 message:
                     "Il ticket è già assegnato a questo operatore"
@@ -1064,6 +1463,24 @@ async function updateTicketBoat(req, res) {
             });
         }
 
+        if (utente.ruolo === "tecnico") {
+            const [consultazioni] = await db.execute(
+                `SELECT id
+                 FROM consultazioni_ticket
+                 WHERE ticket_id = ?
+                   AND consulente_id = ?
+                 LIMIT 1`,
+                [ticketId, utente.id]
+            );
+
+            if (consultazioni.length === 0) {
+                return res.status(403).json({
+                    message:
+                        "Puoi modificare solamente i ticket per i quali hai ricevuto una consultazione"
+                });
+            }
+        }
+
         const [barche] =
             await db.execute(
                 `SELECT
@@ -1119,6 +1536,7 @@ module.exports = {
     getTickets,
     getTicketById,
     updateTicketStatus,
+    updateCustomerResolution,
     updateTicketManagement,
     assignTicket,
     updateTicketBoat

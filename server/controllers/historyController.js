@@ -42,6 +42,24 @@ async function getTicketHistory(req, res) {
             });
         }
 
+        if (utente.ruolo === "tecnico") {
+            const [consultazioni] = await db.execute(
+                `SELECT id
+                 FROM consultazioni_ticket
+                 WHERE ticket_id = ?
+                   AND consulente_id = ?
+                 LIMIT 1`,
+                [ticketId, utente.id]
+            );
+
+            if (consultazioni.length === 0) {
+                return res.status(403).json({
+                    message:
+                        "Puoi visualizzare solamente lo storico dei ticket per i quali hai ricevuto una consultazione"
+                });
+            }
+        }
+
         const [storico] = await db.execute(
             `SELECT
                 s.id,

@@ -136,3 +136,7 @@ dist
 .pnp.*
 # Documenti caricati dagli operatori
 server/uploads/
+
+# File di verifica/backup non destinati al repository
+progetto-verifica.zip
+database/schema-old.sql

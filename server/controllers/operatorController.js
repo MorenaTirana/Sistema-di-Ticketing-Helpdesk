@@ -47,9 +47,9 @@ async function getOperators(req, res) {
                  LEFT JOIN consultazioni_ticket AS ct
                     ON ct.consulente_id = u.id
                     AND ct.stato <> 'completata'
-                 WHERE u.ruolo = 'tecnico'
-  AND u.tipo_operatore = 'consulente'
+                 WHERE u.ruolo <> 'utente'
   AND u.attivo = TRUE
+  AND u.id <> ?
                  GROUP BY
                     u.id,
                     u.nome,
@@ -60,7 +60,8 @@ async function getOperators(req, res) {
                  ORDER BY
                     u.funzione ASC,
                     u.cognome ASC,
-                    u.nome ASC`
+                    u.nome ASC`,
+                [req.session.utente.id]
             );
 
         return res.status(200).json({

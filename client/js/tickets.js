@@ -1,8 +1,39 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const ticketList =
     document.getElementById("ticketList");
 
 const message =
     document.getElementById("message");
+
+const ticketSearch =
+    document.getElementById("ticketSearch");
+
+const statusFilter =
+    document.getElementById("statusFilter");
+
+const priorityFilter =
+    document.getElementById("priorityFilter");
+
+const categoryFilter =
+    document.getElementById("categoryFilter");
+
+const operatorFilter =
+    document.getElementById("operatorFilter");
+
+const resetFilters =
+    document.getElementById("resetFilters");
+
+const ticketResultCount =
+    document.getElementById("ticketResultCount");
+
+let allTickets = [];
 
 const categorie = {
     problema_tecnico: "Problema tecnico",
@@ -176,6 +207,137 @@ function createTicketPreview(ticket) {
     preview.appendChild(placeholder);
 
     return preview;
+}
+
+function normalizeText(value) {
+    return String(value ?? "")
+        .toLocaleLowerCase("it-IT")
+        .trim();
+}
+
+function populateOperatorFilter(tickets) {
+    const operators = new Map();
+
+    tickets.forEach((ticket) => {
+        if (!ticket.operatore_id) {
+            return;
+        }
+
+        const fullName =
+            `${ticket.operatore_nome ?? ""} ` +
+            `${ticket.operatore_cognome ?? ""}`;
+
+        operators.set(
+            String(ticket.operatore_id),
+            fullName.trim() ||
+            `Operatore ${ticket.operatore_id}`
+        );
+    });
+
+    [...operators.entries()]
+        .sort((first, second) =>
+            first[1].localeCompare(second[1], "it")
+        )
+        .forEach(([id, name]) => {
+            const option =
+                document.createElement("option");
+
+            option.value = id;
+            option.textContent = name;
+
+            operatorFilter.appendChild(option);
+        });
+}
+
+function applyTicketFilters() {
+    const searchValue =
+        normalizeText(ticketSearch.value);
+
+    const statusValue =
+        statusFilter.value;
+
+    const priorityValue =
+        priorityFilter.value;
+
+    const categoryValue =
+        categoryFilter.value;
+
+    const operatorValue =
+        operatorFilter.value;
+
+    const filteredTickets =
+        allTickets.filter((ticket) => {
+            const searchableText =
+                normalizeText([
+                    ticket.titolo,
+                    ticket.barca_modello,
+                    ticket.barca_matricola,
+                    ticket.utente_nome,
+                    ticket.utente_cognome
+                ].join(" "));
+
+            const isTicketNumber =
+                /^\d+$/.test(searchValue);
+
+            const matchesSearch =
+                !searchValue ||
+                (
+                    isTicketNumber
+                        ? String(ticket.id) === searchValue
+                        : searchableText.includes(searchValue)
+                );
+
+            const matchesStatus =
+                !statusValue ||
+                ticket.stato === statusValue;
+
+            const matchesPriority =
+                !priorityValue ||
+                ticket.priorita === priorityValue;
+
+            const matchesCategory =
+                !categoryValue ||
+                ticket.categoria === categoryValue;
+
+            let matchesOperator = true;
+
+            if (operatorValue === "non_assegnato") {
+                matchesOperator =
+                    !ticket.operatore_id;
+            } else if (operatorValue) {
+                matchesOperator =
+                    String(ticket.operatore_id) ===
+                    operatorValue;
+            }
+
+            return (
+                matchesSearch &&
+                matchesStatus &&
+                matchesPriority &&
+                matchesCategory &&
+                matchesOperator
+            );
+        });
+
+    const numberOfTickets =
+        filteredTickets.length;
+
+    ticketResultCount.textContent =
+        numberOfTickets === 1
+            ? "1 ticket trovato"
+            : `${numberOfTickets} ticket trovati`;
+
+    showTickets(filteredTickets);
+}
+
+function clearTicketFilters() {
+    ticketSearch.value = "";
+    statusFilter.value = "";
+    priorityFilter.value = "";
+    categoryFilter.value = "";
+    operatorFilter.value = "";
+
+    applyTicketFilters();
 }
 
 function showTickets(tickets) {
@@ -436,7 +598,7 @@ function showMyConsultations(consultations) {
         ticketNumber.textContent =
             `Ticket #${consultation.ticket_id}`;
 
-        
+
         heading.appendChild(ticketNumber);
 
         const ticketTitle =
@@ -453,32 +615,32 @@ function showMyConsultations(consultations) {
             consultation.richiesta;
 
         const requester =
-    document.createElement("small");
+            document.createElement("small");
 
-requester.className =
-    "consultation-dashboard-requester";
+        requester.className =
+            "consultation-dashboard-requester";
 
-const requesterLabel =
-    document.createElement("span");
+        const requesterLabel =
+            document.createElement("span");
 
-requesterLabel.className =
-    "consultation-dashboard-requester-label";
+        requesterLabel.className =
+            "consultation-dashboard-requester-label";
 
-requesterLabel.textContent =
-    "Richiesta da: ";
+        requesterLabel.textContent =
+            "Richiesta da: ";
 
-const requesterName =
-    document.createElement("strong");
+        const requesterName =
+            document.createElement("strong");
 
-requesterName.className =
-    "consultation-dashboard-requester-name";
+        requesterName.className =
+            "consultation-dashboard-requester-name";
 
-requesterName.textContent =
-    `${consultation.richiedente_nome} ` +
-    `${consultation.richiedente_cognome}`;
+        requesterName.textContent =
+            `${consultation.richiedente_nome} ` +
+            `${consultation.richiedente_cognome}`;
 
-requester.appendChild(requesterLabel);
-requester.appendChild(requesterName);
+        requester.appendChild(requesterLabel);
+        requester.appendChild(requesterName);
 
         card.appendChild(heading);
         card.appendChild(ticketTitle);
@@ -557,17 +719,44 @@ async function loadTickets() {
             );
         }
 
-        showTickets(risultato.ticket);
+        allTickets =
+            Array.isArray(risultato.ticket)
+                ? risultato.ticket
+                : [];
+
+        populateOperatorFilter(allTickets);
+        applyTicketFilters();
     } catch (error) {
         ticketList.innerHTML = "";
 
         message.textContent =
-            error.message;
+            messaggioErrore(error);
 
         message.className =
             "form-message error-message";
     }
 }
 
+ticketSearch.addEventListener(
+    "input",
+    applyTicketFilters
+);
+
+[
+    statusFilter,
+    priorityFilter,
+    categoryFilter,
+    operatorFilter
+].forEach((filter) => {
+    filter.addEventListener(
+        "change",
+        applyTicketFilters
+    );
+});
+
+resetFilters.addEventListener(
+    "click",
+    clearTicketFilters
+);
 loadMyConsultations();
 loadTickets();

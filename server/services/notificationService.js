@@ -8,6 +8,7 @@ const tipiConsentiti = [
     "commento_operatore",
     "feedback_operatore",
     "feedback_cliente",
+    "conferma_cliente",
     "stato_modificato",
     "assegnazione",
     "gestione_aggiornata",

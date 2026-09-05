@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const parametri =
     new URLSearchParams(window.location.search);
 
@@ -92,7 +100,7 @@ async function loadAttachment() {
         attachmentActions.hidden = false;
     } catch (error) {
         attachmentMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         attachmentMessage.className =
             "form-message error-message";
@@ -130,7 +138,7 @@ deleteAttachmentButton.addEventListener(
                 `ticket-detail.html?id=${ticketId}`;
         } catch (error) {
             attachmentMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             attachmentMessage.className =
                 "form-message error-message";

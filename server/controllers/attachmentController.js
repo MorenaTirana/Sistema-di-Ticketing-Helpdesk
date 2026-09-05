@@ -49,6 +49,26 @@ async function checkTicketAccess(
         };
     }
 
+    if (utente.ruolo === "tecnico") {
+        const [consultazioni] = await db.execute(
+            `SELECT id
+             FROM consultazioni_ticket
+             WHERE ticket_id = ?
+               AND consulente_id = ?
+             LIMIT 1`,
+            [ticketId, utente.id]
+        );
+
+        if (consultazioni.length === 0) {
+            return {
+                allowed: false,
+                status: 403,
+                message:
+                    "Puoi accedere solamente ai ticket per i quali hai ricevuto una consultazione"
+            };
+        }
+    }
+
     return {
         allowed: true,
         ticket: ticket[0]

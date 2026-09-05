@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const boatsList =
     document.getElementById("boatsList");
 
@@ -755,7 +763,7 @@ async function loadBoatsAndTickets() {
         boatsList.innerHTML = "";
 
         boatMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         boatMessage.className =
             "form-message error-message";
@@ -959,7 +967,7 @@ boatForm.addEventListener(
             await loadBoatsAndTickets();
         } catch (error) {
             boatFormMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             boatFormMessage.className =
                 "form-message error-message";
@@ -997,7 +1005,7 @@ logoutButton.addEventListener(
                 "login.html";
         } catch (error) {
             boatMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             boatMessage.className =
                 "form-message error-message";
@@ -1038,7 +1046,7 @@ if (
         boatsList.innerHTML = "";
 
         boatMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         boatMessage.className =
             "form-message error-message";

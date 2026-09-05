@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const operatorsList =
     document.getElementById("operatorsList");
 
@@ -406,7 +414,7 @@ async function loadOperators() {
         operatorsList.innerHTML = "";
 
         operatorsMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         operatorsMessage.className =
             "form-message error-message";
@@ -525,7 +533,7 @@ operatorForm.addEventListener(
             await loadOperators();
         } catch (error) {
             operatorFormMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             operatorFormMessage.className =
                 "form-message error-message";
@@ -620,7 +628,7 @@ operatorsList.addEventListener(
             await loadOperators();
         } catch (error) {
             operatorsMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             operatorsMessage.className =
                 "form-message error-message";
@@ -655,7 +663,7 @@ logoutButton.addEventListener(
                 "login.html";
         } catch (error) {
             operatorsMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             operatorsMessage.className =
                 "form-message error-message";
@@ -675,7 +683,7 @@ async function initializePage() {
         await loadOperators();
     } catch (error) {
         operatorsMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         operatorsMessage.className =
             "form-message error-message";

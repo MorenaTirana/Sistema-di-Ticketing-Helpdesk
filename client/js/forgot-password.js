@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const forgotPasswordForm =
     document.getElementById(
         "forgotPasswordForm"
@@ -75,7 +83,7 @@ forgotPasswordForm.addEventListener(
             forgotPasswordForm.reset();
         } catch (error) {
             message.textContent =
-                error.message;
+                messaggioErrore(error);
 
             message.className =
                 "form-message error-message";

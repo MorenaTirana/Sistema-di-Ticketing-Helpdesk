@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const ticketNumber = document.getElementById("ticketNumber");
 const ticketStatus = document.getElementById("ticketStatus");
 const ticketTitle = document.getElementById("ticketTitle");
@@ -25,16 +33,39 @@ const boatWarrantyStatus = document.getElementById("boatWarrantyStatus");
 const ticketDetail = document.getElementById("ticketDetail");
 const message = document.getElementById("message");
 const commentsSection = document.getElementById("commentsSection");
+const customerResolutionSection =
+    document.getElementById(
+        "customerResolutionSection"
+    );
+
+const customerResolutionForm =
+    document.getElementById(
+        "customerResolutionForm"
+    );
+
+const customerResolutionMessage =
+    document.getElementById(
+        "customerResolutionMessage"
+    );
+
 const customerFeedbackList =
     document.getElementById(
         "customerFeedbackList"
     );
 
+    const customerFeedbackColumn =
+    document.getElementById(
+        "customerFeedbackColumn"
+    );
 const operatorFeedbackList =
     document.getElementById(
         "operatorFeedbackList"
     );
 
+const operatorFeedbackColumn =
+    document.getElementById(
+        "operatorFeedbackColumn"
+    );
 const feedbackFormTitle =
     document.getElementById(
         "feedbackFormTitle"
@@ -47,6 +78,8 @@ const historyList = document.getElementById("historyList");
 const historyMessage = document.getElementById("historyMessage");
 const documentsSection = document.getElementById("documentsSection");
 const ticketDocumentsList = document.getElementById("ticketDocumentsList");
+const operatorDocumentsColumn =
+    document.getElementById("operatorDocumentsColumn");
 const clientDocumentsList = document.getElementById("clientDocumentsList");
 const clientDocumentsForm = document.getElementById("clientDocumentsForm");
 const clientDocuments = document.getElementById("clientDocuments");
@@ -121,6 +154,11 @@ const operatorActions = document.getElementById("operatorActions");
 const statusForm = document.getElementById("statusForm");
 const statusSelect = document.getElementById("statusSelect");
 const statusMessage = document.getElementById("statusMessage");
+const coverageForm =
+    document.getElementById("coverageForm");
+
+const coverageMessage =
+    document.getElementById("coverageMessage");
 const managementForm = document.getElementById("managementForm");
 const coverageSelect = document.getElementById("coverageSelect");
 const prioritySelect = document.getElementById("prioritySelect");
@@ -179,6 +217,8 @@ const commercialCostsSection =
         "commercialCostsSection"
     );
 
+const communicationsList =
+    document.getElementById("communicationsList");
 const causaliRic = {
     garanzia: "Materiali in garanzia",
     trasferta: "Materiali per trasferta",
@@ -295,34 +335,46 @@ async function loadComments(ticketId) {
             throw new Error(risultato.message);
         }
 
-        const commenti = Array.isArray(
+        const comunicazioni = Array.isArray(
             risultato.commenti
         )
-            ? risultato.commenti
+            ? [...risultato.commenti].sort(
+                (prima, seconda) =>
+                    new Date(prima.created_at) -
+                    new Date(seconda.created_at)
+            )
             : [];
 
-        const feedbackCliente = commenti.filter(
-            (commento) =>
-                commento.tipo_feedback === "cliente"
-        );
+        if (comunicazioni.length === 0) {
+            communicationsList.innerHTML = `
+                <p class="communications-empty">
+                    Non sono ancora presenti comunicazioni.
+                </p>
+            `;
 
-        const feedbackOperatore = commenti.filter(
-            (commento) =>
-                commento.tipo_feedback === "operatore"
-        );
+            return;
+        }
 
-        customerFeedbackList.innerHTML =
-            feedbackCliente
-                .map(createFeedbackCard)
-                .join("");
+        communicationsList.innerHTML =
+            comunicazioni
+                .map((commento) => {
+                    const tipo =
+                        commento.tipo_feedback === "cliente"
+                            ? "customer-message"
+                            : "operator-message";
 
-        operatorFeedbackList.innerHTML =
-            feedbackOperatore
-                .map(createFeedbackCard)
+                    return `
+                        <div class="communication-row ${tipo}">
+                            ${createFeedbackCard(commento)}
+                        </div>
+                    `;
+                })
                 .join("");
     } catch (error) {
+        communicationsList.innerHTML = "";
+
         commentsMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         commentsMessage.className =
             "form-message error-message";
@@ -369,8 +421,7 @@ async function loadOperators(
             opzione.value = operatore.id;
 
             opzione.textContent =
-                opzione.textContent =
-                `${operatore.nome} ${operatore.cognome}`;;
+                `${operatore.nome} ${operatore.cognome}`;
 
             operatorSelect.appendChild(opzione);
         });
@@ -416,13 +467,13 @@ async function loadOperators(
         });
     } catch (error) {
         assignmentMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         assignmentMessage.className =
             "form-message error-message";
 
         consultationMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         consultationMessage.className =
             "form-message error-message";
@@ -721,7 +772,7 @@ ${moduloRisposta}
             }).join("");
     } catch (error) {
         consultationMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         consultationMessage.className =
             "form-message error-message";
@@ -885,142 +936,180 @@ async function loadDocuments(ticketId, ruoloUtente) {
             throw new Error(risultato.message);
         }
 
-        if (risultato.documenti.length === 0) {
-            ticketDocumentsList.innerHTML = "";
-            return;
+       operatorDocumentsColumn.hidden =
+    risultato.documenti.length === 0;
+
+if (risultato.documenti.length === 0) {
+    ticketDocumentsList.innerHTML = "";
+    return;
+}
+operatorDocumentsColumn.hidden = false;
+        const documentiOrdinati =
+    [...risultato.documenti].sort(
+        (primo, secondo) => {
+            const dataPrimo =
+                primo.created_at ||
+                primo.data_documento;
+
+            const dataSecondo =
+                secondo.created_at ||
+                secondo.data_documento;
+
+            return (
+                new Date(dataPrimo) -
+                new Date(dataSecondo)
+            );
         }
+    );
 
-        ticketDocumentsList.innerHTML =
-            risultato.documenti
-                .map((documento) => {
-                    const visibileCliente =
-                        Boolean(documento.visibile_cliente);
+ticketDocumentsList.innerHTML =
+    documentiOrdinati
+        .map((documento) => {
+            const numeroCompleto = [
+                documento.serie_documento,
+                documento.numero_documento
+            ]
+                .filter(Boolean)
+                .join(" ");
 
-                    const etichettaVisibilita =
-                        visibileCliente
-                            ? "Visibile al cliente"
-                            : "Interno";
+            const titoloDocumento =
+                numeroCompleto ||
+                documento.nome_file_originale ||
+                "Documento";
 
-                    const classeVisibilita =
-                        visibileCliente
-                            ? "public-badge"
-                            : "internal-badge";
+            const operatore =
+                documento.operatore_nome
+                    ? `${documento.operatore_nome} ${documento.operatore_cognome}`
+                    : "Operatore non disponibile";
 
-                    const numeroCompleto = [
-                        documento.serie_documento,
-                        documento.numero_documento
-                    ]
-                        .filter(Boolean)
-                        .join(" ");
+            const dataDocumento =
+                documento.data_documento
+                    ? formatDate(documento.data_documento)
+                    : formatDate(documento.created_at);
 
-                    const operatore =
-                        documento.operatore_nome
-                            ? `${documento.operatore_nome} ${documento.operatore_cognome}`
-                            : "Operatore non disponibile";
+            const tipoDocumento =
+                tipiDocumento[documento.tipo] ||
+                documento.tipo ||
+                "Documento";
 
-                    const dataDocumento =
-                        documento.data_documento
-                            ? formatDate(
-                                documento.data_documento
-                            )
-                            : "Non indicata";
+            const noteHtml =
+                documento.note
+                    ? `
+                        <div class="document-detail-item">
+                            <dt>Note</dt>
+                            <dd>
+                                ${escapeHtml(documento.note)}
+                            </dd>
+                        </div>
+                    `
+                    : "";
 
-                    const noteHtml =
-                        documento.note
-                            ? `
-                                <div>
-                                    <dt>Note</dt>
-                                    <dd>
-                                        ${escapeHtml(documento.note)}
-                                    </dd>
-                                </div>
-                            `
-                            : "";
+            const visibilitaHtml =
+                ruoloUtente !== "utente"
+                    ? `
+                        <span class="${
+                            documento.visibile_cliente
+                                ? "public-badge"
+                                : "internal-badge"
+                        }">
+                            ${
+                                documento.visibile_cliente
+                                    ? "Visibile al cliente"
+                                    : "Documento interno"
+                            }
+                        </span>
+                    `
+                    : "";
 
-                    return `
-                        <article class="document-card">
-                            <div class="document-card-header">
-                                <div>
-                                    <span class="document-type">
-                                        ${escapeHtml(
-                        tipiDocumento[
-                        documento.tipo
-                        ] || documento.tipo
-                    )}
-                                    </span>
+            return `
+                <details class="document-timeline-card">
+                    <summary class="document-timeline-summary">
+                        <div class="document-summary-main">
+                            <span class="document-summary-type">
+                                ${escapeHtml(tipoDocumento)}
+                            </span>
 
-                                    <h3>
-                                        ${numeroCompleto
-                            ? escapeHtml(
-                                numeroCompleto
-                            )
-                            : "Senza numero"
-                        }
-                                    </h3>
-                                </div>
+                            <strong>
+                                ${escapeHtml(titoloDocumento)}
+                            </strong>
+                        </div>
 
-                                <span class="${classeVisibilita}">
-                                    ${etichettaVisibilita}
-                                </span>
+                        <div class="document-summary-right">
+                            <time>
+                                ${dataDocumento}
+                            </time>
+
+                            ${visibilitaHtml}
+
+                            <span
+                                class="document-summary-chevron"
+                                aria-hidden="true"
+                            >
+                                ▼
+                            </span>
+                        </div>
+                    </summary>
+
+                    <div class="document-timeline-content">
+                        <dl class="document-information">
+                            <div class="document-detail-item">
+                                <dt>Nome file</dt>
+                                <dd>
+                                    ${escapeHtml(
+                                        documento.nome_file_originale
+                                    )}
+                                </dd>
                             </div>
 
-                            <dl class="document-information">
-                                <div>
-                                    <dt>Data documento</dt>
-                                    <dd>${dataDocumento}</dd>
-                                </div>
-
-                                <div>
-                                    <dt>Nome file</dt>
-                                    <dd>
-                                        ${escapeHtml(
-                            documento.nome_file_originale
-                        )}
-                                    </dd>
-                                </div>
-
-                                <div>
-                                    <dt>Dimensione</dt>
-                                    <dd>
-                                        ${formatFileSize(
-                            documento.dimensione_file
-                        )}
-                                    </dd>
-                                </div>
-
-                                <div>
-                                    <dt>Caricato da</dt>
-                                    <dd>${escapeHtml(operatore)}</dd>
-                                </div>
-
-                                ${noteHtml}
-                            </dl>
-
-                            <div class="document-actions">
-                                <a
-                                    class="button button-small"
-                                    href="/api/documents/${documento.id}/view"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-                                    Visualizza
-                                </a>
-
-                                <a
-                                    class="button button-primary button-small"
-                                    href="/api/documents/${documento.id}/download"
-                                >
-                                    Scarica
-                                </a>
+                            <div class="document-detail-item">
+                                <dt>Caricato da</dt>
+                                <dd>
+                                    ${escapeHtml(operatore)}
+                                </dd>
                             </div>
-                        </article>
-                    `;
-                })
-                .join("");
+
+                            ${noteHtml}
+                        </dl>
+
+                        <div class="document-actions icon-document-actions">
+                            <a
+                                class="attachment-icon-button"
+                                href="/api/documents/${documento.id}/view"
+                                target="_blank"
+                                rel="noopener"
+                                aria-label="Visualizza documento"
+                                title="Visualizza"
+                            >
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path
+                                        d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"
+                                    />
+                                    <circle cx="12" cy="12" r="2.8" />
+                                </svg>
+                            </a>
+
+                            <a
+                                class="attachment-icon-button"
+                                href="/api/documents/${documento.id}/download"
+                                aria-label="Scarica documento"
+                                title="Scarica"
+                            >
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 3v12" />
+                                    <path d="m7 10 5 5 5-5" />
+                                    <path d="M5 20h14" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </details>
+            `;
+        })
+        .join("");
     } catch (error) {
         ticketDocumentsList.innerHTML = "";
 
-        documentsMessage.textContent = error.message;
+        documentsMessage.textContent = messaggioErrore(error);
 
         documentsMessage.className =
             "form-message error-message";
@@ -1085,7 +1174,7 @@ async function loadAttachments(ticketId) {
         `;
 
         clientDocumentsMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         clientDocumentsMessage.className =
             "form-message error-message";
@@ -1269,7 +1358,7 @@ async function gestisciEliminazioneAllegato(event) {
         await loadAttachments(currentTicketId);
     } catch (error) {
         clientDocumentsMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         clientDocumentsMessage.className =
             "form-message error-message";
@@ -1369,7 +1458,7 @@ additionalAttachmentsForm.addEventListener(
             await loadAttachments(currentTicketId);
         } catch (error) {
             attachmentsMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             attachmentsMessage.className =
                 "form-message error-message";
@@ -1452,7 +1541,7 @@ clientDocumentsForm.addEventListener(
             await loadAttachments(currentTicketId);
         } catch (error) {
             clientDocumentsMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             clientDocumentsMessage.className =
                 "form-message error-message";
@@ -1501,7 +1590,7 @@ async function loadCustomerBoats(customerId) {
         });
     } catch (error) {
         ticketBoatAssignmentMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         ticketBoatAssignmentMessage.className =
             "form-message error-message";
@@ -1551,6 +1640,16 @@ async function loadTicketDetail() {
         const userResult =
             await userResponse.json();
 
+        const isTicketCustomer =
+            userResponse.ok &&
+            userResult.utente.ruolo === "utente";
+
+        customerResolutionSection.hidden =
+            !(
+                isTicketCustomer &&
+                ticket.stato === "risolto"
+            );
+
         if (
             userResponse.ok &&
             userResult.utente.ruolo === "operatore"
@@ -1567,7 +1666,31 @@ async function loadTicketDetail() {
                 ticket.copertura ?? "da_valutare";
             ticketCostInput.value =
                 ticket.costo ?? "";
+            shippingFeeInput.value =
+                ticket.shipping_fee ?? 0;
 
+            commercialItemsList.innerHTML = "";
+
+            const articoliSalvati =
+                Array.isArray(
+                    ticket.articoli_commerciali
+                )
+                    ? ticket.articoli_commerciali
+                    : [];
+
+            if (articoliSalvati.length > 0) {
+                articoliSalvati.forEach(
+                    (articolo) => {
+                        addCommercialItemRow(
+                            articolo
+                        );
+                    }
+                );
+            } else {
+                addCommercialItemRow();
+            }
+
+            calculateCommercialTotal();
             await loadOperators(ticket.operatore_id);
             await loadRics(ticket.id);
         }
@@ -1713,7 +1836,7 @@ async function loadTicketDetail() {
         commentsSection.hidden = true;
 
         message.textContent =
-            error.message;
+            messaggioErrore(error);
 
         message.className =
             "form-message error-message";
@@ -1766,7 +1889,7 @@ async function editFeedback(button) {
         await loadComments(currentTicketId);
     } catch (error) {
         commentsMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         commentsMessage.className =
             "form-message error-message";
@@ -1805,7 +1928,7 @@ async function deleteFeedback(button) {
         await loadComments(currentTicketId);
     } catch (error) {
         commentsMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         commentsMessage.className =
             "form-message error-message";
@@ -1866,10 +1989,102 @@ commentForm.addEventListener("submit", async (event) => {
 
         await loadComments(currentTicketId);
     } catch (error) {
-        commentsMessage.textContent = error.message;
+        commentsMessage.textContent = messaggioErrore(error);
         commentsMessage.className = "form-message error-message";
     }
 });
+
+customerResolutionForm.addEventListener(
+    "submit",
+    async (event) => {
+        event.preventDefault();
+
+        const selectedButton =
+            event.submitter;
+
+        if (!selectedButton) {
+            return;
+        }
+
+        const esito =
+            selectedButton.value;
+
+        const conferma =
+            esito === "confermato"
+                ? window.confirm(
+                    "Confermi che il problema è stato risolto?"
+                )
+                : window.confirm(
+                    "Confermi che il problema persiste?"
+                );
+
+        if (!conferma) {
+            return;
+        }
+
+        customerResolutionMessage.textContent =
+            "Aggiornamento in corso...";
+
+        customerResolutionMessage.className =
+            "form-message";
+
+        const buttons =
+            customerResolutionForm.querySelectorAll(
+                "button"
+            );
+
+        buttons.forEach((button) => {
+            button.disabled = true;
+        });
+
+        try {
+            const response =
+                await fetch(
+                    `/api/tickets/${currentTicketId}/resolution`,
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body: JSON.stringify({
+                            esito
+                        })
+                    }
+                );
+
+            const risultato =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    risultato.message ||
+                    "Impossibile aggiornare il ticket"
+                );
+            }
+
+            customerResolutionMessage.textContent =
+                risultato.message;
+
+            customerResolutionMessage.className =
+                "form-message success-message";
+
+            window.setTimeout(() => {
+                window.location.reload();
+            }, 800);
+        } catch (error) {
+            customerResolutionMessage.textContent =
+                messaggioErrore(error);
+
+            customerResolutionMessage.className =
+                "form-message error-message";
+
+            buttons.forEach((button) => {
+                button.disabled = false;
+            });
+        }
+    }
+);
 
 statusForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -1907,7 +2122,7 @@ statusForm.addEventListener("submit", async (event) => {
         statusMessage.textContent = risultato.message;
         statusMessage.className = "form-message success-message";
     } catch (error) {
-        statusMessage.textContent = error.message;
+        statusMessage.textContent = messaggioErrore(error);
         statusMessage.className = "form-message error-message";
     }
 });
@@ -2135,6 +2350,86 @@ shippingFeeInput.addEventListener(
 
 addCommercialItemRow();
 
+coverageForm.addEventListener(
+    "submit",
+    async (event) => {
+        event.preventDefault();
+
+        coverageMessage.textContent =
+            "Salvataggio in corso...";
+
+        coverageMessage.className =
+            "form-message";
+
+        const costoInserito =
+            ticketCostInput.value.trim();
+
+        try {
+            const response = await fetch(
+                `/api/tickets/${currentTicketId}/management`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        priorita:
+                            prioritySelect.value,
+
+                        copertura:
+                            coverageSelect.value,
+
+                        costo:
+                            costoInserito === ""
+                                ? null
+                                : Number(costoInserito)
+                    })
+                }
+            );
+
+            const risultato =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    risultato.message ||
+                    "Salvataggio non riuscito"
+                );
+            }
+
+            ticketPriority.textContent =
+                priorita[
+                risultato.ticket.priorita
+                ];
+
+            ticketCoverage.textContent =
+                coperture[
+                risultato.ticket.copertura
+                ];
+
+            ticketCost.textContent =
+                formatCost(
+                    risultato.ticket.costo
+                );
+
+            coverageMessage.textContent =
+                risultato.message;
+
+            coverageMessage.className =
+                "form-message success-message";
+        } catch (error) {
+            coverageMessage.textContent =
+                messaggioErrore(error);
+
+            coverageMessage.className =
+                "form-message error-message";
+        }
+    }
+);
+
 managementForm.addEventListener(
     "submit",
     async (event) => {
@@ -2184,8 +2479,13 @@ managementForm.addEventListener(
             }
             ticketPriority.textContent = priorita[risultato.ticket.priorita];
             ticketCoverage.textContent = coperture[risultato.ticket.copertura];
-            ticketCost.textContent = formatCost(
-                risultato.ticket.costo);
+            ticketCost.textContent =
+                formatCost(
+                    risultato.ticket.costo
+                );
+
+            ticketCostInput.value =
+                risultato.ticket.costo ?? "";
 
             managementMessage.textContent =
                 risultato.message;
@@ -2194,7 +2494,7 @@ managementForm.addEventListener(
                 "form-message success-message";
         } catch (error) {
             managementMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             managementMessage.className =
                 "form-message error-message";
@@ -2255,7 +2555,7 @@ assignmentForm.addEventListener(
             await loadOperators(operatore.id);
         } catch (error) {
             assignmentMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             assignmentMessage.className =
                 "form-message error-message";
@@ -2341,7 +2641,7 @@ consultationForm.addEventListener(
             );
         } catch (error) {
             consultationMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             consultationMessage.className =
                 "form-message error-message";
@@ -2500,7 +2800,7 @@ consultationList.addEventListener(
             );
         } catch (error) {
             consultationMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             consultationMessage.className =
                 "form-message error-message";
@@ -2641,7 +2941,7 @@ consultationList.addEventListener(
                 );
             } catch (error) {
                 consultationMessage.textContent =
-                    error.message;
+                    messaggioErrore(error);
 
                 consultationMessage.className =
                     "form-message error-message";
@@ -2702,7 +3002,7 @@ consultationList.addEventListener(
                 );
             } catch (error) {
                 consultationMessage.textContent =
-                    error.message;
+                    messaggioErrore(error);
 
                 consultationMessage.className =
                     "form-message error-message";
@@ -2782,7 +3082,7 @@ consultationList.addEventListener(
                 );
             } catch (error) {
                 consultationMessage.textContent =
-                    error.message;
+                    messaggioErrore(error);
 
                 consultationMessage.className =
                     "form-message error-message";
@@ -2834,7 +3134,7 @@ consultationList.addEventListener(
                 );
             } catch (error) {
                 consultationMessage.textContent =
-                    error.message;
+                    messaggioErrore(error);
 
                 consultationMessage.className =
                     "form-message error-message";
@@ -2972,7 +3272,7 @@ async function loadRics(ticketId) {
     } catch (error) {
         ricList.innerHTML = "";
 
-        ricMessage.textContent = error.message;
+        ricMessage.textContent = messaggioErrore(error);
         ricMessage.className =
             "form-message error-message";
     }
@@ -3050,7 +3350,7 @@ existingBoatForm.addEventListener(
             window.location.reload();
         } catch (error) {
             ticketBoatAssignmentMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             ticketBoatAssignmentMessage.className =
                 "form-message error-message";
@@ -3187,7 +3487,7 @@ newBoatForm.addEventListener(
             window.location.reload();
         } catch (error) {
             ticketBoatAssignmentMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             ticketBoatAssignmentMessage.className =
                 "form-message error-message";

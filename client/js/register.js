@@ -1,3 +1,11 @@
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
+}
+
 const registerForm =
     document.getElementById("registerForm");
 
@@ -139,7 +147,7 @@ registerForm.addEventListener(
             registerForm.reset();
         } catch (error) {
             message.textContent =
-                error.message;
+                messaggioErrore(error);
 
             message.className =
                 "form-message error-message";

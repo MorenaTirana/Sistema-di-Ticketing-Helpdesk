@@ -90,25 +90,25 @@ async function createConsultation(req, res) {
             });
         }
 
-        const [consulenti] = await db.execute(
-            `SELECT
+      const [consulenti] = await db.execute(
+    `SELECT
         id,
         nome,
         cognome,
         funzione
      FROM utenti
      WHERE id = ?
-       AND ruolo = 'tecnico'
-       AND tipo_operatore = 'consulente'
+       AND ruolo <> 'utente'
        AND attivo = TRUE`,
-            [consulenteId]
-        );
-        if (consulenti.length === 0) {
-            return res.status(400).json({
-                message:
-                    "L'utente selezionato non è un consulente interno attivo"
-            });
-        }
+    [consulenteId]
+);
+
+if (consulenti.length === 0) {
+    return res.status(400).json({
+        message:
+            "L'utente selezionato non è un membro attivo dello staff"
+    });
+}
 
         const [risultato] = await db.execute(
             `INSERT INTO consultazioni_ticket (
@@ -1125,9 +1125,9 @@ async function deleteAdditionalConsultationResponse(
 
         if (
             Number(risposta.autore_id) !==
-                Number(utente.id) ||
+            Number(utente.id) ||
             Number(risposta.consulente_id) !==
-                Number(utente.id)
+            Number(utente.id)
         ) {
             await connection.rollback();
 
@@ -1780,7 +1780,7 @@ module.exports = {
     respondConsultation,
     createAdditionalConsultationResponse,
     updateAdditionalConsultationResponse,
-deleteAdditionalConsultationResponse,
+    deleteAdditionalConsultationResponse,
     updateConsultation,
     deleteConsultation,
     deleteConsultationResponse,

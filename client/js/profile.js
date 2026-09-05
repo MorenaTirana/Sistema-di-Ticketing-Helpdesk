@@ -426,13 +426,21 @@ async function loadProfile() {
         return true;
     } catch (error) {
         profileMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         profileMessage.className =
             "form-message error-message";
 
         return false;
     }
+}
+
+function messaggioErrore(error) {
+    if (error instanceof TypeError) {
+        return "Impossibile contattare il server. Controlla la connessione e riprova.";
+    }
+
+    return error.message;
 }
 
 
@@ -466,7 +474,6 @@ async function loadTicketHistory() {
 
         const tickets =
             risultato.ticket ??
-            risultato.tickets ??
             [];
 
         showTicketHistory(tickets);
@@ -474,7 +481,7 @@ async function loadTicketHistory() {
         ticketHistoryList.innerHTML = "";
 
         ticketHistoryMessage.textContent =
-            error.message;
+            messaggioErrore(error);
 
         ticketHistoryMessage.className =
             "form-message error-message";
@@ -565,7 +572,7 @@ profileForm.addEventListener(
                 "form-message success-message";
         } catch (error) {
             profileMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             profileMessage.className =
                 "form-message error-message";
@@ -599,7 +606,7 @@ logoutButton.addEventListener(
                 "login.html";
         } catch (error) {
             profileMessage.textContent =
-                error.message;
+                messaggioErrore(error);
 
             profileMessage.className =
                 "form-message error-message";
