@@ -1,5 +1,12 @@
 require("dotenv").config();
 
+if (!process.env.SESSION_SECRET) {
+    console.error(
+        "Errore: la variabile SESSION_SECRET non è definita in .env"
+    );
+    process.exit(1);
+}
+
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
@@ -29,7 +36,7 @@ app.use(
         cookie: {
             httpOnly: true,
             sameSite: "lax",
-            secure: false,
+            secure: process.env.NODE_ENV === "production",
             maxAge: 2 * 60 * 60 * 1000
         }
     })
@@ -52,6 +59,19 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/boats", boatRoutes);
 app.use("/api/operators", operatorRoutes);
 
+app.use((req, res) => {
+    res.status(404).json({
+        message: "Risorsa non trovata"
+    });
+});
+
+app.use((error, req, res, next) => {
+    console.error("Errore non gestito:", error);
+
+    res.status(500).json({
+        message: "Errore interno del server"
+    });
+});
 
 
 async function startServer() {
