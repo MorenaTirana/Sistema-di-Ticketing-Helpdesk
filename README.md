@@ -120,3 +120,9 @@ Il diagramma Entità-Relazione del database e il diagramma dei casi d'uso, gener
 ## Stato del progetto
 
 Funzionante end-to-end per i tre ruoli principali (utente, operatore, tecnico). Progetto completato e pronto per la consegna (vedi `CHECKLIST_ESAME.md`).
+
+### Livello raggiunto (traccia "Sistema di Ticketing / Helpdesk")
+
+* **Livello 1** — completo: registrazione, login, apertura ticket con titolo/descrizione/categoria, elenco e dettaglio dei propri ticket, commenti, visualizzazione dello stato; l'operatore visualizza tutti i ticket, risponde e ne modifica lo stato.
+* **Livello 2** — completo: priorità, assegnazione a un operatore, storico dei cambi di stato, filtri per categoria/stato/priorità/operatore, dashboard con conteggi dei ticket, conferma della risoluzione (o segnalazione di persistenza del problema) da parte del cliente.
+* **Livello 3** — estensione implementata: caricamento e gestione di allegati (foto, video, documenti) sui ticket, con validazione di tipo e dimensione e visibilità configurabile per il cliente.
