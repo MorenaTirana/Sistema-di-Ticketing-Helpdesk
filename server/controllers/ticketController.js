@@ -929,6 +929,8 @@ async function updateCustomerResolution(req, res) {
 }
 
 async function updateTicketManagement(req, res) {
+    let connection;
+
     try {
         const ticketId = Number(req.params.id);
         const utente = req.session.utente;
@@ -1153,7 +1155,10 @@ async function updateTicketManagement(req, res) {
                 (shippingFeeNormalizzato || 0)
                 : costoNormalizzato;
 
-        await db.execute(
+        connection = await db.getConnection();
+        await connection.beginTransaction();
+
+        await connection.execute(
             `UPDATE ticket
      SET
         copertura = ?,
@@ -1172,7 +1177,7 @@ async function updateTicketManagement(req, res) {
         );
 
         if (aggiornaCommerciale) {
-            await db.execute(
+            await connection.execute(
                 `DELETE
          FROM articoli_commerciali_ticket
          WHERE ticket_id = ?`,
@@ -1183,7 +1188,7 @@ async function updateTicketManagement(req, res) {
                 const articolo of
                 articoliNormalizzati
             ) {
-                await db.execute(
+                await connection.execute(
                     `INSERT INTO
                 articoli_commerciali_ticket (
                     ticket_id,
@@ -1232,8 +1237,11 @@ async function updateTicketManagement(req, res) {
                 `Il ticket #${ticketId} è stato aggiornato: ` +
                 `priorità "${nomiPriorita[priorita]}", ` +
                 `copertura "${nomiCopertura[copertura]}", ` +
-                `costo ${testoCosto}.`
+                `costo ${testoCosto}.`,
+            connection
         });
+
+        await connection.commit();
 
         return res.status(200).json({
             message:
@@ -1251,6 +1259,10 @@ async function updateTicketManagement(req, res) {
             }
         });
     } catch (error) {
+        if (connection) {
+            await connection.rollback();
+        }
+
         console.error(
             "Errore durante l'aggiornamento della gestione:",
             error
@@ -1259,6 +1271,10 @@ async function updateTicketManagement(req, res) {
         return res.status(500).json({
             message: "Errore interno del server"
         });
+    } finally {
+        if (connection) {
+            connection.release();
+        }
     }
 }
 
