@@ -3497,3 +3497,14 @@ newBoatForm.addEventListener(
 
 
 loadTicketDetail();
+
+/*
+ * Aggiornamento periodico dei commenti/comunicazioni,
+ * per mostrare eventuali nuovi messaggi senza dover
+ * ricaricare manualmente la pagina.
+ */
+setInterval(() => {
+    if (currentTicketId) {
+        loadComments(currentTicketId);
+    }
+}, 15000);
