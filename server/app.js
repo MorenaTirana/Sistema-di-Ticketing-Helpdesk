@@ -22,6 +22,8 @@ const technicalCommunicationRoutes =
     require("./routes/technicalCommunicationRoutes");
 const internalRequestRoutes =
     require("./routes/internalRequestRoutes");
+const knowledgeBaseRoutes =
+    require("./routes/knowledgeBaseRoutes");
 const app = express();
 const PORT = process.env.PORT || 3002;
 
@@ -58,6 +60,7 @@ app.use("/api/documents", documentRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/boats", boatRoutes);
 app.use("/api/operators", operatorRoutes);
+app.use("/api/knowledge-base", knowledgeBaseRoutes);
 
 app.use((req, res) => {
     res.status(404).json({

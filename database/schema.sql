@@ -1575,6 +1575,29 @@ ALTER TABLE `valutazioni_tecniche`
 ALTER TABLE `workflow_pratiche`
   ADD CONSTRAINT `fk_workflow_operatore` FOREIGN KEY (`aggiornato_da`) REFERENCES `utenti` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_workflow_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE;
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `articoli_knowledge_base`
+--
+
+DROP TABLE IF EXISTS `articoli_knowledge_base`;
+CREATE TABLE `articoli_knowledge_base` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `titolo` varchar(200) NOT NULL,
+  `categoria` varchar(100) DEFAULT NULL,
+  `contenuto` text NOT NULL,
+  `pubblicato` tinyint(1) NOT NULL DEFAULT 1,
+  `creato_da` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `fk_kb_creato_da` (`creato_da`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `articoli_knowledge_base`
+  ADD CONSTRAINT `fk_kb_creato_da` FOREIGN KEY (`creato_da`) REFERENCES `utenti` (`id`) ON DELETE SET NULL;
+
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
 
