@@ -5,15 +5,14 @@ async function createBoat(req, res) {
     try {
         const utenteCollegato = req.session.utente;
 
-        const {
-            cliente_id,
-            modello,
-            matricola,
-            anno_produzione,
-            localizzazione,
-            indirizzo_consegna,
-            garanzia_attivata_il
-        } = req.body;
+       const {
+    cliente_id,
+    modello,
+    matricola,
+    anno_produzione,
+    localizzazione,
+    garanzia_attivata_il
+} = req.body;
 
         if (
             utenteCollegato.ruolo !== "utente" &&
@@ -57,13 +56,12 @@ async function createBoat(req, res) {
             }
         }
 
-        if (
-            !modello ||
-            !matricola ||
-            !anno_produzione ||
-            !localizzazione ||
-            !indirizzo_consegna
-        ) {
+       if (
+    !modello ||
+    !matricola ||
+    !anno_produzione ||
+    !localizzazione
+) {
             return res.status(400).json({
                 message:
                     "Compila tutti i dati obbligatori della barca"
@@ -78,8 +76,7 @@ async function createBoat(req, res) {
         const localizzazionePulita =
             localizzazione.trim();
 
-        const indirizzoPulito =
-            indirizzo_consegna.trim();
+       
 
         const anno = Number(anno_produzione);
         const annoCorrente = new Date().getFullYear();
@@ -111,36 +108,34 @@ async function createBoat(req, res) {
         const dataGaranzia =
             garanzia_attivata_il || null;
 
-        const [risultato] = await db.execute(
-            `INSERT INTO barche (
-                utente_id,
-                modello,
-                matricola,
-                anno_produzione,
-                localizzazione,
-                indirizzo_consegna,
-                garanzia_attivata_il,
-                garanzia_scadenza_il
-             )
-             VALUES (
-                ?, ?, ?, ?, ?, ?, ?,
-                CASE
-                    WHEN ? IS NULL THEN NULL
-                    ELSE DATE_ADD(?, INTERVAL 24 MONTH)
-                END
-             )`,
-            [
-                clienteId,
-                modelloPulito,
-                matricolaPulita,
-                anno,
-                localizzazionePulita,
-                indirizzoPulito,
-                dataGaranzia,
-                dataGaranzia,
-                dataGaranzia
-            ]
-        );
+       const [risultato] = await db.execute(
+    `INSERT INTO barche (
+        utente_id,
+        modello,
+        matricola,
+        anno_produzione,
+        localizzazione,
+        garanzia_attivata_il,
+        garanzia_scadenza_il
+     )
+     VALUES (
+        ?, ?, ?, ?, ?, ?,
+        CASE
+            WHEN ? IS NULL THEN NULL
+            ELSE DATE_ADD(?, INTERVAL 24 MONTH)
+        END
+     )`,
+    [
+        clienteId,
+        modelloPulito,
+        matricolaPulita,
+        anno,
+        localizzazionePulita,
+        dataGaranzia,
+        dataGaranzia,
+        dataGaranzia
+    ]
+);
 
         return res.status(201).json({
             message: "Barca registrata correttamente",
@@ -193,7 +188,6 @@ async function getBoats(req, res) {
                 b.matricola,
                 b.anno_produzione,
                 b.localizzazione,
-                b.indirizzo_consegna,
                 b.garanzia_attivata_il,
                 b.garanzia_scadenza_il,
                 b.created_at,

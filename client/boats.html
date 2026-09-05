@@ -1,88 +1,299 @@
 <!DOCTYPE html>
-
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>
-        Le mie barche - Ticketing Helpdesk
-    </title>
+    <title>Le mie barche - Service Portal</title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="boats-page">
-    <header class="site-header">
+
+   
+
+    <!-- HEADER -->
+    <header class="site-header boats-header">
         <div class="header-container">
-            <a class="brand" href="dashboard.html">
-                <span class="brand-mark">TH</span>
 
-                <span class="brand-text">
-                    <strong>LOGO</strong>
-                    <small>After Sales Service</small>
-                </span>
-            </a>
+            <div class="boats-brand">
 
-            <div class="header-actions">
-                <a class="button button-small" href="dashboard.html">
+                <a
+                    class="boats-logo"
+                    href="dashboard.html"
+                    aria-label="Sessa Marine"
+                >
+                    <img
+                        src="assets/logo-sessa.png"
+                        alt="Sessa Marine"
+                    >
+                </a>
+
+                <span class="boats-brand-divider"></span>
+
+                <div class="boats-page-name">
+                    <strong>Service Portal</strong>
+                    <small>Le mie imbarcazioni</small>
+                </div>
+
+            </div>
+
+            <div class="boats-header-actions">
+
+                <a
+                    class="boats-dashboard-link"
+                    href="dashboard.html"
+                >
                     Dashboard
                 </a>
 
-                <button id="logoutButton" class="button button-small" type="button">
-                    Esci
+                <button
+                    id="logoutButton"
+                    class="boats-logout-button"
+                    type="button"
+                    aria-label="Esci"
+                    title="Esci"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="M10 17l5-5-5-5"></path>
+                        <path d="M15 12H3"></path>
+                        <path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"></path>
+                    </svg>
                 </button>
+
             </div>
         </div>
     </header>
 
+    <!-- CONTENUTO -->
     <main class="boats-main">
-        <section class="page-introduction">
-            <h1 id="pageTitle">Le mie barche</h1>
 
-            <p id="pageDescription">
-                Consulta le imbarcazioni registrate e lo
-                storico dei ticket associati a ogni barca.
-            </p>
-        </section>
+     <section class="boats-page-hero">
 
-        <section class="boats-list-section boats-ticket-section">
-            <div class="section-heading">
-                <div>
-                </div>
+    <div class="boats-hero-content">
+
+        <h1 id="pageTitle">
+            Le mie barche
+        </h1>
+
+        <p id="pageDescription">
+            Storico assistenze richieste.
+        </p>
+    </div>
+
+    <button
+        id="openBoatFormButton"
+        class="add-boat-button"
+        type="button"
+    >
+        <span aria-hidden="true">+</span>
+        aggiungi barca
+    </button>
+
+</section>
+
+        <section class="boats-list-section">
+            <div
+                id="boatsList"
+                class="boats-with-tickets-list"
+            >
+                <p class="boats-loading">
+                    Caricamento...
+                </p>
             </div>
 
-            <div id="boatsList" class="boats-with-tickets-list">
-                <p>Caricamento delle barche...</p>
-            </div>
-
-            <p id="boatMessage" class="form-message" role="status" aria-live="polite"></p>
+            <p
+                id="boatMessage"
+                class="form-message"
+                role="status"
+                aria-live="polite"
+            ></p>
         </section>
+
     </main>
 
-    <footer class="company-footer">
-        <div class="company-footer-content">
-            <strong>Sessa International Srl</strong>
+    <!-- FINESTRA NUOVA BARCA -->
+    <div
+        id="boatModal"
+        class="boat-modal"
+        hidden
+    >
+        <div
+            class="boat-modal-backdrop"
+            data-close-boat-modal
+        ></div>
 
-            <span>
-                Via Cortenuova 21/23,
-                24050 Cividate al Piano,
-                Bergamo, Italy
-            </span>
+        <section
+            class="boat-modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="boatModalTitle"
+        >
+            <div class="boat-modal-heading">
 
-            <span>
-                Tel. +39 0363.946500
-                <span aria-hidden="true">•</span>
-                Fax +39 0363.976766
-            </span>
+                <div>
+                    <p>Nuova imbarcazione</p>
 
-            <span>P.I.: 04064960166</span>
-        </div>
+                    <h2 id="boatModalTitle">
+                        Registra una barca
+                    </h2>
+                </div>
+
+                <button
+                    id="closeBoatFormButton"
+                    class="boat-modal-close"
+                    type="button"
+                    aria-label="Chiudi"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <form id="boatForm" class="boat-create-form">
+
+                <input
+                    type="hidden"
+                    id="boatClientId"
+                    name="cliente_id"
+                >
+
+                <div class="boat-form-grid">
+
+                    <div class="form-group">
+                        <label for="boatModel">
+                            Modello
+                        </label>
+
+                        <input
+                            type="text"
+                            id="boatModel"
+                            name="modello"
+                            placeholder="Es. C38"
+                            minlength="3"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="boatSerial">
+                            Matricola
+                        </label>
+
+                        <input
+                            type="text"
+                            id="boatSerial"
+                            name="matricola"
+                            placeholder="Es. IT-SES..."
+                            minlength="5"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="boatYear">
+                            Anno di produzione
+                        </label>
+
+                        <input
+                            type="number"
+                            id="boatYear"
+                            name="anno_produzione"
+                            min="1950"
+                            max="2100"
+                            placeholder="2026"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="boatLocation">
+                            Localizzazione
+                        </label>
+
+                        <input
+                            type="text"
+                            id="boatLocation"
+                            name="localizzazione"
+                            placeholder="Es. Porto di Genova"
+                            maxlength="255"
+                            required
+                        >
+                    </div>
+
+                    
+
+                    <div class="form-group boat-form-full">
+                        <label for="boatWarrantyDate">
+                            Attivazione garanzia
+                            <span>Facoltativa</span>
+                        </label>
+
+                        <input
+                            type="date"
+                            id="boatWarrantyDate"
+                            name="garanzia_attivata_il"
+                        >
+
+                        <small>
+                            Se indicata, la scadenza viene calcolata
+                            automaticamente dopo 24 mesi.
+                        </small>
+                    </div>
+
+                </div>
+
+                <p
+                    id="boatFormMessage"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+                <div class="boat-form-actions">
+
+                    <button
+                        id="cancelBoatFormButton"
+                        class="boat-cancel-button"
+                        type="button"
+                    >
+                        Annulla
+                    </button>
+
+                    <button
+                        id="saveBoatButton"
+                        class="boat-save-button"
+                        type="submit"
+                    >
+                        Registra barca
+                    </button>
+
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="boats-footer">
+        <p>
+            <strong>Sessa Marine</strong>
+            <span aria-hidden="true"></span>
+            Customer Care
+            <span aria-hidden="true"></span>
+            © 2026
+        </p>
     </footer>
 
-    <script src="js/boats.js?v=2"></script>
+    <script src="js/boats.js?v=3"></script>
 </body>
-
 </html>

@@ -180,6 +180,20 @@ router.post(
         .createAdditionalConsultationResponse
 );
 
+router.patch(
+    "/:id/consultations/:consultationId/responses/:responseId",
+    requireOperatorOrTechnician,
+    consultationController
+        .updateAdditionalConsultationResponse
+);
+
+router.delete(
+    "/:id/consultations/:consultationId/responses/:responseId",
+    requireOperatorOrTechnician,
+    consultationController
+        .deleteAdditionalConsultationResponse
+);
+
 /*
  * Allegati generali del ticket.
  */

@@ -1,119 +1,208 @@
 <!DOCTYPE html>
 <html lang="it">
-    <head>
-        <meta charset="UTF-8">
-        <meta name= "viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
 
-        <title>Accesso - Sistema di Ticketing / Helpdesk</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-        <link rel=" stylesheet" href="css/style.css">
-    
-    </head>
+    <title>Accesso - Ticketing Helpdesk</title>
 
-    <body class="auth-page">
-        <header class="site-header">
-            <div class = "header-container">
-                <a class="brand" href="index.html">
-                    <span class="brand-logo">TH</span>
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
-                    <span class="brand-text">
-                        <strong>Ticketing Helpdesk</strong>
-                        <small>Gestione dell'assistenza</small>
-                    </span>
-                </a>
+<body class="auth-page">
 
-                <a class= "header-link" href="index.html">
-                    Torna alla pagina principale
-                </a>
+    <!-- VIDEO DI SFONDO -->
+    <div class="auth-background" aria-hidden="true">
+        <video
+            class="auth-background-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+        >
+            <source
+                src="assets/login-background.mp4"
+                type="video/mp4"
+            >
+        </video>
+
+        <div class="auth-background-overlay"></div>
+    </div>
+
+    <!-- HEADER -->
+ <header class="site-header auth-header">
+    <div class="header-container">
+
+        <div class="login-brand">
+
+            <a
+                class="minimal-brand"
+                href="index.html"
+                aria-label="Sessa Marine"
+            >
+                <img
+                    src="assets/logo-sessa.png"
+                    alt="Sessa Marine"
+                >
+            </a>
+
+            <span class="login-brand-divider"></span>
+
+            <div class="login-page-title">
+                <strong>Customer Service </strong>
+                
             </div>
-        </header>
 
-        <main class= "auth-main">
-            <setion class="auth-layout">
-                <div class="auth-information">
-                    <p class ="eyebrow eyebrow-light">Area rieservata</p>
+        </div>
 
-                    <h1> Continua a gestire le tue richieste. </h1>
+        <a
+            class="home-icon-button"
+            href="index.html"
+            aria-label="Torna alla pagina principale"
+            data-tooltip="Pagina principale"
+        >
+            <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <path
+                    d="M3 10.8 12 3l9 7.8"
+                ></path>
 
-                    <p>
-                        Accedi per aprire nuovo ticket, controllare lo stato 
-                        delle richieste e comunicare con gli operatori. 
-                    </p>
+                <path
+                    d="M5.5 9.5V21h13V9.5"
+                ></path>
 
-                    <ul class="auth-benefits">
-                        <li>
-                            <span>✓</span>
-                            Consulta i tuoi ticket
-                        </li>
+                <path
+                    d="M9.5 21v-6h5v6"
+                ></path>
+            </svg>
+        </a>
 
-                        <li>
-                            <span>✓</span>
-                            Segui gli aggiornamenti
-                        </li>
+    </div>
+</header>
 
-                        <li>
-                            <span>✓</span>
-                            Comunica con l'assistenza
-                        </li>
-                    </ul>
-                </div>
+    <!-- CONTENUTO PRINCIPALE -->
+    <main class="auth-main">
+        <section class="auth-layout">
 
-                <div class= "auth-card">
-                    <div class="auth-card-heading">
-                        <p class="eyebrow">Accesso</p>
-                        <h2>Bentornato</h2>
-                        <p>Inserisci le credenziali del tuo account</p>
-                    </div>
+            <!-- TESTO A SINISTRA -->
+            <div class="auth-information">
+               
 
-                    <form id="loginForm" class="auth-form">
-                        <div class="form-group">
-                            <label for="email">Email</label>
+                <h1>
+                    Assistenza,<br>
+                    sempre a bordo.
+                </h1>
 
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="nome@email.com"
-                                required
-                                autocomplete="email"
-                                >
-                        </div>
+                <p class="auth-description">
+                    Accedi per gestire le tue richieste.
+                </p>
 
-                        <div class="form-group">
-                            <label for="password">Password</label>
+            </div>
 
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Inserisci la password"
-                                required
-                                autocomplete="current-password"
-                                >
-                        </div>
+            <!-- MODULO LOGIN -->
+           <div class="auth-card">
 
-                        <p class="forgot-password">
-                            Hai dimenticato la password?
+    <div class="auth-card-heading">
+        <h2>Accedi</h2>
+    </div>
 
-                            <a href="forgot-password.html">
-                                Reimpostala qui
-                            </a>
-                        </p>
-                        <button class="button button-primary button-full" type= "submit">
-                            Accedi
-                        </button>
-                    </form>
+    <form id="loginForm" class="auth-form">
 
-                    <p id="message" class="form-message" role="status"></p>
+        <div class="form-group">
+            <label for="email">Email</label>
 
-                    <p class="auth-footer">
-                        Non hai ancora un account?
-                        <a href="register.html">Registrati</a>
-                    </p>
-                </div>
-            </setion>
-        </main>
+            <div class="auth-input-wrapper">
+                <span
+                    class="auth-input-icon"
+                    aria-hidden="true"
+                >
+                    @
+                </span>
 
-        <script src="js/login.js"></script>
-    </body>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="nome@email.com"
+                    required
+                    autocomplete="email"
+                >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+
+            <div class="auth-input-wrapper">
+                <span
+                    class="auth-input-icon auth-lock"
+                    aria-hidden="true"
+                ></span>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+        </div>
+
+        <a
+            class="forgot-password"
+            href="forgot-password.html"
+        >
+            Password dimenticata?
+        </a>
+
+        <button
+            class="button button-primary button-full"
+            type="submit"
+        >
+            Accedi
+        </button>
+    </form>
+
+    <p
+        id="message"
+        class="form-message"
+        role="status"
+        aria-live="polite"
+    ></p>
+
+    <a
+        class="auth-register-link"
+        href="register.html"
+    >
+        Crea un account
+    </a>
+
+</div>
+        </section>
+    </main>
+   <footer class="auth-footer-bar">
+    <p class="minimal-footer-content">
+        <strong>Sessa Marine</strong>
+
+        <span aria-hidden="true"></span>
+
+        <span>Customer Care</span>
+
+        <span aria-hidden="true"></span>
+
+        <span>© 2026</span>
+    </p>
+</footer>
+
+    <script src="js/login.js"></script>
+</body>
 </html>

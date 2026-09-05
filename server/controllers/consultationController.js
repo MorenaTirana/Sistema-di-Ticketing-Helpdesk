@@ -932,6 +932,327 @@ async function createAdditionalConsultationResponse(
     }
 }
 
+async function updateAdditionalConsultationResponse(
+    req,
+    res
+) {
+    try {
+        const ticketId =
+            Number(req.params.id);
+
+        const consultationId =
+            Number(req.params.consultationId);
+
+        const responseId =
+            Number(req.params.responseId);
+
+        const utente =
+            req.session.utente;
+
+        const testo =
+            typeof req.body.testo === "string"
+                ? req.body.testo.trim()
+                : "";
+
+        if (
+            !Number.isInteger(ticketId) ||
+            ticketId <= 0 ||
+            !Number.isInteger(consultationId) ||
+            consultationId <= 0 ||
+            !Number.isInteger(responseId) ||
+            responseId <= 0
+        ) {
+            return res.status(400).json({
+                message:
+                    "Identificativo della risposta non valido"
+            });
+        }
+
+        if (testo.length < 2) {
+            return res.status(400).json({
+                message:
+                    "La risposta deve contenere almeno 2 caratteri"
+            });
+        }
+
+        if (testo.length > 3000) {
+            return res.status(400).json({
+                message:
+                    "La risposta non può superare 3000 caratteri"
+            });
+        }
+
+        const [risultato] = await db.execute(
+            `UPDATE risposte_consultazioni AS rc
+
+             INNER JOIN consultazioni_ticket AS ct
+                ON ct.id = rc.consultazione_id
+
+             SET
+                rc.testo = ?,
+                rc.updated_at = CURRENT_TIMESTAMP
+
+             WHERE rc.id = ?
+               AND rc.consultazione_id = ?
+               AND ct.ticket_id = ?
+               AND rc.autore_id = ?
+               AND ct.consulente_id = ?`,
+            [
+                testo,
+                responseId,
+                consultationId,
+                ticketId,
+                utente.id,
+                utente.id
+            ]
+        );
+
+        if (risultato.affectedRows === 0) {
+            return res.status(403).json({
+                message:
+                    "Puoi modificare soltanto una tua risposta"
+            });
+        }
+
+        /*
+         * Mantiene sincronizzato il vecchio campo
+         * della consultazione.
+         */
+        await db.execute(
+            `UPDATE consultazioni_ticket
+             SET
+                risposta = ?,
+                stato = 'risposta_ricevuta',
+                updated_at = CURRENT_TIMESTAMP
+             WHERE id = ?
+               AND ticket_id = ?`,
+            [
+                testo,
+                consultationId,
+                ticketId
+            ]
+        );
+
+        return res.status(200).json({
+            message:
+                "Risposta modificata correttamente"
+        });
+    } catch (error) {
+        console.error(
+            "Errore modifica risposta:",
+            error
+        );
+
+        return res.status(500).json({
+            message:
+                "Errore interno del server"
+        });
+    }
+}
+async function deleteAdditionalConsultationResponse(
+    req,
+    res
+) {
+    let connection;
+
+    try {
+        const ticketId =
+            Number(req.params.id);
+
+        const consultationId =
+            Number(req.params.consultationId);
+
+        const responseId =
+            Number(req.params.responseId);
+
+        const utente =
+            req.session.utente;
+
+        if (
+            !Number.isInteger(ticketId) ||
+            ticketId <= 0 ||
+            !Number.isInteger(consultationId) ||
+            consultationId <= 0 ||
+            !Number.isInteger(responseId) ||
+            responseId <= 0
+        ) {
+            return res.status(400).json({
+                message:
+                    "Identificativo della risposta non valido"
+            });
+        }
+
+        connection =
+            await db.getConnection();
+
+        await connection.beginTransaction();
+
+        const [risposte] =
+            await connection.execute(
+                `SELECT
+                    rc.id,
+                    rc.autore_id,
+                    ct.consulente_id
+
+                 FROM risposte_consultazioni AS rc
+
+                 INNER JOIN consultazioni_ticket AS ct
+                    ON ct.id = rc.consultazione_id
+
+                 WHERE rc.id = ?
+                   AND rc.consultazione_id = ?
+                   AND ct.ticket_id = ?
+
+                 FOR UPDATE`,
+                [
+                    responseId,
+                    consultationId,
+                    ticketId
+                ]
+            );
+
+        if (risposte.length === 0) {
+            await connection.rollback();
+
+            return res.status(404).json({
+                message:
+                    "Risposta non trovata"
+            });
+        }
+
+        const risposta =
+            risposte[0];
+
+        if (
+            Number(risposta.autore_id) !==
+                Number(utente.id) ||
+            Number(risposta.consulente_id) !==
+                Number(utente.id)
+        ) {
+            await connection.rollback();
+
+            return res.status(403).json({
+                message:
+                    "Puoi eliminare soltanto una tua risposta"
+            });
+        }
+
+        const [allegati] =
+            await connection.execute(
+                `SELECT nome_file
+                 FROM allegati_consultazioni
+                 WHERE risposta_id = ?`,
+                [responseId]
+            );
+
+        /*
+         * Gli allegati vengono eliminati automaticamente
+         * dal database grazie a ON DELETE CASCADE.
+         */
+        await connection.execute(
+            `DELETE FROM risposte_consultazioni
+             WHERE id = ?
+               AND autore_id = ?`,
+            [
+                responseId,
+                utente.id
+            ]
+        );
+
+        /*
+         * Recupera l'ultima eventuale risposta rimasta.
+         */
+        const [risposteRimaste] =
+            await connection.execute(
+                `SELECT testo
+                 FROM risposte_consultazioni
+                 WHERE consultazione_id = ?
+                 ORDER BY created_at DESC, id DESC
+                 LIMIT 1`,
+                [consultationId]
+            );
+
+        if (risposteRimaste.length > 0) {
+            await connection.execute(
+                `UPDATE consultazioni_ticket
+                 SET
+                    risposta = ?,
+                    stato = 'risposta_ricevuta',
+                    updated_at = CURRENT_TIMESTAMP
+                 WHERE id = ?`,
+                [
+                    risposteRimaste[0].testo,
+                    consultationId
+                ]
+            );
+        } else {
+            await connection.execute(
+                `UPDATE consultazioni_ticket
+                 SET
+                    risposta = NULL,
+                    stato = 'richiesta',
+                    updated_at = CURRENT_TIMESTAMP
+                 WHERE id = ?`,
+                [consultationId]
+            );
+        }
+
+        await connection.commit();
+
+        /*
+         * Rimuove dal disco i file della risposta eliminata.
+         */
+        allegati.forEach((allegato) => {
+            const filePath = path.join(
+                __dirname,
+                "../uploads/ticket-allegati",
+                allegato.nome_file
+            );
+
+            fs.unlink(filePath, (error) => {
+                if (
+                    error &&
+                    error.code !== "ENOENT"
+                ) {
+                    console.error(
+                        "Errore eliminazione allegato:",
+                        error
+                    );
+                }
+            });
+        });
+
+        return res.status(200).json({
+            message:
+                "Risposta eliminata correttamente"
+        });
+    } catch (error) {
+        if (connection) {
+            try {
+                await connection.rollback();
+            } catch (rollbackError) {
+                console.error(
+                    "Errore rollback:",
+                    rollbackError
+                );
+            }
+        }
+
+        console.error(
+            "Errore eliminazione risposta:",
+            error
+        );
+
+        return res.status(500).json({
+            message:
+                "Errore interno del server"
+        });
+    } finally {
+        if (connection) {
+            connection.release();
+        }
+    }
+}
 async function updateConsultation(req, res) {
     try {
         const ticketId = Number(req.params.id);
@@ -1458,6 +1779,8 @@ module.exports = {
     getMyConsultations,
     respondConsultation,
     createAdditionalConsultationResponse,
+    updateAdditionalConsultationResponse,
+deleteAdditionalConsultationResponse,
     updateConsultation,
     deleteConsultation,
     deleteConsultationResponse,
