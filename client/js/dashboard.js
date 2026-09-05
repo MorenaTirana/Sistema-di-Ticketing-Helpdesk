@@ -50,6 +50,9 @@ const resolvedTicketsCount =
 const closedTicketsCount =
     document.getElementById("closedTicketsCount");
 
+const avgResolutionTime =
+    document.getElementById("avgResolutionTime");
+
 async function loadCurrentUser() {
     try {
         const response =
@@ -182,6 +185,41 @@ async function loadTicketSummary() {
 
         closedTicketsCount.textContent =
             totals.chiuso;
+
+        const ticketRisolti = tickets.filter(
+            (ticket) =>
+                ticket.stato === "risolto" ||
+                ticket.stato === "chiuso"
+        );
+
+        if (ticketRisolti.length > 0) {
+            const oreTotali = ticketRisolti.reduce(
+                (somma, ticket) => {
+                    const apertura =
+                        new Date(ticket.created_at);
+
+                    const ultimoAggiornamento =
+                        new Date(ticket.updated_at);
+
+                    const ore =
+                        (ultimoAggiornamento - apertura) /
+                        (1000 * 60 * 60);
+
+                    return somma + Math.max(ore, 0);
+                },
+                0
+            );
+
+            const oreMedie =
+                oreTotali / ticketRisolti.length;
+
+            avgResolutionTime.textContent =
+                oreMedie < 24
+                    ? `${oreMedie.toFixed(1)} ore`
+                    : `${(oreMedie / 24).toFixed(1)} giorni`;
+        } else {
+            avgResolutionTime.textContent = "—";
+        }
     } catch (error) {
         console.error(
             "Errore caricamento riepilogo:",
