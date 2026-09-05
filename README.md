@@ -47,6 +47,7 @@ Il sistema permette ai clienti di aprire ticket di assistenza relativi alle prop
 * Comunicazioni tecniche dall'operatore al cliente.
 * Notifiche persistenti per gli aggiornamenti sui ticket.
 * Knowledge base con articoli di supporto, gestiti dagli operatori e consultabili da tutti gli utenti.
+* Notifiche via email (oltre a quelle persistenti in-app) per ogni aggiornamento sui ticket, tramite Gmail/SMTP.
 * Validazione degli input lato server e gestione coerente degli errori (codici di stato HTTP appropriati, messaggi applicativi in italiano).
 
 ## Tecnologie utilizzate
@@ -83,7 +84,11 @@ Il sistema permette ai clienti di aprire ticket di assistenza relativi alle prop
    DB_PASSWORD=
    DB_NAME=ticketing_helpdesk
    SESSION_SECRET=una_chiave_sicura_a_scelta
+   EMAIL_USER=un_indirizzo_gmail
+   EMAIL_PASSWORD=una_password_per_le_app_di_gmail
    ```
+
+   `EMAIL_USER`/`EMAIL_PASSWORD` sono facoltativi: se assenti, l'invio delle email viene semplicemente saltato (con un messaggio in console) senza bloccare l'applicazione. Per usarli davvero serve un indirizzo Gmail con verifica in due passaggi attiva e una "password per le app" generata da Account Google → Sicurezza.
 
 ## Avvio
 
@@ -126,4 +131,4 @@ Funzionante end-to-end per i tre ruoli principali (utente, operatore, tecnico). 
 
 * **Livello 1** — completo: registrazione, login, apertura ticket con titolo/descrizione/categoria, elenco e dettaglio dei propri ticket, commenti, visualizzazione dello stato; l'operatore visualizza tutti i ticket, risponde e ne modifica lo stato.
 * **Livello 2** — completo: priorità, assegnazione a un operatore, storico dei cambi di stato, filtri per categoria/stato/priorità/operatore, dashboard con conteggi dei ticket, conferma della risoluzione (o segnalazione di persistenza del problema) da parte del cliente.
-* **Livello 3** — estensioni implementate: caricamento e gestione di allegati (foto, video, documenti) sui ticket, con validazione di tipo e dimensione e visibilità configurabile per il cliente; knowledge base con articoli di supporto gestiti dagli operatori; aggiornamento periodico (polling) dei commenti nel dettaglio ticket; statistiche sul tempo medio di risoluzione dei ticket in dashboard.
+* **Livello 3** — estensioni implementate: caricamento e gestione di allegati (foto, video, documenti) sui ticket, con validazione di tipo e dimensione e visibilità configurabile per il cliente; knowledge base con articoli di supporto gestiti dagli operatori; notifiche email oltre a quelle persistenti in-app; aggiornamento periodico (polling) dei commenti nel dettaglio ticket; statistiche sul tempo medio di risoluzione dei ticket in dashboard.

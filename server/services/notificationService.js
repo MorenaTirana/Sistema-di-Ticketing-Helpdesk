@@ -1,4 +1,5 @@
 const db = require("../db");
+const { sendEmail } = require("./emailService");
 
 /*
  * Tipi di notifica utilizzati
@@ -93,6 +94,33 @@ async function createNotification({
             messaggioPulito
         ]
     );
+
+    /*
+     * Un eventuale errore nell'invio dell'email
+     * non deve annullare la notifica già salvata.
+     */
+    try {
+        const [destinatari] = await connection.execute(
+            `SELECT email
+             FROM utenti
+             WHERE id = ?`,
+            [Number(utenteId)]
+        );
+
+        if (destinatari.length > 0) {
+            await sendEmail({
+                to: destinatari[0].email,
+                subject:
+                    `Ticketing Helpdesk - Ticket #${ticketId}`,
+                text: messaggioPulito
+            });
+        }
+    } catch (emailError) {
+        console.error(
+            "Errore invio email di notifica:",
+            emailError
+        );
+    }
 
     return {
         id: risultato.insertId,
