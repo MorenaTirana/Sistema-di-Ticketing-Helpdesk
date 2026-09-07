@@ -1389,6 +1389,392 @@ a.feature-card:hover {
     }
 }
 
+/* =====================================================
+   KNOWLEDGE-BASE.HTML — PORTALE NAUTICO VETRATO
+   ===================================================== */
+
+body.knowledge-base-page {
+    min-height: 100vh;
+    margin: 0;
+    color: #092c43;
+    background:
+        linear-gradient(rgba(22, 63, 91, 0.18), rgba(8, 47, 70, 0.22)),
+        url("../assets/boats-hero.png") center / cover fixed no-repeat;
+}
+
+body.knowledge-base-page::before {
+    position: fixed;
+    z-index: -1;
+    inset: 0;
+    content: "";
+    background: linear-gradient(180deg,
+        rgba(222, 239, 248, 0.12),
+        rgba(4, 45, 67, 0.08));
+    pointer-events: none;
+}
+
+/* Header coordinato con le altre pagine del portale */
+.knowledge-base-page .knowledge-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    min-height: 78px;
+    border-bottom: 1px solid rgba(78, 187, 220, 0.24);
+    background: rgba(3, 24, 41, 0.97);
+    box-shadow: 0 8px 25px rgba(0, 17, 30, 0.20);
+    backdrop-filter: blur(16px) saturate(112%);
+    -webkit-backdrop-filter: blur(16px) saturate(112%);
+}
+
+.knowledge-base-page .knowledge-header .header-container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    min-height: 78px;
+    margin: 0;
+    padding: 0 32px;
+}
+
+.knowledge-brand {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.knowledge-logo {
+    align-self: stretch;
+    display: block;
+    width: 138px;
+    height: 78px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: 0;
+    border-radius: 0 0 12px 12px;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 22, 38, 0.18);
+}
+
+.knowledge-logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.knowledge-brand-divider {
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(transparent, rgba(117, 202, 230, 0.68), transparent);
+}
+
+.knowledge-page-name {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.knowledge-page-name strong {
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.knowledge-page-name small {
+    color: #a7d1e8;
+    font-size: 0.69rem;
+}
+
+.knowledge-home-link {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.knowledge-home-link svg {
+    width: 21px;
+    height: 21px;
+    fill: currentColor;
+}
+
+.knowledge-home-link:hover {
+    border-color: rgba(113, 211, 238, 0.70);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Struttura principale */
+.knowledge-base-page .dashboard-main {
+    width: min(1220px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 30px 0 52px;
+}
+
+.knowledge-base-page .dashboard-welcome {
+    position: relative;
+    min-height: 180px;
+    margin: 0 0 22px;
+    padding: 34px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.74);
+    border-radius: 26px;
+    color: #fff;
+    background:
+        radial-gradient(circle at 82% 18%, rgba(70, 190, 222, 0.22), transparent 32%),
+        linear-gradient(110deg,
+            rgba(4, 31, 54, 0.90) 0%,
+            rgba(5, 50, 82, 0.72) 48%,
+            rgba(24, 111, 146, 0.30) 100%);
+    box-shadow: 0 24px 60px rgba(3, 30, 50, 0.20);
+    backdrop-filter: blur(8px) saturate(112%);
+    -webkit-backdrop-filter: blur(8px) saturate(112%);
+}
+
+.knowledge-base-page .dashboard-welcome .eyebrow {
+    margin: 0 0 10px;
+    color: #59d9f4;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.knowledge-base-page .dashboard-welcome h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 720;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    text-shadow: 0 3px 18px rgba(4, 35, 55, 0.34);
+}
+
+.knowledge-base-page .dashboard-welcome > p:last-child {
+    margin: 15px 0 0;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 0.96rem;
+}
+
+/* Form di creazione/modifica */
+.knowledge-base-page #newArticleSection {
+    box-sizing: border-box;
+    max-width: none;
+    margin: 0 0 22px;
+    padding: 28px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.76);
+    border-radius: 22px;
+    background: linear-gradient(118deg,
+        rgba(205, 220, 229, 0.80),
+        rgba(167, 190, 204, 0.62));
+    box-shadow: 0 19px 44px rgba(4, 37, 58, 0.17);
+    backdrop-filter: blur(20px) saturate(78%);
+    -webkit-backdrop-filter: blur(20px) saturate(78%);
+}
+
+.knowledge-base-page #newArticleSection h2 {
+    margin: 0 0 20px;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(3, 31, 48, 0.35);
+}
+
+.knowledge-base-page #newArticleSection .form-group label {
+    color: rgba(255, 255, 255, 0.90);
+    font-size: 0.75rem;
+    font-weight: 550;
+}
+
+.knowledge-base-page #newArticleSection input:not([type="checkbox"]),
+.knowledge-base-page #newArticleSection textarea {
+    border-color: rgba(143, 191, 208, 0.66);
+    background: #fff;
+}
+
+/* Pannello articoli */
+.knowledge-base-page .boats-list-section {
+    padding: 28px 30px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.76);
+    border-radius: 24px;
+    background:
+        linear-gradient(112deg,
+            rgba(174, 197, 211, 0.72),
+            rgba(209, 217, 222, 0.54),
+            rgba(128, 179, 198, 0.55));
+    box-shadow: 0 22px 52px rgba(3, 37, 58, 0.18);
+    backdrop-filter: blur(22px) saturate(72%);
+    -webkit-backdrop-filter: blur(22px) saturate(72%);
+}
+
+.knowledge-base-page .boats-list-section .section-heading {
+    margin-bottom: 22px;
+}
+
+.knowledge-base-page .boats-list-section .section-heading h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.2rem;
+    text-shadow: 0 2px 8px rgba(3, 31, 48, 0.35);
+}
+
+.knowledge-base-page #articlesList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.knowledge-base-page #articlesList .boat-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 230px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(196, 229, 239, 0.88);
+    border-left: 3px solid #28c1e6;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 12px 28px rgba(3, 38, 58, 0.15);
+}
+
+.knowledge-base-page #articlesList .boat-card:hover {
+    border-color: rgba(125, 210, 232, 0.90);
+    transform: translateY(-2px);
+    box-shadow: 0 17px 34px rgba(3, 38, 58, 0.20);
+}
+
+.knowledge-base-page #articlesList .boat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 64px;
+    margin: 0;
+    padding: 15px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.26);
+    background:
+        radial-gradient(circle at 88% 8%, rgba(55, 193, 224, 0.25), transparent 34%),
+        linear-gradient(112deg, rgba(5, 39, 61, 0.94), rgba(13, 76, 101, 0.80));
+}
+
+.knowledge-base-page #articlesList .boat-card-header h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.35;
+    text-shadow: 0 1px 3px rgba(0, 18, 30, 0.34);
+}
+
+.knowledge-base-page #articlesList .warranty-badge {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+.knowledge-base-page #articlesList .boat-details {
+    flex: 1;
+    gap: 12px;
+    padding: 17px 18px 14px;
+}
+
+.knowledge-base-page #articlesList .boat-details p {
+    color: #4f6878;
+    font-size: 0.87rem;
+}
+
+.knowledge-base-page #articlesList .boat-details strong {
+    color: #092c43;
+}
+
+.knowledge-base-page #articlesList .boat-form-actions {
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0 18px 17px;
+}
+
+/* Pulsanti */
+.knowledge-base-page #showNewArticleButton,
+.knowledge-base-page #newArticleSection .button-primary {
+    color: #fff;
+    border: 1px solid rgba(120, 225, 244, 0.66);
+    background: linear-gradient(135deg, #0b5875, #159cba);
+    box-shadow: 0 8px 18px rgba(5, 76, 103, 0.22);
+}
+
+.knowledge-base-page .edit-article-button {
+    color: #0a536d;
+    border: 1px solid #8bcddd;
+    background: #eaf8fb;
+}
+
+.knowledge-base-page .delete-article-button {
+    color: #9d342e;
+    border: 1px solid #efb2ac;
+    background: #fff3f1;
+}
+
+@media (max-width: 820px) {
+    .knowledge-base-page #articlesList {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .knowledge-base-page .knowledge-header,
+    .knowledge-base-page .knowledge-header .header-container {
+        min-height: 68px;
+    }
+
+    .knowledge-base-page .knowledge-header .header-container {
+        padding: 0 16px;
+    }
+
+    .knowledge-logo {
+        width: 96px;
+        height: 68px;
+    }
+
+    .knowledge-brand-divider,
+    .knowledge-page-name {
+        display: none;
+    }
+
+    .knowledge-base-page .dashboard-main {
+        width: calc(100% - 24px);
+        padding-top: 18px;
+    }
+
+    .knowledge-base-page .dashboard-welcome {
+        min-height: 150px;
+        padding: 28px 22px;
+        border-radius: 21px;
+    }
+
+    .knowledge-base-page .boats-list-section,
+    .knowledge-base-page #newArticleSection {
+        padding: 21px 18px;
+        border-radius: 19px;
+    }
+
+    .knowledge-base-page .boats-list-section .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .knowledge-base-page #showNewArticleButton {
+        width: 100%;
+    }
+}
+
 /* Dati della barca nelle schede dei ticket */
 
 .ticket-boat {

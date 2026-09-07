@@ -1,0 +1,27 @@
+body.dashboard-page,
+body.resolution-page {
+    min-height: 100vh;
+    margin: 0;
+    color: #0a2b45;
+    background: linear-gradient(rgba(5,25,42,.18),rgba(5,25,42,.28)), url("../assets/boats-hero.png") center/cover fixed no-repeat;
+}
+
+
+.dashboard-page .dashboard-main,
+.resolution-page .dashboard-main {
+    width: min(1220px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 34px 0 64px;
+    background: transparent !important;
+}
+
+
+.dashboard-page .dashboard-welcome,
+.dashboard-page .ticket-summary,
+.resolution-page .dashboard-welcome,
+.resolution-section {
+    padding: 28px;
+    margin-bottom: 22px;
+    border: 1px solid rgba(255,255,255,.72);
+    border-radius: 24px;
+    background: rgba(151,183,204,.68);

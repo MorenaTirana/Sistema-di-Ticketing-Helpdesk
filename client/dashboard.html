@@ -8,19 +8,24 @@
     <title>Dashboard - Sistema di Ticketing / Helpdesk</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard-fix.css">
 </head>
 
-<body>
-    <header class="site-header">
-        <div class="header-container">
-            <a class="brand" href="dashboard.html">
-                <span class="brand-logo">TH</span>
+<body class="dashboard-page">
+    <div class="dashboard-background" aria-hidden="true"></div>
 
-                <span class="brand-text">
-                    <strong>Ticketing Helpdesk</strong>
+    <header class="site-header dashboard-header">
+        <div class="header-container">
+            <div class="dashboard-brand">
+                <a class="dashboard-logo" href="dashboard.html" aria-label="Sessa Marine">
+                    <img src="assets/logo-sessa.png" alt="Sessa Marine">
+                </a>
+                <span class="dashboard-brand-divider"></span>
+                <div class="dashboard-page-name">
+                    <strong>Customer Service Portal</strong>
                     <small>Area personale</small>
-                </span>
-            </a>
+                </div>
+            </div>
 
             <div class="header-actions">
                 <div class="notifications-area">
@@ -42,15 +47,20 @@
                     </div>
                 </div>
 
-                <button id="logoutButton" class="button button-small" type="button">
-                    Esci
+                <button id="logoutButton" class="dashboard-logout-button" type="button" aria-label="Esci" title="Esci">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M10 17l5-5-5-5"></path>
+                        <path d="M15 12H3"></path>
+                        <path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"></path>
+                    </svg>
                 </button>
             </div>
         </div>
     </header>
 
     <main class="dashboard-main">
-        <section class="dashboard-welcome">
+        <section class="dashboard-welcome dashboard-glass-hero">
+            <p class="eyebrow">Area personale</p>
             <h1>
                 Benvenuto,
                 <span id="userName">utente</span>
@@ -62,7 +72,7 @@
             </p>
         </section>
 
-        <section class="ticket-summary" aria-labelledby="ticketSummaryTitle">
+        <section class="ticket-summary dashboard-glass-panel" aria-labelledby="ticketSummaryTitle">
             <h2 id="ticketSummaryTitle">
                 Riepilogo ticket
             </h2>
@@ -99,7 +109,7 @@
 
             </div>
         </section>
-        <section class="features-grid">
+        <section class="features-grid dashboard-features">
             <a class="feature-card" href="new-ticket.html">
                 <span class="feature-icon">＋</span>
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tempi di risoluzione - Customer Service Portal</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard-fix.css?v=1" />
+  </head>
+  <body class="resolution-page">
+    <header class="site-header">
+      <div class="header-container">
+        <a class="brand" href="dashboard.html">
+          <img
+            src="assets/logo-sessa.png"
+            alt="Sessa Marine"
+            style="width: 120px; border-radius: 12px"
+          />
+          <span class="brand-text"
+            ><strong>Customer Service Portal</strong
+            ><small>Tempi di risoluzione</small></span
+          >
+        </a>
+        <a class="button button-small" href="dashboard.html">Dashboard</a>
+      </div>
+    </header>
+    <main class="dashboard-main">
+      <section class="dashboard-welcome">
+        <h1>Tempi di risoluzione</h1>
+        <p>Analisi della durata delle richieste di assistenza.</p>
+      </section>
+      <section class="resolution-section">
+        <h2>Media generale</h2>
+        <article class="resolution-card">
+          <span class="resolution-label">Tempo medio di risoluzione</span>
+          <strong id="averageTime" class="resolution-value">Calcolo...</strong>
+          <p id="averageDescription"></p>
+        </article>
+      </section>
+      <section class="resolution-section">
+        <h2>Per ticket</h2>
+        <div id="resolutionList" class="resolution-list">
+          <p>Caricamento...</p>
+        </div>
+      </section>
+      <p id="message" class="form-message" role="status"></p>
+    </main>
+    <script src="js/resolution-times.js"></script>
+  </body>
+</html>
